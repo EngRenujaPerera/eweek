@@ -1,0 +1,823 @@
+<!-- ==========================================================================
+     FILE: fixtures.html
+     ========================================================================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fixtures | E-WEEK 2026</title>
+  <meta name="description" content="Tournament fixtures and match schedules for E-WEEK 2026 — Faculty of Engineering, University of Jaffna." />
+
+  <!-- Google Fonts: High-end Cinematic Serif and Modern Clean UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       1. CSS VARIABLES & DESIGN TOKENS
+       ========================================================================== */
+    :root {
+      --color-obsidian: #080a0f;
+      --color-charcoal: #0e1117;
+      --color-graphite: #151821;
+      --color-steel-dark: #1e232e;
+      --color-steel-aged: #2c3342;
+      --color-gunmetal: #414a5d;
+      --color-stone: #5d677d;
+      --color-stone-light: #8f9bb3;
+
+      --color-silver-pure: #ffffff;
+      --color-silver-bright: #e2e7f0;
+      --color-silver-mid: #cbd5e1;
+      --color-silver-dark: #94a3b8;
+
+      --color-gold: #c5a059;
+      --color-gold-light: #dfbd7e;
+      --color-crimson-red: #ff4d4d;
+
+      --font-display: 'Cinzel', Georgia, serif;
+      --font-heading: 'Cinzel', serif;
+      --font-story: 'Cormorant Garamond', Garamond, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background-color: var(--color-obsidian); color: var(--color-silver-bright); font-family: var(--font-body); overflow-x: hidden; }
+    body { position: relative; min-height: 100vh; line-height: 1.6; background-color: var(--color-obsidian); overflow-x: hidden; padding-bottom: 50px; }
+
+    ::-webkit-scrollbar { width: 9px; }
+    ::-webkit-scrollbar-track { background: var(--color-obsidian); border-left: 1px solid rgba(226, 231, 240, 0.08); }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--color-steel-aged), var(--color-gunmetal));
+      border: 1px solid rgba(226, 231, 240, 0.25);
+      border-radius: 2px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    .container { width: 92%; max-width: 1280px; margin: 0 auto; position: relative; z-index: 10; }
+
+    /* Video Background & Particle Canvas */
+    #video-background-container {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 1; pointer-events: none; overflow: hidden;
+      filter: contrast(1.2) brightness(0.7) saturate(0.85); transform: scale(1.03);
+    }
+    #bg-video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    #particle-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
+    .cinematic-lens-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3; pointer-events: none;
+      background: radial-gradient(circle at 50% 45%, rgba(4, 6, 12, 0.1) 30%, rgba(4, 6, 12, 0.88) 95%),
+                  linear-gradient(to bottom, rgba(5,7,11,0.6) 0%, transparent 30%, transparent 70%, rgba(5,7,11,0.95) 100%);
+    }
+    .film-grain-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 4; pointer-events: none; opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .audio-toggle-widget {
+      position: fixed; bottom: 60px; right: 20px; z-index: 1001;
+      background: rgba(14, 17, 23, 0.85); border: 1px solid rgba(197, 160, 89, 0.4);
+      border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+      color: #fff; cursor: pointer; backdrop-filter: blur(10px); box-shadow: 0 6px 20px rgba(0,0,0,0.8);
+      transition: var(--transition-smooth);
+    }
+    .audio-toggle-widget:hover { transform: scale(1.1); border-color: var(--color-gold); }
+
+    /* Footer Ticker */
+    .fixed-bottom-ticker {
+      position: fixed; bottom: 0; left: 0; width: 100vw; z-index: 1000;
+      background: linear-gradient(180deg, rgba(12, 16, 24, 0.98) 0%, rgba(5, 7, 11, 0.99) 100%);
+      border-top: 1px solid rgba(197, 160, 89, 0.45);
+      backdrop-filter: blur(16px); padding: 5px 1.5%;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center;
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.95), inset 0 1px 0 rgba(197, 160, 89, 0.2);
+    }
+    .fbt-col-latest { display: flex; align-items: center; justify-content: space-between; border-right: 1px solid rgba(226, 231, 240, 0.12); padding-right: 10px; overflow: hidden; }
+    .fbt-left { display: flex; align-items: center; gap: 8px; }
+    .fbt-badge-wrap { display: flex; align-items: center; gap: 4px; }
+    .fbt-tag {
+      font-family: var(--font-heading); font-size: 0.58rem; letter-spacing: 0.15em; color: #0b0d12; font-weight: 800; text-transform: uppercase;
+      background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%); padding: 2px 5px; border-radius: 2px;
+    }
+    .fbt-pulse { width: 5px; height: 5px; background: #34d399; border-radius: 50%; box-shadow: 0 0 6px #34d399; animation: pulseGlow 1.5s infinite; }
+    @keyframes pulseGlow { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.3); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.7; } }
+    .fbt-match-info { font-family: var(--font-display); font-size: 0.7rem; color: var(--color-silver-bright); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
+    .fbt-scorecard-mini { display: flex; align-items: center; gap: 8px; background: rgba(8, 10, 15, 0.85); border: 1px solid rgba(226, 231, 240, 0.1); padding: 2px 6px; border-radius: 4px; }
+    .fbt-team-item { display: flex; align-items: center; gap: 5px; }
+    .fbt-emblem { width: 20px; height: 20px; object-fit: contain; }
+    .fbt-team-name { font-family: var(--font-heading); font-size: 0.62rem; font-weight: 700; color: var(--color-silver-mid); }
+    .fbt-score { font-family: var(--font-display); font-size: 0.78rem; font-weight: 900; color: var(--color-crimson-red); }
+    .fbt-vs { font-family: var(--font-display); font-size: 0.6rem; color: var(--color-gold); font-weight: 700; }
+    .fbt-winner { color: #34d399; font-family: var(--font-heading); font-size: 0.58rem; letter-spacing: 0.04em; font-weight: 700; text-transform: uppercase; }
+
+    .fbt-col-history { display: flex; align-items: center; justify-content: center; padding: 0 8px; border-right: 1px solid rgba(226, 231, 240, 0.12); overflow: hidden; height: 30px; }
+    .fbt-rotating-container { flex: 1; position: relative; height: 30px; overflow: hidden; display: flex; align-items: center; width: 100%; }
+    .fbt-rotate-item {
+      position: absolute; width: 100%; display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(135deg, rgba(20, 25, 36, 0.85) 0%, rgba(10, 13, 19, 0.95) 100%);
+      border: 1px solid rgba(197, 160, 89, 0.25); padding: 2px 8px; border-radius: 4px;
+      opacity: 0; transform: translateY(12px) rotateX(15deg); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fbt-rotate-item.active { opacity: 1; transform: translateY(0) rotateX(0deg); }
+    .fbt-rotate-item.exit { opacity: 0; transform: translateY(-12px) rotateX(-15deg); }
+
+    .fbt-col-status { display: flex; align-items: center; justify-content: space-around; padding-left: 8px; overflow: hidden; }
+    .fbt-status-podium { display: flex; align-items: center; gap: 8px; background: rgba(8, 10, 15, 0.75); border: 1px solid rgba(197, 160, 89, 0.25); padding: 2px 8px; border-radius: 4px; }
+    .fbt-podium-item { display: flex; align-items: center; gap: 4px; }
+    .fbt-podium-item.p1 .fbt-p-emblem { width: 28px; height: 28px; filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.7)); }
+    .fbt-podium-item.p1 .p-rank { color: var(--color-gold); font-size: 0.65rem; font-weight: 900; }
+    .fbt-podium-item.p1 .p-pts { color: var(--color-silver-bright); font-size: 0.65rem; font-weight: 800; }
+    .fbt-p-emblem { width: 20px; height: 20px; object-fit: contain; }
+    .p-rank { font-family: var(--font-heading); font-size: 0.55rem; color: var(--color-silver-dark); font-weight: 700; text-transform: uppercase; }
+    .p-pts { font-family: var(--font-display); font-size: 0.6rem; color: var(--color-silver-mid); font-weight: 700; }
+
+    /* Preloader */
+    .preloader-screen {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: #06070a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s;
+    }
+    .preloader-screen.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-title { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: 0.35em; color: var(--color-silver-bright); text-transform: uppercase; margin-bottom: 8px; }
+    .loader-subtext { font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 0.4em; color: var(--color-silver-dark); text-transform: uppercase; margin-bottom: 28px; }
+    .loader-progress-track { width: 240px; height: 2px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
+    .loader-progress-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: linear-gradient(90deg, var(--color-steel-aged), var(--color-silver-pure), var(--color-steel-aged)); transition: width 0.3s ease; }
+
+    /* Layout Elements */
+    .silver-divider { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 18px auto 32px; opacity: 0.75; }
+    .silver-divider::before, .silver-divider::after { content: ''; height: 1px; width: 70px; max-width: 120px; background: linear-gradient(90deg, transparent, var(--color-silver-dark), transparent); }
+    .silver-divider .divider-node { width: 8px; height: 8px; background: var(--color-silver-bright); transform: rotate(45deg); box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); border: 1px solid var(--color-silver-pure); }
+
+    .section-eyebrow { font-family: var(--font-heading); font-size: 0.8rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--color-silver-mid); text-align: center; margin-bottom: 6px; display: block; }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); color: #fff; text-align: center; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9); }
+    .section-subtitle { font-family: var(--font-story); font-size: clamp(1.1rem, 1.7vw, 1.35rem); color: var(--color-stone-light); text-align: center; max-width: 720px; margin: 0 auto; line-height: 1.6; }
+
+    .site-header {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 14px 0;
+      transition: var(--transition-smooth); background: linear-gradient(145deg, rgba(18, 22, 32, 0.94) 0%, rgba(10, 13, 19, 0.98) 100%);
+      backdrop-filter: blur(16px); border-bottom: 1px solid rgba(197, 160, 89, 0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    .nav-wrapper { display: flex; align-items: center; justify-content: space-between; width: 92%; max-width: 1300px; margin: 0 auto; }
+    .brand-identity { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .brand-logo-img { height: 38px; width: auto; object-fit: contain; }
+    .brand-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; letter-spacing: 0.18em; color: #fff; }
+    .brand-subtitle { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--color-silver-dark); text-transform: uppercase; }
+
+    .desktop-nav-menu { display: flex; align-items: center; list-style: none; gap: 24px; }
+    .nav-item-link { font-family: var(--font-heading); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-silver-mid); transition: var(--transition-smooth); }
+    .nav-item-link:hover, .nav-item-link.active { color: var(--color-gold); text-shadow: 0 0 12px rgba(197, 160, 89, 0.5); }
+
+    .hamburger-btn { display: none; flex-direction: column; justify-content: space-between; width: 28px; height: 18px; background: transparent; }
+    .hamburger-bar { width: 100%; height: 2px; background: var(--color-silver-bright); transition: var(--transition-smooth); }
+
+    .mobile-menu-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      background: rgba(6, 8, 12, 0.96); backdrop-filter: blur(20px); z-index: 999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: var(--transition-smooth);
+    }
+    .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+    .mobile-nav-list { list-style: none; display: flex; flex-direction: column; gap: 24px; text-align: center; }
+    .mobile-nav-link { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: 0.18em; color: var(--color-silver-mid); text-transform: uppercase; }
+
+    /* Fixtures Page Specific Styles */
+    .fixtures-hero { position: relative; padding: 160px 0 40px; text-align: center; z-index: 5; }
+    .fixtures-section { padding: 20px 0 120px; position: relative; z-index: 5; }
+    .fixtures-container { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+
+    .fixture-card {
+      background: linear-gradient(145deg, rgba(18, 22, 32, 0.92) 0%, rgba(10, 13, 19, 0.98) 100%);
+      border: 1px solid rgba(80, 95, 122, 0.4); border-radius: 8px; padding: 22px 28px;
+      display: grid; grid-template-columns: 220px 1fr 140px; align-items: center; gap: 20px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6); backdrop-filter: blur(14px);
+    }
+    .fixture-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(197, 160, 89, 0.6);
+      box-shadow: 0 20px 45px rgba(0,0,0,0.8), 0 0 20px rgba(197, 160, 89, 0.12);
+    }
+    .fixture-meta { display: flex; flex-direction: column; gap: 3px; }
+    .fixture-date { font-family: var(--font-heading); font-size: 0.72rem; letter-spacing: 0.15em; color: var(--color-stone-light); text-transform: uppercase; }
+    .fixture-sport { font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; color: #fff; letter-spacing: 0.06em; line-height: 1.2; }
+    .fixture-venue {
+      font-family: var(--font-body); font-size: 0.74rem; color: var(--color-gold-light);
+      display: inline-flex; align-items: center; gap: 5px; margin-top: 3px;
+    }
+    
+    .fixture-teams {
+      display: flex; align-items: center; justify-content: center; gap: 18px;
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 900; color: var(--color-silver-bright);
+    }
+    .team-badge-wrap { display: flex; align-items: center; gap: 8px; }
+    .team-badge-img { width: 30px; height: 30px; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.9)); }
+    .vs-tag {
+      font-size: 0.75rem; color: var(--color-gold); font-family: var(--font-heading);
+      letter-spacing: 0.2em; font-weight: 800;
+    }
+    
+    .fixture-status-col { display: flex; justify-content: flex-end; }
+    .fixture-status {
+      padding: 6px 14px; border-radius: 4px; font-family: var(--font-heading); font-size: 0.68rem;
+      letter-spacing: 0.15em; text-transform: uppercase; text-align: center; font-weight: 700;
+      background: rgba(44, 51, 66, 0.6); border: 1px solid var(--color-steel-aged); color: var(--color-silver-mid);
+    }
+    .fixture-status.live {
+      background: rgba(239, 68, 68, 0.18); border-color: rgba(239, 68, 68, 0.6); color: #fca5a5;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.25);
+    }
+    .fixture-status.completed {
+      background: rgba(52, 211, 153, 0.15); border-color: rgba(52, 211, 153, 0.45); color: #6ee7b7;
+    }
+    .fixture-status.scheduled {
+      background: rgba(197, 160, 89, 0.12); border-color: rgba(197, 160, 89, 0.35); color: var(--color-gold-light);
+    }
+
+    .site-footer {
+      padding: 75px 0 35px; border-top: 1px solid rgba(226, 231, 240, 0.2);
+      background: linear-gradient(180deg, rgba(10, 13, 19, 0.95) 0%, #040508 100%); position: relative; z-index: 10;
+    }
+    .footer-top { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 40px; }
+    .footer-logo-img { height: 56px; margin-bottom: 16px; }
+    .footer-nav-list { display: flex; align-items: center; justify-content: center; gap: 28px; list-style: none; flex-wrap: wrap; margin: 24px 0; }
+    .footer-nav-link { font-family: var(--font-heading); font-size: 0.8rem; letter-spacing: 0.2em; color: var(--color-silver-mid); text-transform: uppercase; }
+    .footer-bottom { border-top: 1px solid rgba(80, 95, 122, 0.2); padding-top: 25px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 0.82rem; color: var(--color-stone); }
+
+    @media (max-width: 992px) {
+      .desktop-nav-menu { display: none; }
+      .hamburger-btn { display: flex; }
+      .fixture-card { grid-template-columns: 1fr; gap: 14px; text-align: left; }
+      .fixture-teams { justify-content: flex-start; }
+      .fixture-status-col { justify-content: flex-start; }
+      .fixed-bottom-ticker { grid-template-columns: 1fr; gap: 6px; padding: 6px; }
+      .fbt-col-latest, .fbt-col-history { border-right: none; border-bottom: 1px solid rgba(226,231,240,0.1); padding-right: 0; padding-bottom: 6px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="preloader-screen" id="preloader">
+    <h1 class="loader-title">E-WEEK 2026</h1>
+    <p class="loader-subtext">LOADING...</p>
+    <div class="loader-progress-track">
+      <div class="loader-progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+
+  <div id="video-background-container" aria-hidden="true">
+    <video id="bg-video" autoplay muted loop playsinline>
+      <source src="bg.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <div class="cinematic-lens-overlay" aria-hidden="true"></div>
+  <div class="film-grain-overlay" aria-hidden="true"></div>
+
+  <audio id="bg-audio" loop>
+    <source src="bg.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="audio-toggle-widget" id="audioToggleBtn" title="Toggle Cinematic Sound">
+    <svg id="audioIcon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    </svg>
+  </button>
+
+  <!-- BOTTOM TICKER -->
+  <div class="fixed-bottom-ticker" id="floatingResultsWidget">
+    <div class="fbt-col-latest">
+      <div class="fbt-left">
+        <div class="fbt-badge-wrap">
+          <div class="fbt-pulse" id="fbtPulseIndicator"></div>
+          <span class="fbt-tag" id="fbtTagTitle">LATEST</span>
+        </div>
+        <div class="fbt-match-info" id="fbtMatchTitle">Syncing...</div>
+      </div>
+      <div class="fbt-scorecard-mini" id="fbtScorecard">
+        <div style="font-size:0.65rem; color:var(--color-stone-light);">Loading...</div>
+      </div>
+    </div>
+
+    <div class="fbt-col-history">
+      <div class="fbt-rotating-container" id="fbtRotatingContainer">
+        <div class="fbt-rotate-item active" style="justify-content:center;">
+          <span style="font-size:0.65rem; color:var(--color-stone-light);">Waiting for recent history...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fbt-col-status" id="fbtStatusContainer">
+      <div class="fbt-status-podium">
+        <div class="fbt-podium-item p1">
+          <img src="image/e23.png" alt="1st" class="fbt-p-emblem" />
+          <span class="p-rank">1st:</span>
+          <span class="p-pts">0</span>
+        </div>
+        <div class="fbt-podium-item">
+          <img src="image/e22.png" alt="2nd" class="fbt-p-emblem" />
+          <span class="p-rank">2nd:</span>
+          <span class="p-pts">0</span>
+        </div>
+        <div class="fbt-podium-item">
+          <img src="image/e24.png" alt="3rd" class="fbt-p-emblem" />
+          <span class="p-rank">3rd:</span>
+          <span class="p-pts">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="nav-wrapper">
+      <a href="index.html#hero" class="brand-identity" aria-label="E-WEEK 2026 Home">
+        <img src="image/logo.png" alt="E-WEEK Official Logo" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('brandFallbackCrest').style.display='flex';" />
+        <div class="brand-fallback-crest" id="brandFallbackCrest" style="display:none;" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#e2e8f0" stroke-width="2">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text-group">
+          <span class="brand-title">E-WEEK 2026</span>
+          <span class="brand-subtitle">Faculty of Engineering</span>
+        </div>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="desktop-nav-menu">
+          <li><a href="index.html#hero" class="nav-item-link">Home</a></li>
+          <li><a href="Registration/index.html" class="nav-item-link">Registration</a></li>
+          <li><a href="teams.html" class="nav-item-link">Teams</a></li>
+          <li><a href="fixtures.html" class="nav-item-link active">Fixtures</a></li>
+          <li><a href="merch.html" class="nav-item-link">Merchandise</a></li>
+          <li><a href="contact.html" class="nav-item-link">Contact Us</a></li>
+        </ul>
+      </nav>
+
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu" aria-expanded="false">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <ul class="mobile-nav-list">
+      <li><a href="index.html#hero" class="mobile-nav-link">Home</a></li>
+      <li><a href="Registration/index.html" class="mobile-nav-link">Registration</a></li>
+      <li><a href="teams.html" class="mobile-nav-link">Teams</a></li>
+      <li><a href="fixtures.html" class="mobile-nav-link active">Fixtures</a></li>
+      <li><a href="merch.html" class="mobile-nav-link">Merchandise</a></li>
+      <li><a href="contact.html" class="mobile-nav-link">Contact Us</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+    <section class="fixtures-hero">
+      <div class="container">
+        <span class="section-eyebrow">TOURNAMENT SCHEDULE</span>
+        <h2 class="section-title">MATCH FIXTURES</h2>
+        <p class="section-subtitle">
+          Explore upcoming competitive fixtures, timings, and matchups across all inter-batch events.
+        </p>
+        <div class="silver-divider">
+          <span class="divider-node"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="fixtures-section">
+      <div class="container fixtures-container" id="fixturesContainer">
+        <div style="text-align: center; color: var(--color-stone-light); padding: 40px; font-family: var(--font-heading); letter-spacing: 0.15em;">
+          LOADING TOURNAMENT FIXTURES...
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <img src="image/logo.png" alt="E-WEEK Logo" class="footer-logo-img" onerror="this.style.display='none';" />
+        <h4 style="font-family: var(--font-display); letter-spacing: 0.18em; color: #fff; font-size: 1.25rem;">E-WEEK 2026</h4>
+        <p style="font-size: 0.88rem; color: var(--color-silver-dark); margin-top: 4px;">Faculty of Engineering &bull; University of Jaffna &bull; Organized by E23</p>
+        <ul class="footer-nav-list">
+          <li><a href="index.html#hero" class="footer-nav-link">Home</a></li>
+          <li><a href="Registration/index.html" class="footer-nav-link">Registration</a></li>
+          <li><a href="teams.html" class="footer-nav-link">Teams</a></li>
+          <li><a href="fixtures.html" class="footer-nav-link">Fixtures</a></li>
+          <li><a href="merch.html" class="footer-nav-link">Merchandise</a></li>
+          <li><a href="contact.html" class="footer-nav-link">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 E-WEEK. All Rights Reserved. Faculty of Engineering, University of Jaffna. Organized by E23.</div>
+        <div>OFFICIAL EVENT PORTAL</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzo1KtK5zMkmLykmHdjJRqzNEtGccwfM1wGNF7JGB6mYiRDBJdSQ3cboJo4-hRerV4TQ/exec";
+
+    const logoMap = {
+      "E22": "image/e22.png",
+      "E23": "image/e23.png",
+      "E24": "image/e24.png",
+      "E25": "image/e25.png",
+      "STAFF": "image/staff.png"
+    };
+
+    let lastKnownMatchCount = -1;
+    let rotatingHistoryInterval = null;
+    let currentRotateIndex = 0;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) preloader.classList.add('loaded');
+      }, 500);
+
+      initParticleEngine();
+      initBackgroundAudio();
+      initMobileNav();
+
+      fetchFixtures();
+      fetchLiveScores(false);
+
+      // Refresh both fixtures and bottom ticker periodically
+      setInterval(() => {
+        fetchFixtures();
+        fetchLiveScores(true);
+      }, 15000);
+    });
+
+    function initMobileNav() {
+      const hamburger = document.getElementById('hamburgerBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (hamburger && mobileMenu) {
+        hamburger.addEventListener('click', () => {
+          mobileMenu.classList.toggle('active');
+        });
+      }
+    }
+
+    // ==========================================
+    // DYNAMIC FIXTURES LOADER FROM GOOGLE SHEETS
+    // ==========================================
+    function fetchFixtures() {
+      const cbName = 'fixtures_cb_' + Math.round(Math.random() * 1000000);
+      window[cbName] = function(res) {
+        delete window[cbName];
+        if (scriptElem && scriptElem.parentNode) document.body.removeChild(scriptElem);
+        renderFixtures(res ? res.fixtures : []);
+      };
+
+      const scriptElem = document.createElement('script');
+      scriptElem.src = `${APPS_SCRIPT_URL}?action=getFixtures&callback=${cbName}`;
+      scriptElem.onerror = () => {
+        if (window[cbName]) delete window[cbName];
+        if (scriptElem.parentNode) document.body.removeChild(scriptElem);
+        const container = document.getElementById('fixturesContainer');
+        if (container) {
+          container.innerHTML = `<div style="text-align: center; color: var(--color-stone-light); padding: 30px;">Unable to synchronize with live match fixtures.</div>`;
+        }
+      };
+      document.body.appendChild(scriptElem);
+    }
+
+    function renderFixtures(fixturesList) {
+      const container = document.getElementById('fixturesContainer');
+      if (!container) return;
+
+      if (!fixturesList || fixturesList.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; color: var(--color-stone-light); padding: 40px; font-family: var(--font-heading); letter-spacing: 0.15em;">
+            NO FIXTURES SCHEDULED AT THE MOMENT.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = fixturesList.map(item => {
+        const teamA = (item.teamA || "").trim();
+        const teamB = (item.teamB || "").trim();
+        const logoA = logoMap[teamA.toUpperCase()] || "image/logo.png";
+        const logoB = logoMap[teamB.toUpperCase()] || "image/logo.png";
+
+        const statusRaw = (item.status || "Scheduled").trim();
+        let statusClass = "scheduled";
+        const lower = statusRaw.toLowerCase();
+        if (lower.includes("live") || lower.includes("ongoing")) statusClass = "live";
+        else if (lower.includes("completed") || lower.includes("finished")) statusClass = "completed";
+
+        const venueHtml = item.venue
+          ? `<span class="fixture-venue">
+               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                 <circle cx="12" cy="10" r="3"></circle>
+               </svg>
+               ${item.venue}
+             </span>`
+          : "";
+
+        const dateTimeStr = [item.date, item.time].filter(Boolean).join(" &bull; ");
+
+        return `
+          <div class="fixture-card">
+            <div class="fixture-meta">
+              <span class="fixture-date">${dateTimeStr || "DATE TBD"}</span>
+              <span class="fixture-sport">${item.sport || "Match"}</span>
+              ${venueHtml}
+            </div>
+
+            <div class="fixture-teams">
+              <div class="team-badge-wrap">
+                <img src="${logoA}" alt="${teamA}" class="team-badge-img" onerror="this.style.display='none';" />
+                <span>${teamA || "TBD"}</span>
+              </div>
+              <span class="vs-tag">VS</span>
+              <div class="team-badge-wrap">
+                <span>${teamB || "TBD"}</span>
+                <img src="${logoB}" alt="${teamB}" class="team-badge-img" onerror="this.style.display='none';" />
+              </div>
+            </div>
+
+            <div class="fixture-status-col">
+              <div class="fixture-status ${statusClass}">${statusRaw}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ==========================================
+    // TICKER SCORES & PODIUM SYNC
+    // ==========================================
+    async function fetchLiveScores(isPolling) {
+      const pulseDot = document.getElementById('fbtPulseIndicator');
+      if (isPolling && pulseDot) {
+        pulseDot.style.background = "#34d399";
+        pulseDot.style.boxShadow = "0 0 6px #34d399";
+      }
+
+      const cbName = 'scores_cb_' + Math.round(Math.random() * 1000000);
+      window[cbName] = function(res) {
+        delete window[cbName];
+        if (scriptElem && scriptElem.parentNode) document.body.removeChild(scriptElem);
+
+        const matches = (res && res.matches) ? res.matches : [];
+        if (lastKnownMatchCount !== -1 && matches.length > lastKnownMatchCount) {
+          showAwaitingTransition();
+        } else {
+          processScoresData(res);
+        }
+        lastKnownMatchCount = matches.length;
+      };
+
+      const scriptElem = document.createElement('script');
+      scriptElem.src = `${APPS_SCRIPT_URL}?action=getScores&callback=${cbName}`;
+      scriptElem.onerror = () => {
+        if (window[cbName]) delete window[cbName];
+        if (scriptElem.parentNode) document.body.removeChild(scriptElem);
+        if (!isPolling) {
+          const matchTitleEl = document.getElementById('fbtMatchTitle');
+          if (matchTitleEl) matchTitleEl.textContent = "Unable to load latest score feed.";
+        }
+      };
+      document.body.appendChild(scriptElem);
+    }
+
+    function showAwaitingTransition() {
+      const matchTitleEl = document.getElementById('fbtMatchTitle');
+      const scorecardEl = document.getElementById('fbtScorecard');
+      const rotatingContainer = document.getElementById('fbtRotatingContainer');
+
+      if (matchTitleEl) matchTitleEl.textContent = "NEW RESULT";
+      if (scorecardEl) scorecardEl.innerHTML = `<span style="font-size:0.6rem; color:#34d399;">Syncing...</span>`;
+
+      if (rotatingContainer) {
+        rotatingContainer.innerHTML = `
+          <div class="fbt-rotate-item active" style="justify-content: center; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.4); width: 100%;">
+            <span class="awaiting-animation">Awaits new result...</span>
+          </div>
+        `;
+      }
+
+      setTimeout(() => {
+        fetchLiveScores(false);
+      }, 3500);
+    }
+
+    function processScoresData(res) {
+      const matches = (res && res.matches) ? res.matches : [];
+      const matchTitleEl = document.getElementById('fbtMatchTitle');
+      const scorecardEl = document.getElementById('fbtScorecard');
+
+      if (matches.length === 0) {
+        if (matchTitleEl) matchTitleEl.textContent = "No match results published yet.";
+        if (scorecardEl) scorecardEl.innerHTML = `<span style="font-size:0.6rem; color:var(--color-stone-light);">Awaiting fixtures...</span>`;
+        const rc = document.getElementById('fbtRotatingContainer');
+        if (rc) rc.innerHTML = `<div class="fbt-rotate-item active" style="justify-content:center;"><span style="font-size:0.65rem; color:var(--color-stone-light);">No recent history available.</span></div>`;
+        updateTop3Status({});
+        return;
+      }
+
+      const latest = matches[matches.length - 1];
+      const sA = Number(latest.scoreA) || 0;
+      const sB = Number(latest.scoreB) || 0;
+
+      const teamAName = String(latest.teamA).toUpperCase();
+      const teamBName = String(latest.teamB).toUpperCase();
+
+      const logoA = logoMap[teamAName] || "image/logo.png";
+      const logoB = logoMap[teamBName] || "image/logo.png";
+
+      let statusDisplay = latest.status;
+      if (latest.status === "Completed") {
+        if (sA > sB) statusDisplay = `Winner: ${latest.teamA}`;
+        else if (sB > sA) statusDisplay = `Winner: ${latest.teamB}`;
+        else statusDisplay = "Match Tied";
+      }
+
+      if (matchTitleEl) matchTitleEl.textContent = `${latest.sport.toUpperCase()} (${latest.category})`;
+
+      if (scorecardEl) {
+        scorecardEl.innerHTML = `
+          <div class="fbt-team-item">
+            <img src="${logoA}" alt="${latest.teamA}" class="fbt-emblem" onerror="this.style.display='none';" />
+            <span class="fbt-team-name">${latest.teamA}</span>
+            <span class="fbt-score">${sA}</span>
+          </div>
+          <span class="fbt-vs">VS</span>
+          <div class="fbt-team-item">
+            <img src="${logoB}" alt="${latest.teamB}" class="fbt-emblem" onerror="this.style.display='none';" />
+            <span class="fbt-team-name">${latest.teamB}</span>
+            <span class="fbt-score">${sB}</span>
+          </div>
+          <div style="border-left: 1px solid rgba(226,231,240,0.12); padding-left: 6px; margin-left: 2px; display:flex; flex-direction:column; text-align:right;">
+            <span class="fbt-winner">${statusDisplay}</span>
+            <span style="font-size:0.5rem; color:var(--color-silver-dark);">${latest.status}</span>
+          </div>
+        `;
+      }
+
+      const historyMatches = [...matches].reverse().slice(1, 6);
+      setupRotatingHistory(historyMatches);
+
+      let scoreMap = { "E22": 0, "E23": 0, "E24": 0, "E25": 0, "STAFF": 0 };
+      matches.forEach(m => {
+        const tA = String(m.teamA).toUpperCase();
+        const tB = String(m.teamB).toUpperCase();
+        if (scoreMap[tA] !== undefined) scoreMap[tA] += (Number(m.scoreA) || 0);
+        if (scoreMap[tB] !== undefined) scoreMap[tB] += (Number(m.scoreB) || 0);
+      });
+
+      updateTop3Status(scoreMap);
+    }
+
+    function updateTop3Status(scoreMap) {
+      const statusContainer = document.getElementById('fbtStatusContainer');
+      if (!statusContainer) return;
+
+      const sortedTeams = Object.keys(scoreMap).map(name => ({
+        name: name,
+        score: scoreMap[name],
+        logo: logoMap[name] || "image/logo.png"
+      })).sort((a, b) => b.score - a.score);
+
+      const t1 = sortedTeams[0] || { name: "E23", score: 0, logo: "image/e23.png" };
+      const t2 = sortedTeams[1] || { name: "E22", score: 0, logo: "image/e22.png" };
+      const t3 = sortedTeams[2] || { name: "E24", score: 0, logo: "image/e24.png" };
+
+      statusContainer.innerHTML = `
+        <div class="fbt-status-podium">
+          <div class="fbt-podium-item p1" title="1st Place: ${t1.name}">
+            <img src="${t1.logo}" alt="${t1.name}" class="fbt-p-emblem" />
+            <span class="p-rank">1:</span>
+            <span class="p-pts">${t1.score}</span>
+          </div>
+          <div class="fbt-podium-item" title="2nd Place: ${t2.name}">
+            <img src="${t2.logo}" alt="${t2.name}" class="fbt-p-emblem" />
+            <span class="p-rank">2:</span>
+            <span class="p-pts">${t2.score}</span>
+          </div>
+          <div class="fbt-podium-item" title="3rd Place: ${t3.name}">
+            <img src="${t3.logo}" alt="${t3.name}" class="fbt-p-emblem" />
+            <span class="p-rank">3:</span>
+            <span class="p-pts">${t3.score}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function setupRotatingHistory(historyList) {
+      const container = document.getElementById('fbtRotatingContainer');
+      if (!container) return;
+
+      if (historyList.length === 0) {
+        container.innerHTML = `<div class="fbt-rotate-item active" style="width:100%; justify-content:center;"><span style="font-size:0.65rem; color:var(--color-stone-light);">No prior match history available.</span></div>`;
+        return;
+      }
+
+      container.innerHTML = historyList.map((m, idx) => {
+        const tA = String(m.teamA).toUpperCase();
+        const tB = String(m.teamB).toUpperCase();
+        const lA = logoMap[tA] || "image/logo.png";
+        const lB = logoMap[tB] || "image/logo.png";
+        const scA = Number(m.scoreA) || 0;
+        const scB = Number(m.scoreB) || 0;
+        return `
+          <div class="fbt-rotate-item ${idx === 0 ? 'active' : ''}" data-index="${idx}">
+            <div style="display:flex; align-items:center; gap:5px;">
+              <span style="font-family:var(--font-heading); font-size:0.58rem; color:var(--color-gold); font-weight:700;">${m.sport.toUpperCase()}</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="display:flex; align-items:center; gap:3px;">
+                <img src="${lA}" alt="${m.teamA}" style="width:16px; height:16px; object-fit:contain;" />
+                <span style="font-size:0.65rem; font-weight:700; color:#fff;">${m.teamA} (${scA})</span>
+              </div>
+              <span style="font-size:0.58rem; color:var(--color-gold); font-weight:700;">VS</span>
+              <div style="display:flex; align-items:center; gap:3px;">
+                <img src="${lB}" alt="${m.teamB}" style="width:16px; height:16px; object-fit:contain;" />
+                <span style="font-size:0.65rem; font-weight:700; color:#fff;">${m.teamB} (${scB})</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (rotatingHistoryInterval) clearInterval(rotatingHistoryInterval);
+
+      if (historyList.length > 1) {
+        currentRotateIndex = 0;
+        rotatingHistoryInterval = setInterval(() => {
+          const items = container.querySelectorAll('.fbt-rotate-item');
+          if (items.length === 0) return;
+
+          items[currentRotateIndex].classList.remove('active');
+          items[currentRotateIndex].classList.add('exit');
+
+          currentRotateIndex = (currentRotateIndex + 1) % items.length;
+
+          items[currentRotateIndex].classList.remove('exit');
+          items[currentRotateIndex].classList.add('active');
+        }, 4000);
+      }
+    }
+
+    function initParticleEngine() {
+      const canvas = document.getElementById('particle-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+      window.addEventListener('resize', () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; });
+      const particles = Array.from({ length: 80 }, () => ({
+        x: Math.random() * width, y: Math.random() * height,
+        radius: Math.random() * 2.2 + 0.6,
+        color: Math.random() > 0.3 ? 'rgba(216, 230, 248, ' : 'rgba(255, 110, 32, ',
+        alpha: Math.random() * 0.7 + 0.2, vy: -(Math.random() * 0.7 + 0.2), vx: (Math.random() - 0.5) * 0.4
+      }));
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+          p.y += p.vy; p.x += p.vx;
+          if (p.y < 0) { p.y = height + 10; p.x = Math.random() * width; }
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ')'; ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    function initBackgroundAudio() {
+      const audio = document.getElementById('bg-audio');
+      const toggleBtn = document.getElementById('audioToggleBtn');
+      if (!audio || !toggleBtn) return;
+      let isPlaying = false;
+      const startAudio = () => { if (!isPlaying) { audio.play().then(() => isPlaying = true).catch(() => {}); } };
+      window.addEventListener('click', startAudio, { once: true });
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isPlaying) { audio.pause(); isPlaying = false; toggleBtn.style.opacity = '0.5'; }
+        else { audio.play(); isPlaying = true; toggleBtn.style.opacity = '1'; }
+      });
+    }
+  </script>
+</body>
+</html>

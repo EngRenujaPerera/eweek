@@ -1,0 +1,497 @@
+<!-- ==========================================================================
+     FILE: scoreupdater.html (E-WEEK 2026 Admin Management Portal - With Fixtures Tab)
+     ========================================================================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-WEEK 2026 | Management Portal</title>
+  <meta name="description" content="Secure administrative portal for updating scores, fixtures, and live news feeds for E-WEEK 2026." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --color-obsidian: #080a0f;
+      --color-charcoal: #0e1117;
+      --color-silver-pure: #ffffff;
+      --color-silver-bright: #e2e7f0;
+      --color-silver-mid: #cbd5e1;
+      --color-silver-dark: #94a3b8;
+      --color-gold: #c5a059;
+      --color-gold-light: #dfbd7e;
+      --color-crimson-red: #ff4d4d;
+      --font-display: 'Cinzel', serif;
+      --font-heading: 'Cinzel', serif;
+      --font-body: 'Inter', sans-serif;
+      --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background-color: var(--color-obsidian); color: var(--color-silver-bright); font-family: var(--font-body); }
+    body { min-height: 100vh; background: var(--color-obsidian); position: relative; overflow-x: hidden; }
+
+    /* Background Video & Effects */
+    #video-background-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; overflow: hidden; filter: contrast(1.2) brightness(0.7); }
+    #bg-video { width: 100%; height: 100%; object-fit: cover; }
+    #particle-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
+    .cinematic-lens-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3; pointer-events: none;
+      background: radial-gradient(circle at 50% 45%, rgba(4, 6, 12, 0.1) 30%, rgba(4, 6, 12, 0.9) 95%),
+                  linear-gradient(to bottom, rgba(5,7,11,0.6) 0%, transparent 30%, transparent 70%, rgba(5,7,11,0.95) 100%);
+    }
+
+    .container { width: 92%; max-width: 1000px; margin: 0 auto; position: relative; z-index: 10; }
+
+    header {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100; padding: 18px 5%;
+      background: rgba(8, 10, 15, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226,231,240,0.15);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .back-home { font-family: var(--font-heading); font-size: 0.85rem; letter-spacing: 0.2em; color: var(--color-silver-bright); text-decoration: none; }
+    .back-home:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.6); }
+
+    .admin-main-section { padding: 140px 0 90px; position: relative; z-index: 10; text-align: center; }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); color: #fff; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+    .section-subtitle { font-size: 1rem; color: var(--color-stone-light, #8f9bb3); margin-bottom: 30px; }
+
+    /* Tab switcher */
+    .portal-tabs {
+      display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; flex-wrap: wrap;
+    }
+    .tab-btn {
+      font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 12px 22px; background: rgba(14, 17, 23, 0.8); border: 1px solid rgba(197, 160, 89, 0.3);
+      color: var(--color-silver-mid); border-radius: 4px; cursor: pointer; transition: var(--transition-smooth);
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--color-gold) 0%, #8c6239 100%);
+      color: #0b0d12; border-color: #fff; font-weight: 700; box-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
+    }
+
+    /* Admin Control Panel Box */
+    .admin-panel {
+      background: linear-gradient(145deg, rgba(18, 22, 32, 0.94) 0%, rgba(10, 13, 19, 0.98) 100%);
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+      backdrop-filter: blur(16px);
+      text-align: left;
+    }
+
+    .form-section { display: none; }
+    .form-section.active { display: block; }
+
+    .form-group { margin-bottom: 24px; }
+    .form-label {
+      display: block; font-family: var(--font-heading); font-size: 0.8rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--color-silver-mid); margin-bottom: 8px;
+    }
+    .form-control, .form-select {
+      width: 100%; padding: 14px 18px; background: rgba(8, 10, 15, 0.8);
+      border: 1px solid rgba(226, 231, 240, 0.2); border-radius: 6px; color: #fff;
+      font-family: var(--font-body); font-size: 0.95rem; transition: var(--transition-smooth);
+    }
+    .form-control:focus, .form-select:focus { outline: none; border-color: var(--color-gold); box-shadow: 0 0 15px rgba(197, 160, 89, 0.3); }
+
+    .matchup-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; }
+    .vs-badge { font-family: var(--font-display); font-weight: 900; color: var(--color-gold); font-size: 1.1rem; text-align: center; }
+
+    .btn-submit {
+      display: block; width: 100%; padding: 16px; font-family: var(--font-heading); font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase; color: #0b0d12;
+      background: linear-gradient(135deg, var(--color-gold) 0%, #8c6239 100%);
+      border: 1px solid #fff; border-radius: 6px; cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8); transition: var(--transition-smooth); margin-top: 10px;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(197, 160, 89, 0.4); }
+    .status-msg { margin-top: 20px; text-align: center; font-family: var(--font-heading); font-size: 0.85rem; letter-spacing: 0.15em; }
+  </style>
+</head>
+
+<body>
+
+  <div id="video-background-container" aria-hidden="true">
+    <video id="bg-video" autoplay muted loop playsinline><source src="bg.mp4" type="video/mp4"></video>
+  </div>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <div class="cinematic-lens-overlay" aria-hidden="true"></div>
+
+  <header>
+    <a href="index.html" class="back-home">&larr; BACK TO HOME</a>
+    <div style="font-family: var(--font-heading); font-size: 0.9rem; letter-spacing: 0.15em; color: #fff;">E-WEEK 2026 &bull; MANAGEMENT PORTAL</div>
+  </header>
+
+  <main class="container admin-main-section">
+    <span class="section-eyebrow">TOURNAMENT CONTROL CENTER</span>
+    <h1 class="section-title">PORTAL MANAGER</h1>
+    <p class="section-subtitle">Manage live match scores, publish fixtures, or broadcast featured news updates.</p>
+
+    <div class="portal-tabs">
+      <button class="tab-btn active" onclick="switchTab('scores')">Manage Scores</button>
+      <button class="tab-btn" onclick="switchTab('fixtures')">Set Fixtures</button>
+      <button class="tab-btn" onclick="switchTab('news')">Publish News</button>
+    </div>
+
+    <div class="admin-panel">
+      <!-- SCORES FORM -->
+      <form id="scoreUpdateForm" class="form-section active">
+        <div class="form-group">
+          <label class="form-label" for="eventSelect">Select Event / Sport</label>
+          <select id="eventSelect" class="form-select" required>
+            <option value="" disabled selected>-- Select Event --</option>
+            <option value="Cricket">Cricket</option>
+            <option value="Football">Football</option>
+            <option value="Volleyball">Volleyball</option>
+            <option value="Basketball">Basketball</option>
+            <option value="Netball">Netball</option>
+            <option value="Elle">Elle</option>
+            <option value="Badminton">Badminton</option>
+            <option value="Table Tennis">Table Tennis</option>
+            <option value="Carrom">Carrom</option>
+            <option value="Chess">Chess</option>
+            <option value="Debate">Debate</option>
+            <option value="E Speaker">E Speaker</option>
+            <option value="Athletics">Athletics Track Events</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="categorySelect">Category</label>
+          <select id="categorySelect" class="form-select" required>
+            <option value="MEN">Men Category</option>
+            <option value="WOMEN">Women Category</option>
+            <option value="COMMON">Common / Open Category</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Matchup Combination</label>
+          <div class="matchup-grid">
+            <select id="teamASelect" class="form-select" required>
+              <option value="" disabled selected>Team A</option>
+              <option value="E22">E22</option>
+              <option value="E23">E23</option>
+              <option value="E24">E24</option>
+              <option value="E25">E25</option>
+              <option value="STAFF">STAFF</option>
+            </select>
+            <span class="vs-badge">VS</span>
+            <select id="teamBSelect" class="form-select" required>
+              <option value="" disabled selected>Team B</option>
+              <option value="E22">E22</option>
+              <option value="E23">E23</option>
+              <option value="E24">E24</option>
+              <option value="E25">E25</option>
+              <option value="STAFF">STAFF</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="matchup-grid form-group">
+          <div>
+            <label class="form-label" for="scoreA">Team A Score / Points</label>
+            <input type="number" id="scoreA" class="form-control" placeholder="e.g., 145" required />
+          </div>
+          <div></div>
+          <div>
+            <label class="form-label" for="scoreB">Team B Score / Points</label>
+            <input type="number" id="scoreB" class="form-control" placeholder="e.g., 130" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="matchStatus">Match State</label>
+          <select id="matchStatus" class="form-select" required>
+            <option value="Completed">Completed (Final Result)</option>
+            <option value="Live">Live / Ongoing</option>
+            <option value="Upcoming">Upcoming Fixture</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitScoreBtn">Publish Score to Google Sheet</button>
+        <div id="scoreStatusMsg" class="status-msg"></div>
+      </form>
+
+      <!-- FIXTURES FORM TAB -->
+      <form id="fixtureUpdateForm" class="form-section">
+        <div class="form-group">
+          <label class="form-label" for="fixDate">Match Date</label>
+          <input type="text" id="fixDate" class="form-control" placeholder="e.g., Nov 21, 2026" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="fixTime">Match Time</label>
+          <input type="text" id="fixTime" class="form-control" placeholder="e.g., 09:00 AM" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="fixSport">Sport / Event Title</label>
+          <input type="text" id="fixSport" class="form-control" placeholder="e.g., Hackathon / Coding Sprint" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Matchup Teams</label>
+          <div class="matchup-grid">
+            <select id="fixTeamA" class="form-select" required>
+              <option value="" disabled selected>Team A</option>
+              <option value="E22">E22</option>
+              <option value="E23">E23</option>
+              <option value="E24">E24</option>
+              <option value="E25">E25</option>
+              <option value="STAFF">STAFF</option>
+            </select>
+            <span class="vs-badge">VS</span>
+            <select id="fixTeamB" class="form-select" required>
+              <option value="" disabled selected>Team B</option>
+              <option value="E22">E22</option>
+              <option value="E23">E23</option>
+              <option value="E24">E24</option>
+              <option value="E25">E25</option>
+              <option value="STAFF">STAFF</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="fixVenue">Venue / Location</label>
+          <input type="text" id="fixVenue" class="form-control" placeholder="e.g., Computer Lab 01, Faculty of Engineering" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="fixStatus">Schedule Status</label>
+          <select id="fixStatus" class="form-select" required>
+            <option value="Scheduled">Scheduled</option>
+            <option value="Upcoming">Upcoming</option>
+            <option value="Postponed">Postponed</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitFixtureBtn">Publish Fixture to Google Sheet</button>
+        <div id="fixtureStatusMsg" class="status-msg"></div>
+      </form>
+
+      <!-- NEWS FEED FORM -->
+      <form id="newsUpdateForm" class="form-section">
+        <div class="form-group">
+          <label class="form-label" for="newsTitle">News Headline / Title</label>
+          <input type="text" id="newsTitle" class="form-control" placeholder="e.g., E23 Secures Epic Win in Cricket Semi-Finals!" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newsCategory">Category Tag</label>
+          <select id="newsCategory" class="form-select" required>
+            <option value="LIVE UPDATE">LIVE UPDATE</option>
+            <option value="ANNOUNCEMENT">ANNOUNCEMENT</option>
+            <option value="TOURNAMENT ALERT">TOURNAMENT ALERT</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newsImageURL">Image URL</label>
+          <input type="url" id="newsImageURL" class="form-control" placeholder="https://example.com/image.jpg" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newsDescription">Description / Details</label>
+          <textarea id="newsDescription" class="form-control" rows="4" placeholder="Provide full update details here..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newsActive">Status</label>
+          <select id="newsActive" class="form-select" required>
+            <option value="TRUE">Active (Display on Homepage)</option>
+            <option value="FALSE">Inactive (Hidden)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitNewsBtn">Publish News Feed Item</button>
+        <div id="newsStatusMsg" class="status-msg"></div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzo1KtK5zMkmLykmHdjJRqzNEtGccwfM1wGNF7JGB6mYiRDBJdSQ3cboJo4-hRerV4TQ/exec";
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
+
+      if (tab === 'scores') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('scoreUpdateForm').classList.add('active');
+      } else if (tab === 'fixtures') {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('fixtureUpdateForm').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab-btn')[2].classList.add('active');
+        document.getElementById('newsUpdateForm').classList.add('active');
+      }
+    }
+
+    // Score Form Handler
+    document.getElementById("scoreUpdateForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById("submitScoreBtn");
+      const statusMsg = document.getElementById("scoreStatusMsg");
+
+      const eventVal = document.getElementById("eventSelect").value;
+      const categoryVal = document.getElementById("categorySelect").value;
+      const teamA = document.getElementById("teamASelect").value;
+      const teamB = document.getElementById("teamBSelect").value;
+      const scoreA = document.getElementById("scoreA").value;
+      const scoreB = document.getElementById("scoreB").value;
+      const status = document.getElementById("matchStatus").value;
+
+      if (teamA === teamB) {
+        statusMsg.style.color = "#ff4d4d";
+        statusMsg.textContent = "Error: Team A and Team B cannot be the same.";
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "PUBLISHING...";
+      statusMsg.textContent = "";
+
+      const payload = {
+        action: "updateScore",
+        sport: eventVal, category: categoryVal, teamA: teamA, teamB: teamB,
+        scoreA: scoreA, scoreB: scoreB, status: status, timestamp: new Date().toISOString()
+      };
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: "POST", mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        statusMsg.style.color = "#34d399";
+        statusMsg.textContent = "SUCCESS: Match score published!";
+        document.getElementById("scoreUpdateForm").reset();
+      } catch (err) {
+        statusMsg.style.color = "#ff4d4d";
+        statusMsg.textContent = "Failed to communicate with backend.";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Publish Score to Google Sheet";
+      }
+    });
+
+    // Fixture Form Handler
+    document.getElementById("fixtureUpdateForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById("submitFixtureBtn");
+      const statusMsg = document.getElementById("fixtureStatusMsg");
+
+      const date = document.getElementById("fixDate").value;
+      const time = document.getElementById("fixTime").value;
+      const sport = document.getElementById("fixSport").value;
+      const teamA = document.getElementById("fixTeamA").value;
+      const teamB = document.getElementById("fixTeamB").value;
+      const venue = document.getElementById("fixVenue").value;
+      const status = document.getElementById("fixStatus").value;
+
+      if (teamA === teamB) {
+        statusMsg.style.color = "#ff4d4d";
+        statusMsg.textContent = "Error: Team A and Team B cannot be the same.";
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "PUBLISHING...";
+      statusMsg.textContent = "";
+
+      const payload = {
+        action: "updateFixture",
+        date: date, time: time, sport: sport, teamA: teamA, teamB: teamB,
+        venue: venue, status: status, timestamp: new Date().toISOString()
+      };
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: "POST", mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        statusMsg.style.color = "#34d399";
+        statusMsg.textContent = "SUCCESS: Fixture scheduled successfully!";
+        document.getElementById("fixtureUpdateForm").reset();
+      } catch (err) {
+        statusMsg.style.color = "#ff4d4d";
+        statusMsg.textContent = "Failed to communicate with backend.";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Publish Fixture to Google Sheet";
+      }
+    });
+
+    // News Feed Form Handler
+    document.getElementById("newsUpdateForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById("submitNewsBtn");
+      const statusMsg = document.getElementById("newsStatusMsg");
+
+      const title = document.getElementById("newsTitle").value;
+      const category = document.getElementById("newsCategory").value;
+      const imageUrl = document.getElementById("newsImageURL").value;
+      const description = document.getElementById("newsDescription").value;
+      const active = document.getElementById("newsActive").value;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "BROADCASTING...";
+      statusMsg.textContent = "";
+
+      const payload = {
+        action: "updateNews",
+        title: title, category: category, imageUrl: imageUrl,
+        description: description, active: active, timestamp: new Date().toISOString()
+      };
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: "POST", mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        statusMsg.style.color = "#34d399";
+        statusMsg.textContent = "SUCCESS: News feed item broadcasted!";
+        document.getElementById("newsUpdateForm").reset();
+      } catch (err) {
+        statusMsg.style.color = "#ff4d4d";
+        statusMsg.textContent = "Failed to broadcast news feed.";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Publish News Feed Item";
+      }
+    });
+
+    // Particle Engine
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+    window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
+    const particles = Array.from({ length: 50 }, () => ({
+      x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 0.5,
+      alpha: Math.random() * 0.7 + 0.2, vy: -(Math.random() * 0.5 + 0.2)
+    }));
+    function anim() {
+      ctx.clearRect(0, 0, w, h);
+      particles.forEach(p => {
+        p.y += p.vy;
+        if (p.y < 0) { p.y = h + 10; p.x = Math.random() * w; }
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(216, 230, 248, ${p.alpha})`; ctx.fill();
+      });
+      requestAnimationFrame(anim);
+    }
+    anim();
+  </script>
+</body>
+</html>

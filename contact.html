@@ -1,0 +1,773 @@
+<!-- ==========================================================================
+     FILE: contact.html
+     ========================================================================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | E-WEEK 2026</title>
+  <meta name="description" content="Get in touch with the E-WEEK 2026 committee at the Faculty of Engineering, University of Jaffna." />
+
+  <!-- Google Fonts: High-end Cinematic Serif and Modern Clean UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       1. CSS VARIABLES & DESIGN TOKENS (GLASSMORPHIC SILVER THEME)
+       ========================================================================== */
+    :root {
+      --color-obsidian: #080a0f;
+      --color-charcoal: #0e1117;
+      --color-stone: #5d677d;
+      --color-stone-light: #8f9bb3;
+
+      --color-silver-pure: #ffffff;
+      --color-silver-bright: #e2e7f0;
+      --color-silver-mid: #cbd5e1;
+      --color-silver-dark: #94a3b8;
+
+      --font-display: 'Cinzel', Georgia, serif;
+      --font-heading: 'Cinzel', serif;
+      --font-story: 'Cormorant Garamond', Garamond, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--color-obsidian);
+      color: var(--color-silver-bright);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    body {
+      position: relative;
+      min-height: 100vh;
+      line-height: 1.6;
+      background-color: var(--color-obsidian);
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 9px; }
+    ::-webkit-scrollbar-track { background: var(--color-obsidian); border-left: 1px solid rgba(226, 231, 240, 0.08); }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #2c3342, #414a5d);
+      border: 1px solid rgba(226, 231, 240, 0.25);
+      border-radius: 2px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    .container {
+      width: 92%;
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ==========================================================================
+       2. CINEMATIC VIDEO BACKGROUND & PARTICLE CANVAS
+       ========================================================================== */
+    #video-background-container {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 1; pointer-events: none; overflow: hidden;
+      filter: contrast(1.2) brightness(0.65) saturate(0.85); transform: scale(1.03);
+    }
+    #bg-video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    #particle-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
+    .cinematic-lens-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3; pointer-events: none;
+      background: radial-gradient(circle at 50% 45%, rgba(4, 6, 12, 0.1) 30%, rgba(4, 6, 12, 0.9) 95%),
+                  linear-gradient(to bottom, rgba(5,7,11,0.6) 0%, transparent 30%, transparent 70%, rgba(5,7,11,0.95) 100%);
+    }
+    .film-grain-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 4; pointer-events: none; opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .audio-toggle-widget {
+      position: fixed; bottom: 24px; right: 24px; z-index: 1001;
+      background: rgba(14, 17, 23, 0.75); border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+      color: #fff; cursor: pointer; backdrop-filter: blur(15px); box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+      transition: var(--transition-smooth);
+    }
+    .audio-toggle-widget:hover { transform: scale(1.1); border-color: #fff; background: rgba(25, 30, 42, 0.9); }
+
+    /* ==========================================================================
+       3. PRELOADER
+       ========================================================================== */
+    .preloader-screen {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: #06070a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s;
+    }
+    .preloader-screen.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-title {
+      font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.6rem);
+      letter-spacing: 0.35em; color: var(--color-silver-bright); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .loader-subtext {
+      font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 0.4em;
+      color: var(--color-silver-dark); text-transform: uppercase; margin-bottom: 28px;
+    }
+    .loader-progress-track { width: 240px; height: 2px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
+    .loader-progress-bar {
+      position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+      background: linear-gradient(90deg, #2c3342, var(--color-silver-pure), #2c3342);
+      transition: width 0.3s ease;
+    }
+
+    /* ==========================================================================
+       4. UI COMPONENTS & HEADER
+       ========================================================================== */
+    .silver-divider {
+      display: flex; align-items: center; justify-content: center; gap: 16px; margin: 18px auto 32px; opacity: 0.75;
+    }
+    .silver-divider::before, .silver-divider::after {
+      content: ''; height: 1px; width: 70px; max-width: 120px;
+      background: linear-gradient(90deg, transparent, var(--color-silver-dark), transparent);
+    }
+    .silver-divider .divider-node {
+      width: 8px; height: 8px; background: var(--color-silver-bright); transform: rotate(45deg);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); border: 1px solid var(--color-silver-pure);
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-heading); font-size: 0.8rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--color-silver-mid); text-align: center; margin-bottom: 6px; display: block;
+    }
+    .section-title {
+      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); color: #fff; text-align: center;
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+    }
+    .section-subtitle {
+      font-family: var(--font-story); font-size: clamp(1.1rem, 1.7vw, 1.35rem); color: var(--color-stone-light);
+      text-align: center; max-width: 720px; margin: 0 auto; line-height: 1.6;
+    }
+
+    .btn-silver {
+      position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 16px 36px; font-family: var(--font-heading); font-size: 0.88rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase; color: #0b0d12;
+      background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 45%, #cbd5e1 70%, #94a3b8 100%);
+      border: 1px solid #ffffff; border-radius: 4px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+      transition: var(--transition-smooth); z-index: 10; text-decoration: none; width: 100%;
+    }
+    .btn-silver:hover {
+      color: #000; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 255, 255, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .site-header {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 16px 0;
+      transition: var(--transition-smooth);
+      background: linear-gradient(180deg, rgba(8, 10, 15, 0.85) 0%, rgba(8, 10, 15, 0.25) 70%, transparent 100%);
+      backdrop-filter: blur(8px); border-bottom: 1px solid rgba(226, 231, 240, 0.1);
+    }
+    .nav-wrapper { display: flex; align-items: center; justify-content: space-between; }
+    .brand-identity { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .brand-logo-img { height: 42px; width: auto; object-fit: contain; }
+    .brand-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; letter-spacing: 0.18em; color: #fff; }
+    .brand-subtitle { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--color-silver-dark); text-transform: uppercase; }
+
+    .desktop-nav-menu { display: flex; align-items: center; list-style: none; gap: 28px; }
+    .nav-item-link {
+      font-family: var(--font-heading); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--color-silver-mid); transition: var(--transition-smooth);
+    }
+    .nav-item-link:hover, .nav-item-link.active { color: #fff; text-shadow: 0 0 12px rgba(255, 255, 255, 0.7); }
+
+    .hamburger-btn { display: none; flex-direction: column; justify-content: space-between; width: 32px; height: 22px; background: transparent; }
+    .hamburger-bar { width: 100%; height: 2px; background: var(--color-silver-bright); transition: var(--transition-smooth); }
+
+    .mobile-menu-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      background: rgba(6, 8, 12, 0.96); backdrop-filter: blur(20px); z-index: 999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: var(--transition-smooth);
+    }
+    .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+    .mobile-nav-list { list-style: none; display: flex; flex-direction: column; gap: 24px; text-align: center; }
+    .mobile-nav-link { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: 0.18em; color: var(--color-silver-mid); text-transform: uppercase; }
+
+    /* ==========================================================================
+       5. GLASSMORPHIC COMMITTEE & CONTACT SECTION STYLING
+       ========================================================================== */
+    .contact-page-hero { position: relative; padding: 150px 0 30px; text-align: center; z-index: 5; }
+    .contact-main-section { padding: 30px 0 120px; position: relative; z-index: 5; }
+
+    .contact-grid-layout {
+      max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: start;
+    }
+
+    /* Master Glass Box Container */
+    .glass-box {
+      background: rgba(14, 18, 28, 0.45);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 40px 36px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 0 30px rgba(255, 255, 255, 0.03);
+      position: relative;
+      overflow: hidden;
+    }
+    .glass-box::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), #c5a059, rgba(255,255,255,0.8), transparent);
+    }
+
+    .committee-header-area {
+      text-align: center; margin-bottom: 35px; padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .committee-header-titles h3 {
+      font-family: var(--font-display); font-size: 1.6rem; color: #fff; letter-spacing: 0.15em; margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+    .committee-header-titles p {
+      font-size: 0.8rem; color: var(--color-silver-dark); font-family: var(--font-heading); letter-spacing: 0.25em; text-transform: uppercase;
+    }
+
+    /* Hierarchy Tiers */
+    .hierarchy-tier { margin-bottom: 32px; }
+    .hierarchy-tier:last-child { margin-bottom: 0; }
+    .tier-title {
+      font-family: var(--font-heading); font-size: 0.72rem; letter-spacing: 0.3em; color: var(--color-silver-mid);
+      text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .tier-title::after { content: ''; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1); }
+
+    .committee-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+    /* Glassmorphic Member Card with Staggered Reveal Animation */
+    .member-card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+
+      /* Animation Initial State for Sequential Reveal */
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .member-card.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .member-card:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.05);
+    }
+
+    .member-avatar-wrap { position: relative; flex-shrink: 0; }
+    .member-avatar {
+      width: 58px; height: 58px; border-radius: 50%; object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.25); background: #151821;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.7); transition: var(--transition-smooth);
+    }
+    .member-card:hover .member-avatar { border-color: #fff; box-shadow: 0 0 18px rgba(255,255,255,0.5); }
+
+    .member-info { flex: 1; min-width: 0; }
+    .member-role {
+      font-family: var(--font-heading); font-size: 0.65rem; letter-spacing: 0.2em;
+      color: var(--color-silver-dark); text-transform: uppercase; margin-bottom: 3px;
+    }
+    .member-name {
+      font-family: var(--font-display); font-size: 0.92rem; font-weight: 700; color: #fff;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px;
+    }
+    .member-phone {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-family: var(--font-body);
+      color: var(--color-silver-mid); background: rgba(255,255,255,0.06); padding: 3px 9px; border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.08); transition: var(--transition-smooth);
+    }
+    .member-card:hover .member-phone { background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.3); }
+
+    /* Official Email Special Glass Card */
+    .email-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 20px;
+      text-decoration: none;
+
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease;
+    }
+    .email-card.reveal { opacity: 1; transform: translateY(0); }
+    .email-card:hover { border-color: rgba(255,255,255,0.4); background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+
+    .email-card-content { display: flex; align-items: center; gap: 14px; }
+    .email-icon-box {
+      width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .email-title { font-family: var(--font-heading); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--color-silver-dark); text-transform: uppercase; }
+    .email-address { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: #fff; }
+    .email-action-tag { font-family: var(--font-heading); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--color-silver-mid); text-transform: uppercase; }
+
+    /* Send Message Form Glass Box */
+    .message-form-box {
+      background: rgba(14, 18, 28, 0.45);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 40px 36px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 0 30px rgba(255, 255, 255, 0.03);
+      position: relative;
+      overflow: hidden;
+    }
+    .message-form-box::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), #c5a059, rgba(255,255,255,0.8), transparent);
+    }
+
+    .form-title { font-family: var(--font-display); font-size: 1.5rem; color: #fff; letter-spacing: 0.12em; margin-bottom: 8px; }
+    .form-subtitle { font-size: 0.88rem; color: var(--color-stone-light); margin-bottom: 28px; line-height: 1.5; }
+    .form-group { margin-bottom: 20px; text-align: left; }
+    .form-label { display: block; font-family: var(--font-heading); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-silver-mid); margin-bottom: 8px; }
+    .form-input, .form-textarea {
+      width: 100%; padding: 14px 18px; background: rgba(8, 10, 15, 0.6); border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px; color: #fff; font-family: var(--font-body); font-size: 0.95rem; transition: var(--transition-smooth);
+      backdrop-filter: blur(10px);
+    }
+    .form-input:focus, .form-textarea:focus { outline: none; border-color: rgba(255, 255, 255, 0.6); box-shadow: 0 0 20px rgba(255,255,255,0.15); background: rgba(12, 15, 22, 0.85); }
+    .form-textarea { resize: vertical; min-height: 130px; }
+
+    /* Footer Styles */
+    .dev-credit-text { font-size: 0.82rem; color: var(--color-stone); margin-top: 8px; font-family: var(--font-heading); letter-spacing: 0.1em; }
+    .site-footer {
+      padding: 75px 0 35px; border-top: 1px solid rgba(226, 231, 240, 0.2);
+      background: linear-gradient(180deg, rgba(10, 13, 19, 0.95) 0%, #040508 100%); position: relative; z-index: 10;
+    }
+    .footer-top { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 40px; }
+    .footer-logo-img { height: 56px; margin-bottom: 16px; }
+    .footer-nav-list { display: flex; align-items: center; justify-content: center; gap: 28px; list-style: none; flex-wrap: wrap; margin: 24px 0; }
+    .footer-nav-link { font-family: var(--font-heading); font-size: 0.8rem; letter-spacing: 0.2em; color: var(--color-silver-mid); text-transform: uppercase; }
+    .footer-bottom { border-top: 1px solid rgba(80, 95, 122, 0.2); padding-top: 25px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 0.82rem; color: var(--color-stone); }
+
+    @media (max-width: 1024px) {
+      .contact-grid-layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .committee-grid { grid-template-columns: 1fr; }
+      .glass-box, .message-form-box { padding: 24px 20px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="preloader-screen" id="preloader">
+    <h1 class="loader-title">E-WEEK 2026</h1>
+    <p class="loader-subtext">LOADING...</p>
+    <div class="loader-progress-track">
+      <div class="loader-progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+
+  <div id="video-background-container" aria-hidden="true">
+    <video id="bg-video" autoplay muted loop playsinline>
+      <source src="bg.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <div class="cinematic-lens-overlay" aria-hidden="true"></div>
+  <div class="film-grain-overlay" aria-hidden="true"></div>
+
+  <audio id="bg-audio" loop>
+    <source src="bg.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="audio-toggle-widget" id="audioToggleBtn" title="Toggle Cinematic Sound">
+    <svg id="audioIcon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    </svg>
+  </button>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-wrapper">
+      <a href="index.html#hero" class="brand-identity" aria-label="E-WEEK 2026 Home">
+        <img src="image/logo.png" alt="E-WEEK Official Logo" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('brandFallbackCrest').style.display='flex';" />
+        <div class="brand-fallback-crest" id="brandFallbackCrest" style="display:none;" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#e2e8f0" stroke-width="2">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text-group">
+          <span class="brand-title">E-WEEK 2026</span>
+          <span class="brand-subtitle">Faculty of Engineering</span>
+        </div>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="desktop-nav-menu">
+          <li><a href="index.html#hero" class="nav-item-link">Home</a></li>
+          <li><a href="Registration/index.html" class="nav-item-link">Registration</a></li>
+          <li><a href="teams.html" class="nav-item-link">Teams</a></li>
+          <li><a href="fixtures.html" class="nav-item-link">Fixtures</a></li>
+          <li><a href="merch.html" class="nav-item-link">Merchandise</a></li>
+          <li><a href="contact.html" class="nav-item-link active">Contact Us</a></li>
+        </ul>
+      </nav>
+
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu" aria-expanded="false">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <ul class="mobile-nav-list">
+      <li><a href="index.html#hero" class="mobile-nav-link">Home</a></li>
+      <li><a href="Registration/index.html" class="mobile-nav-link">Registration</a></li>
+      <li><a href="teams.html" class="mobile-nav-link">Teams</a></li>
+      <li><a href="fixtures.html" class="mobile-nav-link">Fixtures</a></li>
+      <li><a href="merch.html" class="mobile-nav-link">Merchandise</a></li>
+      <li><a href="contact.html" class="mobile-nav-link active">Contact Us</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+    <section class="contact-page-hero">
+      <div class="container">
+        <span class="section-eyebrow">GET IN TOUCH</span>
+        <h2 class="section-title">CONTACT COMMITTEE</h2>
+        <p class="section-subtitle">
+          Connect directly with the E-WEEK 2026 organizing committee or send us an inquiry.
+        </p>
+        <div class="silver-divider">
+          <span class="divider-node"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-main-section">
+      <div class="container">
+        <div class="contact-grid-layout">
+
+          <!-- Glassmorphic Committee Directory Showcase -->
+          <div class="glass-box">
+            <div class="committee-header-area">
+              <div class="committee-header-titles">
+                <h3>E-WEEK 2026 Committee</h3>
+                <p>Faculty of Engineering &bull; Univ. of Jaffna</p>
+              </div>
+            </div>
+
+            <!-- Tier 1: Executive Leadership (President & Secretary) -->
+            <div class="hierarchy-tier">
+              <div class="tier-title">Executive Leadership</div>
+              <div class="committee-grid">
+                <!-- President (Index 0) -->
+                <a href="tel:0703071770" class="member-card" style="transition-delay: 0.1s;">
+                  <div class="member-avatar-wrap">
+                    <img src="image/president.jpeg" alt="De Silva L.H.L.N." class="member-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2258%22 height=%2258%22%3E%3Crect fill=%22%232c3342%22 width=%2258%22 height=%2258%22/%3E%3Ctext fill=%22%23cbd5e1%22 font-family=%22sans-serif%22 font-size=%2212%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EP%3C/text%3E%3C/svg%3E';" />
+                  </div>
+                  <div class="member-info">
+                    <div class="member-role">President</div>
+                    <div class="member-name">De Silva L.H.L.N.</div>
+                    <span class="member-phone">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      070 307 1770
+                    </span>
+                  </div>
+                </a>
+
+                <!-- Secretary (Index 1) -->
+                <a href="tel:0713695945" class="member-card" style="transition-delay: 0.2s;">
+                  <div class="member-avatar-wrap">
+                    <img src="image/secretary.jpeg" alt="Wickramasinghe K.C.B." class="member-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2258%22 height=%2258%22%3E%3Crect fill=%22%232c3342%22 width=%2258%22 height=%2258%22/%3E%3Ctext fill=%22%23cbd5e1%22 font-family=%22sans-serif%22 font-size=%2212%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3ES%3C/text%3E%3C/svg%3E';" />
+                  </div>
+                  <div class="member-info">
+                    <div class="member-role">Secretary</div>
+                    <div class="member-name">Wickramasinghe K.C.B.</div>
+                    <span class="member-phone">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      071 369 5945
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Tier 2: Vice Leadership & Treasury -->
+            <div class="hierarchy-tier">
+              <div class="tier-title">Deputies & Finance</div>
+              <div class="committee-grid">
+                <!-- Vice President (Index 2) -->
+                <a href="tel:0704927356" class="member-card" style="transition-delay: 0.3s;">
+                  <div class="member-avatar-wrap">
+                    <img src="image/vice_president.jpeg" alt="Hatlee M." class="member-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2258%22 height=%2258%22%3E%3Crect fill=%22%232c3342%22 width=%2258%22 height=%2258%22/%3E%3Ctext fill=%22%23cbd5e1%22 font-family=%22sans-serif%22 font-size=%2212%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EVP%3C/text%3E%3C/svg%3E';" />
+                  </div>
+                  <div class="member-info">
+                    <div class="member-role">Vice President</div>
+                    <div class="member-name">Hatlee M.</div>
+                    <span class="member-phone">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      070 492 7356
+                    </span>
+                  </div>
+                </a>
+
+                <!-- Vice Secretary (Index 3) -->
+                <a href="tel:0784177007" class="member-card" style="transition-delay: 0.4s;">
+                  <div class="member-avatar-wrap">
+                    <img src="image/vice_secretary.jpeg" alt="Ahmadh H.A." class="member-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2258%22 height=%2258%22%3E%3Crect fill=%22%232c3342%22 width=%2258%22 height=%2258%22/%3E%3Ctext fill=%22%23cbd5e1%22 font-family=%22sans-serif%22 font-size=%2212%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EVS%3C/text%3E%3C/svg%3E';" />
+                  </div>
+                  <div class="member-info">
+                    <div class="member-role">Vice Secretary</div>
+                    <div class="member-name">Ahmadh H.A.</div>
+                    <span class="member-phone">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      078 417 7007
+                    </span>
+                  </div>
+                </a>
+
+                <!-- Treasurer (Index 4) -->
+                <a href="tel:0760755593" class="member-card" style="transition-delay: 0.5s;">
+                  <div class="member-avatar-wrap">
+                    <img src="image/treasurer.jpeg" alt="Aniruththish T." class="member-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2258%22 height=%2258%22%3E%3Crect fill=%22%232c3342%22 width=%2258%22 height=%2258%22/%3E%3Ctext fill=%22%23cbd5e1%22 font-family=%22sans-serif%22 font-size=%2212%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3ET%3C/text%3E%3C/svg%3E';" />
+                  </div>
+                  <div class="member-info">
+                    <div class="member-role">Treasurer</div>
+                    <div class="member-name">Aniruththish T.</div>
+                    <span class="member-phone">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      076 075 5593
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Tier 3: Editorial Board -->
+            <div class="hierarchy-tier">
+              <div class="tier-title">Editorial Board</div>
+              <div class="committee-grid">
+                <!-- Editor 1 (Index 5) -->
+                <a href="tel:0701601718" class="member-card" style="transition-delay: 0.6s;">
+                  <div class="member-avatar-wrap">
+                    <img src="image/editor1.jpeg" alt="Prianjana W.K.D.N." class="member-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2258%22 height=%2258%22%3E%3Crect fill=%22%232c3342%22 width=%2258%22 height=%2258%22/%3E%3Ctext fill=%22%23cbd5e1%22 font-family=%22sans-serif%22 font-size=%2212%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EE1%3C/text%3E%3C/svg%3E';" />
+                  </div>
+                  <div class="member-info">
+                    <div class="member-role">Editor</div>
+                    <div class="member-name">Prianjana W.K.D.N.</div>
+                    <span class="member-phone">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      070 160 1718
+                    </span>
+                  </div>
+                </a>
+
+                <!-- Editor 2 (Index 6) -->
+                <a href="tel:0757093260" class="member-card" style="transition-delay: 0.7s;">
+                  <div class="member-avatar-wrap">
+                    <img src="image/editor2.jpeg" alt="Alaxan S." class="member-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2258%22 height=%2258%22%3E%3Crect fill=%22%232c3342%22 width=%2258%22 height=%2258%22/%3E%3Ctext fill=%22%23cbd5e1%22 font-family=%22sans-serif%22 font-size=%2212%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EE2%3C/text%3E%3C/svg%3E';" />
+                  </div>
+                  <div class="member-info">
+                    <div class="member-role">Editor</div>
+                    <div class="member-name">Alaxan S.</div>
+                    <span class="member-phone">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      075 709 3260
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Official Email Card (Index 7) -->
+            <a href="mailto:eweek2026@gmail.com" class="email-card" style="transition-delay: 0.8s;">
+              <div class="email-card-content">
+                <div class="email-icon-box">@</div>
+                <div>
+                  <div class="email-title">Official Inquiries & Support</div>
+                  <div class="email-address">eweek2026@gmail.com</div>
+                </div>
+              </div>
+              <div class="email-action-tag">Send Email &rarr;</div>
+            </a>
+          </div>
+
+          <!-- Send Message Form Glass Box -->
+          <div class="message-form-box">
+            <h3 class="form-title">SEND MESSAGE</h3>
+            <p class="form-subtitle">Have a question or query regarding E-WEEK 2026? Drop us a note below.</p>
+
+            <form id="contactForm" action="mailto:eweek2026@gmail.com" method="POST" enctype="text/plain">
+              <div class="form-group">
+                <label class="form-label" for="senderName">Your Name</label>
+                <input type="text" id="senderName" name="Name" class="form-input" placeholder="Enter your full name" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="senderEmail">Your Email</label>
+                <input type="email" id="senderEmail" name="Email" class="form-input" placeholder="Enter your email address" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="senderSubject">Subject</label>
+                <input type="text" id="senderSubject" name="Subject" class="form-input" placeholder="Inquiry subject" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="senderMessage">Message</label>
+                <textarea id="senderMessage" name="Message" class="form-textarea" placeholder="Type your message here..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn-silver">SEND MESSAGE</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <img src="image/logo.png" alt="E-WEEK Logo" class="footer-logo-img" onerror="this.style.display='none';" />
+        <h4 style="font-family: var(--font-display); letter-spacing: 0.18em; color: #fff; font-size: 1.25rem;">E-WEEK 2026</h4>
+        <p style="font-size: 0.88rem; color: var(--color-silver-dark); margin-top: 4px;">Faculty of Engineering &bull; University of Jaffna &bull; Organized by E23</p>
+        <div class="dev-credit-text">Frontend Developer: Renuja Perera</div>
+        <ul class="footer-nav-list">
+          <li><a href="index.html#hero" class="footer-nav-link">Home</a></li>
+          <li><a href="Registration/index.html" class="footer-nav-link">Registration</a></li>
+          <li><a href="teams.html" class="footer-nav-link">Teams</a></li>
+          <li><a href="fixtures.html" class="footer-nav-link">Fixtures</a></li>
+          <li><a href="merch.html" class="footer-nav-link">Merchandise</a></li>
+          <li><a href="contact.html" class="footer-nav-link">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 E-WEEK. All Rights Reserved. Faculty of Engineering, University of Jaffna. Organized by E23.</div>
+        <div>OFFICIAL EVENT PORTAL</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(() => document.getElementById('preloader').classList.add('loaded'), 500);
+      initParticleEngine();
+      initBackgroundAudio();
+      initMobileMenu();
+      initSequentialReveal();
+    });
+
+    function initParticleEngine() {
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+      window.addEventListener('resize', () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; });
+      const particles = Array.from({ length: 80 }, () => ({
+        x: Math.random() * width, y: Math.random() * height,
+        radius: Math.random() * 2.2 + 0.6,
+        color: Math.random() > 0.3 ? 'rgba(216, 230, 248, ' : 'rgba(255, 110, 32, ',
+        alpha: Math.random() * 0.7 + 0.2, vy: -(Math.random() * 0.7 + 0.2), vx: (Math.random() - 0.5) * 0.4
+      }));
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+          p.y += p.vy; p.x += p.vx;
+          if (p.y < 0) { p.y = height + 10; p.x = Math.random() * width; }
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ')'; ctx.fill();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    function initBackgroundAudio() {
+      const audio = document.getElementById('bg-audio');
+      const toggleBtn = document.getElementById('audioToggleBtn');
+      let isPlaying = false;
+      const startAudio = () => { if (!isPlaying) { audio.play().then(() => isPlaying = true).catch(() => {}); } };
+      window.addEventListener('click', startAudio, { once: true });
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isPlaying) { audio.pause(); isPlaying = false; toggleBtn.style.opacity = '0.5'; }
+        else { audio.play(); isPlaying = true; toggleBtn.style.opacity = '1'; }
+      });
+    }
+
+    function initMobileMenu() {
+      const btn = document.getElementById('hamburgerBtn');
+      const menu = document.getElementById('mobileMenu');
+      if(btn && menu) {
+        btn.addEventListener('click', () => {
+          menu.classList.toggle('active');
+        });
+        menu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => menu.classList.remove('active'));
+        });
+      }
+    }
+
+    function initSequentialReveal() {
+      const cards = document.querySelectorAll('.member-card, .email-card');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal');
+          }
+        });
+      }, { threshold: 0.15 });
+
+      cards.forEach(card => observer.observe(card));
+    }
+  </script>
+</body>
+</html>
