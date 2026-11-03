@@ -5,8 +5,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E-WEEK 2026 | Faculty of Engineering</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>E-WEEK 2026</title>
+  <link rel="icon" type="image/png" href="image/logo.png" />
   <meta name="description" content="E-WEEK 2026 — Official inter-batch competition and tournament at the Faculty of Engineering, University of Jaffna. Where skill meets competition." />
 
   <!-- Google Fonts -->
@@ -43,14 +44,15 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; background-color: var(--color-obsidian); color: var(--color-silver-bright); font-family: var(--font-body); overflow-x: hidden; }
-    body { position: relative; min-height: 100vh; line-height: 1.6; background-color: var(--color-obsidian); overflow-x: hidden; padding-bottom: 50px; }
+    body { position: relative; min-height: 100vh; line-height: 1.6; background-color: var(--color-obsidian); overflow-x: hidden; padding-bottom: 70px; }
+    body.nav-open { overflow: hidden; }
 
-    ::-webkit-scrollbar { width: 9px; }
-    ::-webkit-scrollbar-track { background: var(--color-obsidian); border-left: 1px solid rgba(226, 231, 240, 0.08); }
-    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--color-steel-aged), var(--color-gunmetal)); border: 1px solid rgba(226, 231, 240, 0.25); border-radius: 2px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--color-obsidian); }
+    ::-webkit-scrollbar-thumb { background: var(--color-steel-aged); border-radius: 3px; }
 
-    a { color: inherit; text-decoration: none; }
-    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; -webkit-tap-highlight-color: transparent; }
     img { max-width: 100%; height: auto; display: block; }
 
     .container { width: 92%; max-width: 1280px; margin: 0 auto; position: relative; z-index: 10; }
@@ -66,24 +68,25 @@
     }
 
     .audio-toggle-widget {
-      position: fixed; bottom: 60px; right: 20px; z-index: 1001;
-      background: rgba(14, 17, 23, 0.85); border: 1px solid rgba(197, 160, 89, 0.4);
-      border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-      color: #fff; cursor: pointer; backdrop-filter: blur(10px); box-shadow: 0 6px 20px rgba(0,0,0,0.8);
-      transition: var(--transition-smooth);
+      position: fixed; bottom: 72px; right: 16px; z-index: 1001;
+      background: rgba(14, 17, 23, 0.9); border: 1px solid rgba(197, 160, 89, 0.5);
+      border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+      color: #fff; cursor: pointer; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.8); transition: var(--transition-smooth);
     }
-    .audio-toggle-widget:hover { transform: scale(1.1); border-color: var(--color-gold); }
+    .audio-toggle-widget:hover { transform: scale(1.08); border-color: var(--color-gold); }
 
-    /* GOT METALLIC SILVER 3-COLUMN COMPACT FOOTER TICKER */
+    /* METALLIC SILVER BOTTOM TICKER */
     .fixed-bottom-ticker {
       position: fixed; bottom: 0; left: 0; width: 100vw; z-index: 1000;
-      background: linear-gradient(180deg, rgba(14, 18, 26, 0.97) 0%, rgba(6, 8, 13, 0.99) 100%);
+      background: linear-gradient(180deg, rgba(14, 18, 26, 0.98) 0%, rgba(6, 8, 13, 1) 100%);
       border-top: 1px solid rgba(197, 160, 89, 0.45);
       backdrop-filter: blur(16px);
-      padding: 5px 1.5%;
+      -webkit-backdrop-filter: blur(16px);
+      padding: 6px 2%;
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 12px;
       align-items: center;
       box-shadow: 0 -10px 30px rgba(0,0,0,0.95), inset 0 1px 0 rgba(197, 160, 89, 0.2);
     }
@@ -93,36 +96,35 @@
       border-right: 1px solid rgba(226, 231, 240, 0.12);
       padding-right: 10px; overflow: hidden;
     }
-    .fbt-left { display: flex; align-items: center; gap: 8px; }
+    .fbt-left { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
     .fbt-badge-wrap { display: flex; align-items: center; gap: 4px; }
     .fbt-tag {
       font-family: var(--font-heading); font-size: 0.58rem; letter-spacing: 0.15em; color: #0b0d12; font-weight: 800; text-transform: uppercase;
       background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%); padding: 2px 5px; border-radius: 2px;
       box-shadow: 0 0 8px rgba(197, 160, 89, 0.35);
     }
-    .fbt-pulse { width: 5px; height: 5px; background: #34d399; border-radius: 50%; box-shadow: 0 0 6px #34d399; animation: pulseGlow 1.5s infinite; }
+    .fbt-pulse { width: 6px; height: 6px; background: #34d399; border-radius: 50%; box-shadow: 0 0 6px #34d399; animation: pulseGlow 1.5s infinite; }
     @keyframes pulseGlow { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 10px #34d399; } 100% { transform: scale(0.9); opacity: 0.7; } }
 
-    .fbt-match-info { font-family: var(--font-display); font-size: 0.7rem; color: var(--color-silver-bright); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
-    .fbt-scorecard-mini { display: flex; align-items: center; gap: 8px; background: rgba(8, 10, 15, 0.85); border: 1px solid rgba(226, 231, 240, 0.1); padding: 2px 6px; border-radius: 4px; }
-    .fbt-team-item { display: flex; align-items: center; gap: 5px; }
-    .fbt-emblem { width: 20px; height: 20px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.9)); transition: transform 0.3s; }
-    .fbt-team-item:hover .fbt-emblem { transform: scale(1.12) rotate(3deg); }
-    .fbt-team-name { font-family: var(--font-heading); font-size: 0.62rem; font-weight: 700; color: var(--color-silver-mid); letter-spacing: 0.04em; }
-    .fbt-score { font-family: var(--font-display); font-size: 0.78rem; font-weight: 900; color: var(--color-crimson-red); text-shadow: 0 0 6px rgba(255,77,77,0.4); }
-    .fbt-vs { font-family: var(--font-display); font-size: 0.6rem; color: var(--color-gold); font-weight: 700; }
-    .fbt-winner { color: #34d399; font-family: var(--font-heading); font-size: 0.58rem; letter-spacing: 0.04em; font-weight: 700; text-transform: uppercase; }
+    .fbt-match-info { font-family: var(--font-display); font-size: 0.7rem; color: var(--color-silver-bright); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
+    .fbt-scorecard-mini { display: flex; align-items: center; gap: 6px; background: rgba(8, 10, 15, 0.85); border: 1px solid rgba(226, 231, 240, 0.1); padding: 3px 6px; border-radius: 4px; }
+    .fbt-team-item { display: flex; align-items: center; gap: 4px; }
+    .fbt-emblem { width: 18px; height: 18px; object-fit: contain; }
+    .fbt-team-name { font-family: var(--font-heading); font-size: 0.62rem; font-weight: 700; color: var(--color-silver-mid); }
+    .fbt-score { font-family: var(--font-display); font-size: 0.78rem; font-weight: 900; color: var(--color-crimson-red); }
+    .fbt-vs { font-family: var(--font-display); font-size: 0.58rem; color: var(--color-gold); font-weight: 700; }
+    .fbt-winner { color: #34d399; font-family: var(--font-heading); font-size: 0.58rem; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
 
     .fbt-col-history {
-      display: flex; align-items: center; justify-content: center; padding: 0 8px; border-right: 1px solid rgba(226, 231, 240, 0.12); overflow: hidden; position: relative; height: 30px;
+      display: flex; align-items: center; justify-content: center; padding: 0 8px; border-right: 1px solid rgba(226, 231, 240, 0.12); overflow: hidden; position: relative; height: 32px;
     }
     .fbt-rotating-container {
-      flex: 1; position: relative; height: 30px; overflow: hidden; display: flex; align-items: center; width: 100%;
+      flex: 1; position: relative; height: 32px; overflow: hidden; display: flex; align-items: center; width: 100%;
     }
     .fbt-rotate-item {
       position: absolute; width: 100%; display: flex; align-items: center; justify-content: space-between;
       background: linear-gradient(135deg, rgba(20, 25, 36, 0.85) 0%, rgba(10, 13, 19, 0.95) 100%);
-      border: 1px solid rgba(197, 160, 89, 0.25); padding: 2px 8px; border-radius: 4px;
+      border: 1px solid rgba(197, 160, 89, 0.25); padding: 3px 8px; border-radius: 4px;
       opacity: 0; transform: translateY(12px) rotateX(15deg);
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -130,401 +132,516 @@
     .fbt-rotate-item.exit { opacity: 0; transform: translateY(-12px) rotateX(-15deg); }
 
     .fbt-col-status {
-      display: flex; align-items: center; justify-content: space-around; padding-left: 8px; overflow: hidden;
+      display: flex; align-items: center; justify-content: flex-end; padding-left: 6px; overflow: hidden;
     }
     .fbt-status-podium {
-      display: flex; align-items: center; gap: 8px; background: rgba(8, 10, 15, 0.75); border: 1px solid rgba(197, 160, 89, 0.25); padding: 2px 8px; border-radius: 4px;
+      display: flex; align-items: center; gap: 8px; background: rgba(8, 10, 15, 0.75); border: 1px solid rgba(197, 160, 89, 0.25); padding: 3px 8px; border-radius: 4px;
     }
-    .fbt-podium-item {
-      display: flex; align-items: center; gap: 4px; position: relative;
-    }
-    .fbt-podium-item.p1 .fbt-p-emblem { width: 28px; height: 28px; filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.7)); }
+    .fbt-podium-item { display: flex; align-items: center; gap: 3px; }
+    .fbt-podium-item.p1 .fbt-p-emblem { width: 22px; height: 22px; filter: drop-shadow(0 0 6px rgba(197, 160, 89, 0.7)); }
     .fbt-podium-item.p1 .p-rank { color: var(--color-gold); font-size: 0.65rem; font-weight: 900; }
     .fbt-podium-item.p1 .p-pts { color: var(--color-silver-bright); font-size: 0.65rem; font-weight: 800; }
-
-    .fbt-p-emblem { width: 20px; height: 20px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); }
+    .fbt-p-emblem { width: 18px; height: 18px; object-fit: contain; }
     .p-rank { font-family: var(--font-heading); font-size: 0.55rem; color: var(--color-silver-dark); font-weight: 700; text-transform: uppercase; }
-    .p-pts { font-family: var(--font-display); font-size: 0.6rem; color: var(--color-silver-mid); font-weight: 700; }
+    .p-pts { font-family: var(--font-display); font-size: 0.62rem; color: var(--color-silver-mid); font-weight: 700; }
 
     @keyframes awaitingPulse {
-      0% { opacity: 0.6; text-shadow: 0 0 4px rgba(52, 211, 153, 0.3); }
-      50% { opacity: 1; text-shadow: 0 0 15px rgba(52, 211, 153, 0.8), 0 0 25px rgba(197, 160, 89, 0.6); transform: scale(1.02); }
-      100% { opacity: 0.6; text-shadow: 0 0 4px rgba(52, 211, 153, 0.3); }
+      0% { opacity: 0.6; }
+      50% { opacity: 1; text-shadow: 0 0 12px rgba(52, 211, 153, 0.8); transform: scale(1.02); }
+      100% { opacity: 0.6; }
     }
     .awaiting-animation {
-      display: inline-block;
-      font-family: var(--font-display);
-      font-size: 0.75rem;
-      font-weight: 900;
-      color: #34d399;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      animation: awaitingPulse 1.8s ease-in-out infinite;
-      text-align: center;
-      width: 100%;
+      display: inline-block; font-family: var(--font-display); font-size: 0.7rem; font-weight: 900; color: #34d399; letter-spacing: 0.12em; text-transform: uppercase; animation: awaitingPulse 1.8s ease-in-out infinite; text-align: center; width: 100%;
     }
 
     /* Preloader */
     .preloader-screen {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: #06070a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
     }
     .preloader-screen.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
     .loader-title {
-      font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.6rem);
-      letter-spacing: 0.35em; color: var(--color-silver-bright); text-transform: uppercase; margin-bottom: 8px;
+      font-family: var(--font-display); font-size: clamp(1.8rem, 6vw, 2.6rem);
+      letter-spacing: 0.25em; color: var(--color-silver-bright); text-transform: uppercase; margin-bottom: 8px; text-align: center;
     }
     .loader-subtext {
-      font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 0.4em;
-      color: var(--color-silver-dark); text-transform: uppercase; margin-bottom: 28px;
+      font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 0.3em;
+      color: var(--color-silver-dark); text-transform: uppercase; margin-bottom: 24px;
     }
-    .loader-progress-track { width: 240px; height: 2px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
+    .loader-progress-track { width: 200px; max-width: 80%; height: 2px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
     .loader-progress-bar {
-      position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+      position: absolute; top: 0; left: 0; height: 100%; width: 100%;
       background: linear-gradient(90deg, var(--color-steel-aged), var(--color-silver-pure), var(--color-steel-aged));
-      transition: width 0.3s ease;
+      animation: loadAnim 1.2s infinite ease-in-out;
     }
+    @keyframes loadAnim { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
-    /* UI Elements & Header */
+    /* UI Elements */
     .silver-divider {
-      display: flex; align-items: center; justify-content: center; gap: 16px; margin: 18px auto 32px; opacity: 0.75;
+      display: flex; align-items: center; justify-content: center; gap: 14px; margin: 16px auto 28px; opacity: 0.75;
     }
     .silver-divider::before, .silver-divider::after {
-      content: ''; height: 1px; width: 70px; max-width: 120px;
+      content: ''; height: 1px; width: 50px;
       background: linear-gradient(90deg, transparent, var(--color-silver-dark), transparent);
     }
     .silver-divider .divider-node {
-      width: 8px; height: 8px; background: var(--color-silver-bright); transform: rotate(45deg);
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); border: 1px solid var(--color-silver-pure);
+      width: 7px; height: 7px; background: var(--color-silver-bright); transform: rotate(45deg);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
     }
 
     .section-eyebrow {
-      font-family: var(--font-heading); font-size: 0.8rem; letter-spacing: 0.35em; text-transform: uppercase;
+      font-family: var(--font-heading); font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
       color: var(--color-silver-mid); text-align: center; margin-bottom: 6px; display: block;
     }
     .section-title {
-      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); color: #fff; text-align: center;
-      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px;
-      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+      font-family: var(--font-display); font-size: clamp(1.8rem, 5vw, 3rem); color: #fff; text-align: center;
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; line-height: 1.2;
     }
     .section-subtitle {
-      font-family: var(--font-story); font-size: clamp(1.1rem, 1.7vw, 1.35rem); color: var(--color-stone-light);
-      text-align: center; max-width: 720px; margin: 0 auto; line-height: 1.6;
+      font-family: var(--font-story); font-size: clamp(1.05rem, 2.5vw, 1.25rem); color: var(--color-stone-light);
+      text-align: center; max-width: 680px; margin: 0 auto; line-height: 1.5; padding: 0 10px;
     }
 
     .btn-silver {
-      position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-      padding: 16px 36px; font-family: var(--font-heading); font-size: 0.88rem; font-weight: 700;
-      letter-spacing: 0.22em; text-transform: uppercase; color: #0b0d12;
-      background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 45%, #cbd5e1 70%, #94a3b8 100%);
-      border: 1px solid #ffffff; border-radius: 2px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.9);
-      transition: var(--transition-smooth); z-index: 10; text-decoration: none;
-    }
-    .btn-silver:hover {
-      color: #000; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 255, 255, 0.6);
-      transform: translateY(-2px);
+      position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 14px 28px; font-family: var(--font-heading); font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase; color: #0b0d12;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      border: 1px solid #ffffff; border-radius: 4px; min-height: 48px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8); transition: var(--transition-smooth);
     }
     .btn-silver-secondary {
       background: linear-gradient(180deg, #1f2533 0%, #121620 100%);
       color: var(--color-silver-bright); border: 1px solid var(--color-steel-aged);
     }
-    .btn-silver-secondary:hover { color: #fff; border-color: var(--color-silver-bright); }
 
+    /* Site Header */
     .site-header {
-      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 14px 0;
-      transition: var(--transition-smooth);
-      background: linear-gradient(145deg, rgba(18, 22, 32, 0.75) 0%, rgba(10, 13, 19, 0.85) 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 12px 0;
+      background: rgba(14, 18, 26, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
     .nav-wrapper { display: flex; align-items: center; justify-content: space-between; width: 92%; max-width: 1300px; margin: 0 auto; }
-    .brand-identity { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-    .brand-logo-img { height: 38px; width: auto; object-fit: contain; }
-    .brand-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; letter-spacing: 0.18em; color: #fff; }
-    .brand-subtitle { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--color-silver-dark); text-transform: uppercase; }
+    .brand-identity { display: flex; align-items: center; gap: 10px; }
+    .brand-logo-img { height: 34px; width: auto; object-fit: contain; }
+    .brand-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 800; letter-spacing: 0.15em; color: #fff; line-height: 1.1; }
+    .brand-subtitle { font-size: 0.55rem; letter-spacing: 0.12em; color: var(--color-silver-dark); text-transform: uppercase; }
 
-    .desktop-nav-menu { display: flex; align-items: center; list-style: none; gap: 24px; }
+    .desktop-nav-menu { display: flex; align-items: center; list-style: none; gap: 20px; }
     .nav-item-link {
-      font-family: var(--font-heading); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.2em;
+      font-family: var(--font-heading); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em;
       text-transform: uppercase; color: var(--color-silver-mid); transition: var(--transition-smooth);
     }
-    .nav-item-link:hover, .nav-item-link.active { color: var(--color-gold); text-shadow: 0 0 12px rgba(197, 160, 89, 0.5); }
+    .nav-item-link:hover, .nav-item-link.active { color: var(--color-gold); }
 
-    .hamburger-btn { display: none; flex-direction: column; justify-content: space-between; width: 28px; height: 18px; background: transparent; }
-    .hamburger-bar { width: 100%; height: 2px; background: var(--color-silver-bright); transition: var(--transition-smooth); }
+    /* Hamburger Button (Fixed & Touch Friendly) */
+    .hamburger-btn {
+      display: none; flex-direction: column; justify-content: center; align-items: center;
+      gap: 5px; width: 44px; height: 44px; padding: 10px; z-index: 1002;
+    }
+    .hamburger-bar {
+      width: 24px; height: 2px; background: var(--color-silver-bright); border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger-btn.active .hamburger-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--color-gold); }
+    .hamburger-btn.active .hamburger-bar:nth-child(2) { opacity: 0; }
+    .hamburger-btn.active .hamburger-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--color-gold); }
 
+    /* Mobile Overlay Menu */
     .mobile-menu-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-      background: rgba(6, 8, 12, 0.96); backdrop-filter: blur(20px); z-index: 999;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: var(--transition-smooth);
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(6, 8, 12, 0.98); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; pointer-events: none; transition: var(--transition-smooth);
     }
-    .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
-    .mobile-nav-list { list-style: none; display: flex; flex-direction: column; gap: 24px; text-align: center; }
-    .mobile-nav-link { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: 0.18em; color: var(--color-silver-mid); text-transform: uppercase; }
+    .mobile-menu-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+    .mobile-nav-list { list-style: none; display: flex; flex-direction: column; gap: 20px; text-align: center; }
+    .mobile-nav-link {
+      font-family: var(--font-display); font-size: 1.25rem; letter-spacing: 0.15em;
+      color: var(--color-silver-mid); text-transform: uppercase; padding: 10px 20px; display: inline-block;
+    }
+    .mobile-nav-link.active, .mobile-nav-link:hover { color: var(--color-gold); }
 
+    /* Hero Section */
     .hero-section {
-      position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      padding: 140px 0 90px; overflow: hidden; z-index: 5;
+      position: relative; min-height: 90vh; display: flex; align-items: center; justify-content: center;
+      padding: 110px 0 60px; overflow: hidden; z-index: 5;
     }
-    .hero-content { position: relative; z-index: 10; text-align: center; max-width: 960px; margin: 0 auto; padding: 0 16px; }
-    .hero-logo2-img { max-height: 185px; width: auto; margin: 0 auto; filter: drop-shadow(0 10px 25px rgba(0,0,0,0.95)); }
+    .hero-content { position: relative; z-index: 10; text-align: center; max-width: 860px; margin: 0 auto; width: 100%; }
+    .hero-logo2-img { max-height: clamp(110px, 20vw, 175px); width: auto; margin: 0 auto; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.9)); }
     .hero-tagline {
-      font-family: var(--font-heading); font-size: clamp(1.05rem, 2.2vw, 1.45rem); font-weight: 700;
-      letter-spacing: 0.35em; color: var(--color-silver-bright); text-transform: uppercase; margin-bottom: 12px;
+      font-family: var(--font-heading); font-size: clamp(0.95rem, 3vw, 1.35rem); font-weight: 700;
+      letter-spacing: 0.25em; color: var(--color-silver-bright); text-transform: uppercase; margin-bottom: 10px;
     }
-    .hero-subtag { font-family: var(--font-story); font-size: clamp(1.15rem, 1.8vw, 1.45rem); color: var(--color-silver-mid); margin-bottom: 38px; }
+    .hero-subtag { font-family: var(--font-story); font-size: clamp(1rem, 2.5vw, 1.35rem); color: var(--color-silver-mid); margin-bottom: 28px; }
     .hero-subtag span { color: #fff; }
 
-    /* ==========================================================================
-       FIXED GLASSMORPHISM COUNTDOWN TIMER & CONTAINER STYLING
-       ========================================================================== */
+    /* Countdown Box */
     .hero-countdown-box {
-      background: linear-gradient(135deg, rgba(18, 22, 32, 0.45) 0%, rgba(10, 13, 19, 0.3) 100%);
-      border: 1px solid rgba(197, 160, 89, 0.35);
-      border-radius: 12px;
-      padding: 26px 36px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      max-width: 680px;
-      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(18, 22, 32, 0.6) 0%, rgba(10, 13, 19, 0.45) 100%);
+      border: 1px solid rgba(197, 160, 89, 0.35); border-radius: 12px;
+      padding: 20px 16px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      max-width: 580px; margin: 0 auto;
     }
     .hero-countdown-title {
-      font-family: var(--font-heading);
-      font-size: 0.78rem;
-      letter-spacing: 0.28em;
-      color: var(--color-silver-bright);
-      text-transform: uppercase;
-      margin-bottom: 18px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+      font-family: var(--font-heading); font-size: 0.72rem; letter-spacing: 0.2em;
+      color: var(--color-silver-bright); text-transform: uppercase; margin-bottom: 14px;
     }
-    .hero-countdown-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
+    .hero-countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
     .hero-c-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: rgba(8, 10, 15, 0.45);
-      border: 1px solid rgba(226, 231, 240, 0.15);
-      padding: 14px 10px;
-      border-radius: 6px;
-      backdrop-filter: blur(8px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      display: flex; flex-direction: column; align-items: center;
+      background: rgba(8, 10, 15, 0.6); border: 1px solid rgba(226, 231, 240, 0.15);
+      padding: 10px 4px; border-radius: 6px;
     }
     .hero-c-num {
-      font-family: var(--font-display);
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: #fff;
-      text-shadow: 0 0 15px rgba(255,255,255,0.5);
-      line-height: 1;
-      margin-bottom: 4px;
+      font-family: var(--font-display); font-size: clamp(1.4rem, 4vw, 2.2rem);
+      font-weight: 900; color: #fff; line-height: 1; margin-bottom: 2px;
     }
     .hero-c-lbl {
-      font-family: var(--font-heading);
-      font-size: 0.62rem;
-      letter-spacing: 0.22em;
-      color: var(--color-gold-light);
-      text-transform: uppercase;
+      font-family: var(--font-heading); font-size: 0.58rem; letter-spacing: 0.15em;
+      color: var(--color-gold-light); text-transform: uppercase;
     }
 
-    .about-section { padding: 110px 0; position: relative; z-index: 5; }
+    /* Panels & Sections */
+    .about-section, .results-section, .featured-news-section, .contact-section { padding: 60px 0; position: relative; z-index: 5; }
     .silver-panel {
-      max-width: 880px; margin: 0 auto; padding: 55px 45px;
-      background: linear-gradient(135deg, rgba(20, 24, 34, 0.85) 0%, rgba(10, 13, 19, 0.92) 100%);
-      border: 1px solid rgba(226, 231, 240, 0.25); border-radius: 4px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
-      text-align: center; backdrop-filter: blur(12px);
+      max-width: 840px; margin: 0 auto; padding: 32px 20px;
+      background: linear-gradient(135deg, rgba(20, 24, 34, 0.88) 0%, rgba(10, 13, 19, 0.94) 100%);
+      border: 1px solid rgba(226, 231, 240, 0.2); border-radius: 6px; text-align: center;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     }
-    .about-prose { font-family: var(--font-story); font-size: clamp(1.2rem, 2vw, 1.45rem); line-height: 1.85; color: var(--color-silver-bright); margin-bottom: 22px; }
+    .about-prose { font-family: var(--font-story); font-size: clamp(1.05rem, 2.6vw, 1.35rem); line-height: 1.7; color: var(--color-silver-bright); margin-bottom: 16px; }
 
     /* Leaderboard */
-    .results-section { padding: 110px 0; position: relative; z-index: 5; }
     .leaderboard-container {
-      max-width: 1160px; margin: 45px auto 0;
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;
+      max-width: 1160px; margin: 30px auto 0;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
     }
     .leaderboard-card {
-      background: linear-gradient(145deg, rgba(18, 22, 32, 0.92) 0%, rgba(10, 13, 19, 0.98) 100%);
-      border: 1px solid rgba(80, 95, 122, 0.4); border-radius: 16px; padding: 40px 28px 32px;
-      position: relative; overflow: hidden; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 20px 45px rgba(0,0,0,0.7), inset 0 0 20px rgba(255,255,255,0.02);
-      display: flex; flex-direction: column; align-items: center; text-align: center; backdrop-filter: blur(14px);
+      background: linear-gradient(145deg, rgba(18, 22, 32, 0.94) 0%, rgba(10, 13, 19, 0.98) 100%);
+      border: 1px solid rgba(80, 95, 122, 0.4); border-radius: 12px; padding: 28px 20px 24px;
+      position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
     }
     .rank-badge {
-      position: absolute; top: 18px; right: 18px; width: 36px; height: 36px;
+      position: absolute; top: 14px; right: 14px; width: 32px; height: 32px;
       border-radius: 50%; background: rgba(30, 36, 50, 0.9); border: 1px solid rgba(226, 231, 240, 0.3);
       display: flex; align-items: center; justify-content: center; font-family: var(--font-heading);
-      font-size: 0.8rem; font-weight: 800; color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      font-size: 0.75rem; font-weight: 800; color: #fff;
     }
-    .rank-1 .rank-badge { background: linear-gradient(135deg, #dfbd7e, #c5a059); color: #0b0d12; border-color: #fff; }
+    .rank-1 .rank-badge { background: linear-gradient(135deg, #dfbd7e, #c5a059); color: #0b0d12; }
     .rank-2 .rank-badge { background: linear-gradient(135deg, #cbd5e1, #94a3b8); color: #0b0d12; }
     .rank-3 .rank-badge { background: linear-gradient(135deg, #b48a5c, #8c6239); color: #fff; }
-    .batch-emblem { width: 90px; height: 90px; object-fit: contain; margin-top: 12px; margin-bottom: 20px; filter: drop-shadow(0 10px 22px rgba(0,0,0,0.9)); }
-    .batch-title { font-family: var(--font-display); font-size: 2rem; font-weight: 900; letter-spacing: 0.14em; color: #fff; margin-bottom: 6px; }
-    .points-display { font-family: var(--font-display); font-size: 2.75rem; font-weight: 900; color: #ff4d4d; margin-bottom: 20px; }
+    .batch-emblem { width: 75px; height: 75px; object-fit: contain; margin-top: 8px; margin-bottom: 14px; }
+    .batch-title { font-family: var(--font-display); font-size: 1.6rem; font-weight: 900; letter-spacing: 0.1em; color: #fff; margin-bottom: 4px; }
+    .points-display { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: #ff4d4d; margin-bottom: 14px; }
     .stats-row {
       width: 100%; display: flex; justify-content: space-around; align-items: center;
       border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 14px 0; margin-bottom: 20px; background: rgba(0,0,0,0.25); border-radius: 4px;
+      padding: 10px 0; margin-bottom: 16px; background: rgba(0,0,0,0.25); border-radius: 4px;
     }
     .stat-item { display: flex; flex-direction: column; align-items: center; }
-    .stat-val { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; color: #fff; }
-    .stat-lbl { font-family: var(--font-heading); font-size: 0.65rem; letter-spacing: 0.22em; color: var(--color-stone-light); text-transform: uppercase; margin-top: 3px; }
-    .progress-track-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; position: relative; }
-    .progress-fill-bar { height: 100%; background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7); border-radius: 3px; width: 0%; transition: width 1.5s ease; }
-    .results-await-banner {
-      padding: 24px; background: linear-gradient(90deg, rgba(30, 38, 55, 0.4), rgba(226, 231, 240, 0.1));
-      border: 1px solid rgba(226, 231, 240, 0.15); border-radius: 4px; text-align: center; font-family: var(--font-heading);
-      font-size: 0.85rem; letter-spacing: 0.22em; color: var(--color-silver-pure); text-transform: uppercase;
-      display: flex; align-items: center; justify-content: center; gap: 12px; max-width: 600px; margin: 0 auto;
-    }
+    .stat-val { font-family: var(--font-display); font-size: 1.15rem; font-weight: 800; color: #fff; }
+    .stat-lbl { font-family: var(--font-heading); font-size: 0.58rem; letter-spacing: 0.18em; color: var(--color-stone-light); text-transform: uppercase; }
+    .progress-track-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+    .progress-fill-bar { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 3px; width: 0%; transition: width 1.2s ease; }
 
-    /* FEATURED NEWS FEED SECTION STYLES */
-    .featured-news-section {
-      padding: 80px 0; position: relative; z-index: 5; display: block;
-    }
-    .top-stories-container {
-      max-width: 1240px; margin: 40px auto 0;
-      display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 30px;
-      align-items: start;
-    }
-    .featured-hero-story {
-      background: linear-gradient(145deg, rgba(18, 22, 32, 0.94) 0%, rgba(10, 13, 19, 0.98) 100%);
-      border: 1px solid rgba(197, 160, 89, 0.4); border-radius: 12px; overflow: hidden;
-      display: flex; flex-direction: column;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.85);
-      backdrop-filter: blur(14px); transition: var(--transition-smooth);
-      height: 100%;
-    }
-    .featured-hero-story:hover {
-      border-color: rgba(197, 160, 89, 0.8);
-      box-shadow: 0 30px 70px rgba(0,0,0,0.9), 0 0 30px rgba(197, 160, 89, 0.2);
-    }
-    .fhs-img-wrap { width: 100%; height: 280px; overflow: hidden; background: #000; position: relative; }
-    .fhs-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-    .featured-hero-story:hover .fhs-img { transform: scale(1.05); }
-    .fhs-content { padding: 28px; display: flex; flex-direction: column; flex-grow: 1; }
-
-    .news-grid-sub {
-      display: flex; flex-direction: column; gap: 16px;
-    }
-    .news-card-sub {
-      background: linear-gradient(145deg, rgba(18, 22, 32, 0.9) 0%, rgba(10, 13, 19, 0.96) 100%);
-      border: 1px solid rgba(197, 160, 89, 0.25); border-radius: 10px; overflow: hidden;
-      display: grid; grid-template-columns: 130px 1fr;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.7);
-      backdrop-filter: blur(12px); transition: var(--transition-smooth);
+    /* ==========================================================================
+       CENTERED CINEMATIC SLIDE-RAIL NEWSFEED (GLASS GRADIENT OVERLAY)
+       ========================================================================== */
+    .news-section-header {
+      position: relative;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 10px;
     }
-    .news-card-sub:hover {
-      transform: translateY(-3px); border-color: rgba(197, 160, 89, 0.6);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.85), 0 0 20px rgba(197, 160, 89, 0.15);
-    }
-    .ncs-img-wrap { width: 130px; height: 100%; min-height: 105px; overflow: hidden; background: #000; }
-    .ncs-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-    .news-card-sub:hover .ncs-img { transform: scale(1.06); }
-    .ncs-body { padding: 14px 18px; display: flex; flex-direction: column; justify-content: center; }
 
-    .news-badge-tag {
-      font-family: var(--font-heading); font-size: 0.6rem; background: var(--color-gold); color: #0b0d12;
-      font-weight: 800; padding: 2px 6px; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; width: fit-content;
+    .news-title-group {
+      text-align: center;
+      margin: 0 auto;
     }
-    .news-time-stamp { font-size: 0.7rem; color: var(--color-stone-light); }
-    .news-title-text {
-      font-family: var(--font-display); color: #fff; font-weight: 800; letter-spacing: 0.04em; margin-bottom: 6px; line-height: 1.3;
-    }
-    .news-desc-text { font-size: 0.83rem; color: var(--color-silver-mid); line-height: 1.45; }
 
-    /* "SEE MORE" LINK STYLE */
-    .news-see-more-btn {
-      font-family: var(--font-heading);
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--color-gold);
-      background: none;
-      border: none;
+    .news-title-group .section-eyebrow {
+      text-align: center;
+    }
+
+    .news-title-group .section-title {
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .news-title-group .silver-divider {
+      margin: 12px auto 0;
+      justify-content: center;
+    }
+
+    .news-slider-controls {
+      position: absolute;
+      right: 0;
+      bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .news-nav-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: rgba(18, 22, 32, 0.7);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      color: var(--color-silver-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      padding: 0;
-      margin-top: 8px;
-      letter-spacing: 0.1em;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: var(--transition-smooth);
+    }
+
+    .news-nav-btn:hover {
+      background: var(--color-gold);
+      color: #0b0d12;
+      border-color: var(--color-gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+    }
+
+    .news-track-container {
+      width: 100%;
+      position: relative;
+      margin-top: 20px;
+    }
+
+    .news-slide-rail {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      padding: 10px 4px 25px;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .news-slide-rail::-webkit-scrollbar { display: none; }
+
+    /* Cinematic News Card */
+    .cinematic-news-card {
+      flex: 0 0 calc(33.333% - 14px);
+      min-width: 310px;
+      height: 410px;
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      scroll-snap-align: start;
+      border: 1px solid rgba(197, 160, 89, 0.28);
+      background: #090c12;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .cinematic-news-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      border-color: rgba(197, 160, 89, 0.75);
+      box-shadow: 0 24px 55px rgba(0, 0, 0, 0.95), 0 0 20px rgba(197, 160, 89, 0.22);
+    }
+
+    .cnc-bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+      filter: brightness(0.92) contrast(1.05);
+    }
+
+    .cinematic-news-card:hover .cnc-bg-image {
+      transform: scale(1.06);
+      filter: brightness(1.02);
+    }
+
+    .cnc-top-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Soft Lite-Shaded Frosted Bottom Overlay */
+    .cnc-frosted-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 30px 18px 18px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: linear-gradient(
+        to bottom,
+        rgba(8, 10, 15, 0) 0%,
+        rgba(8, 10, 15, 0.42) 28%,
+        rgba(8, 10, 15, 0.86) 68%,
+        rgba(8, 10, 15, 0.98) 100%
+      );
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+    }
+
+    .cnc-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .cnc-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.35;
+      margin-bottom: 5px;
+      letter-spacing: 0.04em;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.85);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .cnc-desc {
+      font-size: 0.8rem;
+      color: var(--color-silver-mid);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .cnc-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cnc-read-btn {
+      font-family: var(--font-heading);
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--color-gold);
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      transition: color 0.3s ease;
-    }
-    .news-see-more-btn:hover {
-      color: var(--color-gold-light);
-      text-decoration: underline;
+      gap: 6px;
+      transition: transform 0.3s ease, color 0.3s ease;
     }
 
-    /* NEWS MODAL POPUP STYLING */
+    .cinematic-news-card:hover .cnc-read-btn {
+      color: var(--color-gold-light);
+      transform: translateX(4px);
+    }
+
+    .news-badge-tag {
+      font-family: var(--font-heading); font-size: 0.55rem; background: var(--color-gold); color: #0b0d12;
+      font-weight: 800; padding: 2px 6px; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .news-time-stamp { font-size: 0.65rem; color: var(--color-stone-light); }
+
+    /* News Modal Popup */
     .news-modal-backdrop {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(4, 5, 8, 0.88); backdrop-filter: blur(12px);
+      background: rgba(4, 5, 8, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       z-index: 2500; display: flex; align-items: center; justify-content: center;
-      padding: 20px; opacity: 0; pointer-events: none; transition: var(--transition-smooth);
+      padding: 16px; opacity: 0; pointer-events: none; transition: var(--transition-smooth);
     }
     .news-modal-backdrop.open { opacity: 1; pointer-events: auto; }
     .news-modal-box {
-      max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto;
+      max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto;
       background: linear-gradient(145deg, rgba(18, 22, 32, 0.98) 0%, rgba(10, 13, 19, 0.99) 100%);
-      border: 1px solid rgba(197, 160, 89, 0.5); border-radius: 12px;
-      padding: 36px; position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.95);
+      border: 1px solid rgba(197, 160, 89, 0.5); border-radius: 10px; padding: 24px 20px; position: relative;
     }
     .news-modal-close {
-      position: absolute; top: 16px; right: 18px; width: 34px; height: 34px;
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(226, 231, 240, 0.2);
+      position: absolute; top: 12px; right: 12px; width: 36px; height: 36px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(226, 231, 240, 0.2);
       color: var(--color-silver-bright); display: flex; align-items: center; justify-content: center;
-      border-radius: 50%; cursor: pointer; transition: var(--transition-smooth); font-size: 1.2rem;
+      border-radius: 50%; font-size: 1.3rem; cursor: pointer;
     }
-    .news-modal-close:hover { background: var(--color-gold); color: #0b0d12; border-color: var(--color-gold); }
-    .news-modal-img { width: 100%; height: 260px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(226,231,240,0.1); }
-    .news-modal-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-    .news-modal-title { font-family: var(--font-display); font-size: 1.6rem; color: #fff; font-weight: 800; margin-bottom: 16px; line-height: 1.3; }
-    .news-modal-desc { font-family: var(--font-body); font-size: 0.98rem; color: var(--color-silver-bright); line-height: 1.7; }
+    .news-modal-img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 6px; margin-bottom: 16px; }
+    .news-modal-title { font-family: var(--font-display); font-size: 1.35rem; color: #fff; font-weight: 800; margin-bottom: 10px; line-height: 1.3; }
+    .news-modal-desc { font-size: 0.9rem; color: var(--color-silver-bright); line-height: 1.6; }
 
-    .contact-section { padding: 90px 0; position: relative; z-index: 5; }
     .contact-card {
-      max-width: 760px; margin: 35px auto 0; padding: 40px;
+      max-width: 700px; margin: 24px auto 0; padding: 28px 18px;
       background: linear-gradient(180deg, rgba(20, 25, 36, 0.85) 0%, rgba(10, 12, 18, 0.95) 100%);
-      border: 1px solid var(--color-steel-aged); border-radius: 4px; text-align: center; backdrop-filter: blur(10px);
+      border: 1px solid var(--color-steel-aged); border-radius: 6px; text-align: center;
     }
 
     .site-footer {
-      padding: 75px 0 35px; border-top: 1px solid rgba(226, 231, 240, 0.2);
-      background: linear-gradient(180deg, rgba(10, 13, 19, 0.95) 0%, #040508 100%); position: relative; z-index: 10;
+      padding: 50px 0 25px; border-top: 1px solid rgba(226, 231, 240, 0.15);
+      background: #040508; position: relative; z-index: 10;
     }
-    .footer-top { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 40px; }
-    .footer-logo-img { height: 56px; margin-bottom: 16px; }
-    .footer-nav-list { display: flex; align-items: center; justify-content: center; gap: 28px; list-style: none; flex-wrap: wrap; margin: 24px 0; }
-    .footer-nav-link { font-family: var(--font-heading); font-size: 0.8rem; letter-spacing: 0.2em; color: var(--color-silver-mid); text-transform: uppercase; }
-    .footer-bottom { border-top: 1px solid rgba(80, 95, 122, 0.2); padding-top: 25px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 0.82rem; color: var(--color-stone); }
+    .footer-top { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 30px; }
+    .footer-logo-img { height: 46px; margin-bottom: 12px; }
+    .footer-nav-list { display: flex; align-items: center; justify-content: center; gap: 16px; list-style: none; flex-wrap: wrap; margin: 18px 0; }
+    .footer-nav-link { font-family: var(--font-heading); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--color-silver-mid); text-transform: uppercase; }
+    .footer-bottom { border-top: 1px solid rgba(80, 95, 122, 0.2); padding-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--color-stone); text-align: center; }
 
-    .silver-modal-backdrop {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4, 5, 8, 0.88);
-      backdrop-filter: blur(12px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: var(--transition-smooth);
-    }
-    .silver-modal-backdrop.open { opacity: 1; pointer-events: auto; }
-    .silver-modal { max-width: 540px; width: 100%; background: linear-gradient(180deg, #1a202c 0%, #0d1017 100%); border: 1px solid var(--color-silver-pure); border-radius: 4px; padding: 38px 30px; position: relative; text-align: center; }
-    .modal-close-btn { position: absolute; top: 16px; right: 18px; width: 30px; height: 30px; border: 1px solid rgba(226, 231, 240, 0.3); color: var(--color-silver-mid); display: flex; align-items: center; justify-content: center; border-radius: 2px; }
-
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS (Mobile & Tablet Optimization)
+       ========================================================================== */
     @media (max-width: 992px) {
       .desktop-nav-menu { display: none; }
       .hamburger-btn { display: flex; }
-      .top-stories-container { grid-template-columns: 1fr; }
-      .fixed-bottom-ticker { grid-template-columns: 1fr; gap: 6px; padding: 6px; }
-      .fbt-col-latest, .fbt-col-history { border-right: none; border-bottom: 1px solid rgba(226,231,240,0.1); padding-right: 0; padding-bottom: 6px; }
+      .cinematic-news-card { flex: 0 0 78%; min-width: 270px; height: 380px; }
+      .fixed-bottom-ticker { grid-template-columns: 1fr; gap: 6px; padding: 6px 12px; }
+      .fbt-col-history { display: none; }
+      .fbt-col-latest { border-right: none; padding-right: 0; }
+      .fbt-col-status { justify-content: center; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px; }
+    }
+
+    @media (max-width: 768px) {
+      .news-section-header {
+        flex-direction: column;
+        gap: 14px;
+      }
+      .news-slider-controls {
+        position: static;
+        margin-top: 6px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body { padding-bottom: 85px; }
+      .container { width: 94%; }
+      .hero-section { padding: 95px 0 45px; }
+      .hero-countdown-box { padding: 16px 10px; }
+      .hero-c-item { padding: 8px 2px; }
+      .hero-c-num { font-size: 1.5rem; }
+      .hero-c-lbl { font-size: 0.52rem; }
+
+      .cinematic-news-card { flex: 0 0 85%; min-width: 250px; height: 360px; }
+      .cnc-title { font-size: 1.05rem; }
+
+      .fbt-match-info { max-width: 100px; font-size: 0.65rem; }
+      .fbt-team-name { font-size: 0.58rem; }
+      .fbt-score { font-size: 0.72rem; }
+      .audio-toggle-widget { bottom: 82px; right: 12px; width: 40px; height: 40px; }
     }
   </style>
 </head>
@@ -535,7 +652,7 @@
     <h1 class="loader-title">E-WEEK 2026</h1>
     <p class="loader-subtext">LOADING...</p>
     <div class="loader-progress-track">
-      <div class="loader-progress-bar" id="progressBar"></div>
+      <div class="loader-progress-bar"></div>
     </div>
   </div>
 
@@ -546,23 +663,21 @@
   </div>
 
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
-
   <div class="cinematic-lens-overlay" aria-hidden="true"></div>
-  <div class="film-grain-overlay" aria-hidden="true"></div>
 
-  <audio id="bg-audio" loop>
+  <audio id="bg-audio" loop preload="none">
     <source src="bg.mp3" type="audio/mpeg">
   </audio>
 
-  <button class="audio-toggle-widget" id="audioToggleBtn" title="Toggle Cinematic Sound">
-    <svg id="audioIcon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+  <button class="audio-toggle-widget" id="audioToggleBtn" title="Toggle Cinematic Sound" aria-label="Toggle Background Sound">
+    <svg id="audioIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
       <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
       <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
     </svg>
   </button>
 
-  <!-- GOT METALLIC SILVER 3-COLUMN COMPACT FOOTER TICKER -->
-  <div class="fixed-bottom-ticker" id="floatingResultsWidget">
+  <!-- METALLIC SILVER BOTTOM TICKER -->
+  <aside class="fixed-bottom-ticker" id="floatingResultsWidget" aria-label="Live Match Ticker">
     <!-- Column 1: Latest Result -->
     <div class="fbt-col-latest">
       <div class="fbt-left">
@@ -573,11 +688,11 @@
         <div class="fbt-match-info" id="fbtMatchTitle">Syncing...</div>
       </div>
       <div class="fbt-scorecard-mini" id="fbtScorecard">
-        <div style="font-size:0.65rem; color:var(--color-stone-light);">Loading...</div>
+        <div style="font-size:0.6rem; color:var(--color-stone-light);">Loading...</div>
       </div>
     </div>
 
-    <!-- Column 2: Recent 5 Rotating History -->
+    <!-- Column 2: Recent Rotating History (Desktop/Tablet) -->
     <div class="fbt-col-history">
       <div class="fbt-rotating-container" id="fbtRotatingContainer">
         <div class="fbt-rotate-item active" style="justify-content:center;">
@@ -586,7 +701,7 @@
       </div>
     </div>
 
-    <!-- Column 3: Overall Status (Top 3 Positions Summary) -->
+    <!-- Column 3: Overall Status / Standings Summary -->
     <div class="fbt-col-status" id="fbtStatusContainer">
       <div class="fbt-status-podium">
         <div class="fbt-podium-item p1">
@@ -606,26 +721,19 @@
         </div>
       </div>
     </div>
-  </div>
+  </aside>
 
   <header class="site-header" id="siteHeader">
     <div class="nav-wrapper">
       <a href="index.html#hero" class="brand-identity" aria-label="E-WEEK 2026 Home">
-        <img src="image/logo.png" alt="E-WEEK Official Logo" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('brandFallbackCrest').style.display='flex';" />
-        <div class="brand-fallback-crest" id="brandFallbackCrest" style="display:none;" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#e2e8f0" stroke-width="2">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-            <polyline points="2 17 12 22 22 17"></polyline>
-            <polyline points="2 12 12 17 22 12"></polyline>
-          </svg>
-        </div>
+        <img src="image/logo.png" alt="E-WEEK Official Logo" class="brand-logo-img" onerror="this.style.display='none';" />
         <div class="brand-text-group">
           <span class="brand-title">E-WEEK 2026</span>
-          <span class="brand-subtitle">Faculty of Engineering</span>
+          <span class="brand-subtitle"></span>
         </div>
       </a>
 
-      <!-- NAVIGATION LINKS -->
+      <!-- Desktop Navigation -->
       <nav aria-label="Primary Navigation">
         <ul class="desktop-nav-menu">
           <li><a href="index.html#hero" class="nav-item-link active">Home</a></li>
@@ -637,6 +745,7 @@
         </ul>
       </nav>
 
+      <!-- Mobile Hamburger Toggle -->
       <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu" aria-expanded="false">
         <span class="hamburger-bar"></span>
         <span class="hamburger-bar"></span>
@@ -645,15 +754,15 @@
     </div>
   </header>
 
-  <!-- MOBILE NAVIGATION OVERLAY LINKS -->
-  <div class="mobile-menu-overlay" id="mobileMenu">
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenu" aria-hidden="true">
     <ul class="mobile-nav-list">
       <li><a href="index.html#hero" class="mobile-nav-link active">Home</a></li>
       <li><a href="Registration/index.html" class="mobile-nav-link">Registration</a></li>
       <li><a href="teams.html" class="mobile-nav-link">Teams</a></li>
       <li><a href="fixtures.html" class="mobile-nav-link">Fixtures</a></li>
       <li><a href="merch.html" class="mobile-nav-link">Merchandise</a></li>
-      <li><a href="index.html#contact" class="mobile-nav-link">Contact Us</a></li>
+      <li><a href="contact.html" class="mobile-nav-link">Contact Us</a></li>
     </ul>
   </div>
 
@@ -661,11 +770,7 @@
     <section class="hero-section" id="hero">
       <div class="container hero-content">
         <div class="hero-logo-container">
-          <img src="image/logo2.png" alt="E-WEEK 2026" class="hero-logo2-img" onerror="this.style.display='none'; document.getElementById('heroLogoFallback').style.display='flex';" />
-          <div class="hero-logo-fallback" id="heroLogoFallback" style="display:none;">
-            <h1 class="hero-title-main">E-WEEK</h1>
-            <span class="hero-year">2026</span>
-          </div>
+          <img src="image/logo2.png" alt="E-WEEK 2026" class="hero-logo2-img" onerror="this.style.display='none';" />
         </div>
 
         <div class="silver-divider"><span class="divider-node"></span></div>
@@ -673,7 +778,7 @@
         <p class="hero-tagline">WHERE SKILL MEETS COMPETITION</p>
         <p class="hero-subtag">Faculty of Engineering &bull; <span>University of Jaffna</span></p>
 
-        <!-- COUNTDOWN CONTAINER UPDATED TO NOV 14, 2026 -->
+        <!-- Countdown -->
         <div class="hero-countdown-box">
           <div class="hero-countdown-title">TOURNAMENT COMMENCEMENT &bull; NOV 14, 2026</div>
           <div class="hero-countdown-grid" id="heroCountdownGrid">
@@ -704,38 +809,43 @@
       </div>
     </section>
 
-    <!-- LEADERBOARD SECTION -->
+    <!-- Leaderboard Section -->
     <section class="results-section" id="results">
       <div class="container">
         <span class="section-eyebrow">CHAMPIONSHIP STANDINGS</span>
         <h2 class="section-title">FINAL RESULTS</h2>
         <p class="section-subtitle">Official cumulative tournament standings</p>
         <div class="silver-divider"><span class="divider-node"></span></div>
-
-        <div class="results-await-banner" id="resultsAwaitBanner" style="display: none;">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="8" x2="12" y2="12"></line>
-            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-          </svg>
-          <span>RESULTS WILL BE UPDATED HERE</span>
-        </div>
-
         <div class="leaderboard-container" id="leaderboardContainer"></div>
       </div>
     </section>
 
-    <!-- FEATURED NEWS FEED SECTION -->
+    <!-- CENTERED TITLE CINEMATIC SLIDE-RAIL NEWS FEED SECTION -->
     <section class="featured-news-section" id="featuredNewsSection">
       <div class="container">
-        <span class="section-eyebrow">LIVE BROADCAST</span>
-        <h2 class="section-title">TOP STORIES</h2>
-        <p class="section-subtitle"></p>
-        <div class="silver-divider"><span class="divider-node"></span></div>
+        <div class="news-section-header">
+          <div class="news-title-group">
+            <span class="section-eyebrow">LIVE BROADCAST</span>
+            <h2 class="section-title">TOP STORIES</h2>
+            <div class="silver-divider"><span class="divider-node"></span></div>
+          </div>
+          
+          <!-- Slider Navigation Controls pinned to the right -->
+          <div class="news-slider-controls">
+            <button class="news-nav-btn" id="newsPrevBtn" aria-label="Previous story">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button class="news-nav-btn" id="newsNextBtn" aria-label="Next story">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
 
-        <div class="top-stories-container" id="topStoriesContainer">
-          <div style="text-align: center; color: var(--color-stone-light); padding: 20px; grid-column: span 2;">
-            Loading top story broadcasts...
+        <div class="news-track-container" id="newsTrackContainer">
+          <div class="news-slide-rail" id="topStoriesContainer">
+            <div style="text-align: center; color: var(--color-stone-light); padding: 40px; width: 100%;">
+              Loading top story broadcasts...
+            </div>
           </div>
         </div>
       </div>
@@ -747,9 +857,9 @@
         <h2 class="section-title">CONTACT US</h2>
         <div class="silver-divider"><span class="divider-node"></span></div>
         <div class="contact-card">
-          <h3 style="font-family: var(--font-display); font-size: 1.35rem; color: #fff; margin-bottom: 6px;">E-WEEK 2026</h3>
-          <p style="color: var(--color-silver-mid); margin-bottom: 4px;">Faculty of Engineering &bull; University of Jaffna</p>
-          <a href="contact.html" class="btn-silver btn-silver-secondary" style="margin-top: 16px;">CONTACT COMMITTEE</a>
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: #fff; margin-bottom: 6px;">E-WEEK 2026</h3>
+          <p style="color: var(--color-silver-mid); margin-bottom: 12px; font-size: 0.9rem;">Faculty of Engineering &bull; University of Jaffna</p>
+          <a href="contact.html" class="btn-silver btn-silver-secondary">CONTACT COMMITTEE</a>
         </div>
       </div>
     </section>
@@ -759,9 +869,8 @@
     <div class="container">
       <div class="footer-top">
         <img src="image/logo.png" alt="E-WEEK Logo" class="footer-logo-img" onerror="this.style.display='none';" />
-        <h4 style="font-family: var(--font-display); letter-spacing: 0.18em; color: #fff; font-size: 1.25rem;">E-WEEK 2026</h4>
-        <p style="font-size: 0.88rem; color: var(--color-silver-dark); margin-top: 4px;">Faculty of Engineering &bull; University of Jaffna &bull; Organized by E23</p>
-        <div style="font-size: 0.82rem; color: var(--color-stone); margin-top: 8px; font-family: var(--font-heading); letter-spacing: 0.1em;">Frontend Developer: Renuja Perera</div>
+        <h4 style="font-family: var(--font-display); letter-spacing: 0.15em; color: #fff; font-size: 1.15rem;">E-WEEK 2026</h4>
+        <p style="font-size: 0.8rem; color: var(--color-silver-dark); margin-top: 4px;">Faculty of Engineering &bull; University of Jaffna &bull; Organized by E23</p>
         <ul class="footer-nav-list">
           <li><a href="index.html#hero" class="footer-nav-link">Home</a></li>
           <li><a href="Registration/index.html" class="footer-nav-link">Registration</a></li>
@@ -772,26 +881,16 @@
         </ul>
       </div>
       <div class="footer-bottom">
-        <div>&copy; 2026 E-WEEK. All Rights Reserved. Faculty of Engineering, University of Jaffna. Organized by E23.</div>
-        <div>OFFICIAL EVENT PORTAL</div>
+        <div>&copy; 2026 E-WEEK. All Rights Reserved. Faculty of Engineering, University of Jaffna.</div>
       </div>
     </div>
   </footer>
 
-  <div class="silver-modal-backdrop" id="routeModal" role="dialog" aria-hidden="true">
-    <div class="silver-modal">
-      <button class="modal-close-btn" id="closeModalBtn">&times;</button>
-      <h3 class="section-title" id="modalTitle" style="font-size: 1.6rem; margin-bottom: 12px;">COMING SOON</h3>
-      <p id="modalDescription" style="font-size: 1.05rem; color: var(--color-silver-bright); margin-bottom: 25px;">This module is currently being finalized.</p>
-      <button class="btn-silver" onclick="closeRouteModal()">CONFIRM</button>
-    </div>
-  </div>
-
-  <!-- NEWS DETAIL POPUP MODAL -->
+  <!-- News Modal Popup -->
   <div class="news-modal-backdrop" id="newsModalBackdrop" role="dialog" aria-hidden="true">
     <div class="news-modal-box">
-      <button class="news-modal-close" id="newsModalCloseBtn">&times;</button>
-      <div class="news-modal-meta">
+      <button class="news-modal-close" id="newsModalCloseBtn" aria-label="Close Modal">&times;</button>
+      <div class="news-modal-meta" style="display:flex; justify-content:space-between; margin-bottom:10px;">
         <span class="news-badge-tag" id="modalNewsTag">LIVE UPDATE</span>
         <span class="news-time-stamp" id="modalNewsTime">08:40 AM</span>
       </div>
@@ -802,16 +901,12 @@
   </div>
 
   <script>
-    // Updated commencement date: 14th November 2026
     const EVENT_START_DATE = "2026-11-14T00:00:00";
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzo1KtK5zMkmLykmHdjJRqzNEtGccwfM1wGNF7JGB6mYiRDBJdSQ3cboJo4-hRerV4TQ/exec";
 
-    // Helper: Converts Google Drive viewer/sharing URLs into direct CDN/display links
     function formatDriveImageUrl(url) {
       if (!url || typeof url !== 'string') return '';
       url = url.trim();
-
-      // Check if it's a Google Drive link
       if (url.includes('drive.google.com')) {
         let fileId = '';
         const idMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
@@ -819,21 +914,15 @@
           fileId = idMatch[1];
         } else {
           const paramMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-          if (paramMatch && paramMatch[1]) {
-            fileId = paramMatch[1];
-          }
+          if (paramMatch && paramMatch[1]) fileId = paramMatch[1];
         }
-
-        if (fileId) {
-          // Direct high-speed CDN embed format for Google Drive files
-          return `https://lh3.googleusercontent.com/d/${fileId}`;
-        }
+        if (fileId) return `https://lh3.googleusercontent.com/d/${fileId}`;
       }
       return url;
     }
 
-    // Global store for fetched news items so popup modal can reference them easily
     let globalNewsStore = [];
+    let newsSliderInterval = null;
 
     let batchData = [
       { name: "E22", logo: "image/e22.png", score: 0, wins: 0, growth: "0%" },
@@ -856,11 +945,11 @@
     let currentRotateIndex = 0;
 
     document.addEventListener("DOMContentLoaded", () => {
-      setTimeout(() => document.getElementById('preloader').classList.add('loaded'), 500);
+      setTimeout(() => document.getElementById('preloader').classList.add('loaded'), 400);
+      initMobileNav();
       initHeroCountdown();
       initParticleEngine();
       initBackgroundAudio();
-      initRouteModals();
       initNewsModalListeners();
 
       fetchLiveScores(false);
@@ -869,8 +958,30 @@
       setInterval(() => {
         fetchLiveScores(true);
         fetchFeaturedNews();
-      }, 12000);
+      }, 15000);
     });
+
+    /* Working Mobile Navigation Toggle */
+    function initMobileNav() {
+      const hamburger = document.getElementById('hamburgerBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+      function toggleMenu() {
+        const isOpen = mobileMenu.classList.toggle('active');
+        hamburger.classList.toggle('active', isOpen);
+        document.body.classList.toggle('nav-open', isOpen);
+        hamburger.setAttribute('aria-expanded', isOpen);
+        mobileMenu.setAttribute('aria-hidden', !isOpen);
+      }
+
+      hamburger.addEventListener('click', toggleMenu);
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (mobileMenu.classList.contains('active')) toggleMenu();
+        });
+      });
+    }
 
     async function fetchFeaturedNews() {
       const cbName = 'news_cb_' + Math.round(Math.random() * 1000000);
@@ -879,71 +990,47 @@
         if (scriptElem && scriptElem.parentNode) document.body.removeChild(scriptElem);
 
         const newsList = (res && res.news) ? res.news : [];
-        globalNewsStore = newsList; // save reference for modal popup
+        globalNewsStore = newsList;
         const container = document.getElementById('topStoriesContainer');
 
         if (newsList.length === 0) {
-          container.innerHTML = `<div style="text-align: center; color: var(--color-stone-light); padding: 20px; grid-column: span 2;">No top stories published yet.</div>`;
+          container.innerHTML = `<div style="text-align: center; color: var(--color-stone-light); padding: 40px; width: 100%;">No top stories published yet.</div>`;
           return;
         }
 
-        const latestIndex = newsList.length - 1;
-        const latestStory = newsList[latestIndex];
-        const subStories = newsList.slice(0, latestIndex).reverse();
-        const latestTimeStr = latestStory.timestamp ? new Date(latestStory.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "";
-        const formattedLatestImg = formatDriveImageUrl(latestStory.imageUrl);
+        const reversedNews = [...newsList].reverse();
 
-        let html = `
-          <div class="featured-hero-story">
-            <div class="fhs-img-wrap">
-              <img src="${formattedLatestImg}" alt="${latestStory.title}" class="fhs-img" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22280%22%3E%3Crect fill=%22%23151821%22 width=%22600%22 height=%22280%22/%3E%3Ctext fill=%22%238f9bb3%22 font-family=%22sans-serif%22 font-size=%2216%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3ETop Story Image%3C/text%3E%3C/svg%3E';" />
-            </div>
-            <div class="fhs-content">
-              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-                <span class="news-badge-tag">${latestStory.category || "LIVE UPDATE"}</span>
-                <span class="news-time-stamp">${latestTimeStr}</span>
+        container.innerHTML = reversedNews.map((story, revIdx) => {
+          const actualIdx = newsList.length - 1 - revIdx;
+          const formattedImg = formatDriveImageUrl(story.imageUrl);
+          const timeStr = story.timestamp ? new Date(story.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "";
+
+          return `
+            <article class="cinematic-news-card" onclick="openNewsModal(${actualIdx})">
+              <img src="${formattedImg}" alt="${story.title}" class="cnc-bg-image" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22430%22%3E%3Crect fill=%22%23121620%22 width=%22400%22 height=%22430%22/%3E%3Ctext fill=%22%238f9bb3%22 font-family=%22sans-serif%22 font-size=%2214%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EE-WEEK Dispatch%3C/text%3E%3C/svg%3E';" />
+              
+              <div class="cnc-top-badge">
+                <span class="news-badge-tag">${story.category || "DISPATCH"}</span>
               </div>
-              <h3 class="news-title-text" style="font-size: 1.35rem;">${latestStory.title}</h3>
-              <p class="news-desc-text" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 6px;">${latestStory.description}</p>
-              <button class="news-see-more-btn" onclick="openNewsModal(${latestIndex})">
-                See More &rarr;
-              </button>
-            </div>
-          </div>
-        `;
 
-        html += `<div class="news-grid-sub">`;
-        if (subStories.length === 0) {
-          html += `<div style="color: var(--color-stone-light); font-size: 0.85rem; padding: 10px;">More updates coming soon...</div>`;
-        } else {
-          subStories.forEach((sub, subRevIdx) => {
-            const actualIdx = latestIndex - 1 - subRevIdx;
-            const subTimeStr = sub.timestamp ? new Date(sub.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "";
-            const formattedSubImg = formatDriveImageUrl(sub.imageUrl);
-
-            html += `
-              <div class="news-card-sub">
-                <div class="ncs-img-wrap">
-                  <img src="${formattedSubImg}" alt="${sub.title}" class="ncs-img" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22130%22 height=%22105%22%3E%3Crect fill=%22%23151821%22 width=%22130%22 height=%22105%22/%3E%3Ctext fill=%22%238f9bb3%22 font-family=%22sans-serif%22 font-size=%2211%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EImage%3C/text%3E%3C/svg%3E';" />
+              <div class="cnc-frosted-overlay">
+                <div class="cnc-meta">
+                  <span class="news-time-stamp">${timeStr}</span>
                 </div>
-                <div class="ncs-body">
-                  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
-                    <span class="news-badge-tag">${sub.category || "UPDATE"}</span>
-                    <span class="news-time-stamp">${subTimeStr}</span>
-                  </div>
-                  <h4 class="news-title-text" style="font-size: 0.92rem; margin-bottom: 2px;">${sub.title}</h4>
-                  <p class="news-desc-text" style="font-size: 0.78rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 4px;">${sub.description}</p>
-                  <button class="news-see-more-btn" onclick="openNewsModal(${actualIdx})">
-                    See More &rarr;
-                  </button>
+                <h3 class="cnc-title">${story.title}</h3>
+                <p class="cnc-desc">${story.description}</p>
+                <div class="cnc-action-row">
+                  <span class="cnc-read-btn">
+                    Read Dispatch
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </span>
                 </div>
               </div>
-            `;
-          });
-        }
-        html += `</div>`;
+            </article>
+          `;
+        }).join('');
 
-        container.innerHTML = html;
+        initNewsSlideRail();
       };
 
       const scriptElem = document.createElement('script');
@@ -953,6 +1040,33 @@
         if (scriptElem.parentNode) document.body.removeChild(scriptElem);
       };
       document.body.appendChild(scriptElem);
+    }
+
+    function initNewsSlideRail() {
+      const rail = document.getElementById('topStoriesContainer');
+      const prevBtn = document.getElementById('newsPrevBtn');
+      const nextBtn = document.getElementById('newsNextBtn');
+      if (!rail || !prevBtn || !nextBtn) return;
+
+      const getScrollStep = () => {
+        const card = rail.querySelector('.cinematic-news-card');
+        return card ? card.offsetWidth + 20 : 320;
+      };
+
+      prevBtn.onclick = () => rail.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
+      nextBtn.onclick = () => rail.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
+
+      if (newsSliderInterval) clearInterval(newsSliderInterval);
+      newsSliderInterval = setInterval(() => {
+        if (!rail.matches(':hover')) {
+          const maxScroll = rail.scrollWidth - rail.clientWidth;
+          if (rail.scrollLeft >= maxScroll - 10) {
+            rail.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            rail.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
+          }
+        }
+      }, 6000);
     }
 
     function openNewsModal(index) {
@@ -983,10 +1097,8 @@
     }
 
     function initNewsModalListeners() {
-      const closeBtn = document.getElementById('newsModalCloseBtn');
+      document.getElementById('newsModalCloseBtn').addEventListener('click', closeNewsModal);
       const backdrop = document.getElementById('newsModalBackdrop');
-
-      closeBtn.addEventListener('click', closeNewsModal);
       backdrop.addEventListener('click', (e) => {
         if (e.target === backdrop) closeNewsModal();
       });
@@ -996,24 +1108,13 @@
     }
 
     async function fetchLiveScores(isPolling) {
-      const pulseDot = document.getElementById('fbtPulseIndicator');
-      if (isPolling && pulseDot) {
-        pulseDot.style.background = "#34d399";
-        pulseDot.style.boxShadow = "0 0 6px #34d399";
-      }
-
       const cbName = 'scores_cb_' + Math.round(Math.random() * 1000000);
       window[cbName] = function(res) {
         delete window[cbName];
         if (scriptElem && scriptElem.parentNode) document.body.removeChild(scriptElem);
 
-        const matches = (res && res.matches) ? res.matches : [];
-        if (lastKnownMatchCount !== -1 && matches.length > lastKnownMatchCount) {
-          showAwaitingTransition();
-        } else {
-          processScoresData(res);
-        }
-        lastKnownMatchCount = matches.length;
+        processScoresData(res);
+        lastKnownMatchCount = (res && res.matches) ? res.matches.length : 0;
       };
 
       const scriptElem = document.createElement('script');
@@ -1021,34 +1122,9 @@
       scriptElem.onerror = () => {
         if (window[cbName]) delete window[cbName];
         if (scriptElem.parentNode) document.body.removeChild(scriptElem);
-        if (!isPolling) {
-          const matchTitleEl = document.getElementById('fbtMatchTitle');
-          if (matchTitleEl) matchTitleEl.textContent = "Unable to load latest score feed.";
-          renderLeaderboard();
-        }
+        if (!isPolling) renderLeaderboard();
       };
       document.body.appendChild(scriptElem);
-    }
-
-    function showAwaitingTransition() {
-      const matchTitleEl = document.getElementById('fbtMatchTitle');
-      const scorecardEl = document.getElementById('fbtScorecard');
-      const rotatingContainer = document.getElementById('fbtRotatingContainer');
-
-      if (matchTitleEl) matchTitleEl.textContent = "NEW RESULT";
-      if (scorecardEl) scorecardEl.innerHTML = `<span style="font-size:0.6rem; color:#34d399;">Syncing...</span>`;
-
-      if (rotatingContainer) {
-        rotatingContainer.innerHTML = `
-          <div class="fbt-rotate-item active" style="justify-content: center; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.4); width: 100%;">
-            <span class="awaiting-animation">Awaits new result...</span>
-          </div>
-        `;
-      }
-
-      setTimeout(() => {
-        fetchLiveScores(false);
-      }, 3500);
     }
 
     function processScoresData(res) {
@@ -1057,10 +1133,8 @@
       const scorecardEl = document.getElementById('fbtScorecard');
 
       if (matches.length === 0) {
-        if (matchTitleEl) matchTitleEl.textContent = "No match results published yet.";
+        if (matchTitleEl) matchTitleEl.textContent = "No matches yet";
         if (scorecardEl) scorecardEl.innerHTML = `<span style="font-size:0.6rem; color:var(--color-stone-light);">Awaiting fixtures...</span>`;
-        const rc = document.getElementById('fbtRotatingContainer');
-        if (rc) rc.innerHTML = `<div class="fbt-rotate-item active" style="justify-content:center;"><span style="font-size:0.65rem; color:var(--color-stone-light);">No recent history available.</span></div>`;
         updateTop3Status({});
         renderLeaderboard();
         return;
@@ -1069,7 +1143,6 @@
       const latest = matches[matches.length - 1];
       const sA = Number(latest.scoreA) || 0;
       const sB = Number(latest.scoreB) || 0;
-
       const teamAName = String(latest.teamA).toUpperCase();
       const teamBName = String(latest.teamB).toUpperCase();
 
@@ -1078,12 +1151,12 @@
 
       let statusDisplay = latest.status;
       if (latest.status === "Completed") {
-        if (sA > sB) statusDisplay = `Winner: ${latest.teamA}`;
-        else if (sB > sA) statusDisplay = `Winner: ${latest.teamB}`;
-        else statusDisplay = "Match Tied";
+        if (sA > sB) statusDisplay = `Win: ${latest.teamA}`;
+        else if (sB > sA) statusDisplay = `Win: ${latest.teamB}`;
+        else statusDisplay = "Tied";
       }
 
-      if (matchTitleEl) matchTitleEl.textContent = `${latest.sport.toUpperCase()} (${latest.category})`;
+      if (matchTitleEl) matchTitleEl.textContent = `${latest.sport} (${latest.category})`;
 
       if (scorecardEl) {
         scorecardEl.innerHTML = `
@@ -1092,15 +1165,14 @@
             <span class="fbt-team-name">${latest.teamA}</span>
             <span class="fbt-score">${sA}</span>
           </div>
-          <span class="fbt-vs">VS</span>
+          <span class="fbt-vs">:</span>
           <div class="fbt-team-item">
             <img src="${logoB}" alt="${latest.teamB}" class="fbt-emblem" onerror="this.style.display='none';" />
             <span class="fbt-team-name">${latest.teamB}</span>
             <span class="fbt-score">${sB}</span>
           </div>
-          <div style="border-left: 1px solid rgba(226,231,240,0.12); padding-left: 6px; margin-left: 2px; display:flex; flex-direction:column; text-align:right;">
+          <div style="border-left: 1px solid rgba(226,231,240,0.12); padding-left: 4px; margin-left: 2px;">
             <span class="fbt-winner">${statusDisplay}</span>
-            <span style="font-size:0.5rem; color:var(--color-silver-dark);">${latest.status}</span>
           </div>
         `;
       }
@@ -1180,7 +1252,7 @@
       if (!container) return;
 
       if (historyList.length === 0) {
-        container.innerHTML = `<div class="fbt-rotate-item active" style="width:100%; justify-content:center;"><span style="font-size:0.65rem; color:var(--color-stone-light);">No prior match history available.</span></div>`;
+        container.innerHTML = `<div class="fbt-rotate-item active" style="width:100%; justify-content:center;"><span style="font-size:0.65rem; color:var(--color-stone-light);">No prior match history.</span></div>`;
         return;
       }
 
@@ -1192,20 +1264,12 @@
         const scA = Number(m.scoreA) || 0;
         const scB = Number(m.scoreB) || 0;
         return `
-          <div class="fbt-rotate-item ${idx === 0 ? 'active' : ''}" data-index="${idx}">
-            <div style="display:flex; align-items:center; gap:5px;">
-              <span style="font-family:var(--font-heading); font-size:0.58rem; color:var(--color-gold); font-weight:700;">${m.sport.toUpperCase()}</span>
-            </div>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="display:flex; align-items:center; gap:3px;">
-                <img src="${lA}" alt="${m.teamA}" style="width:18px; height:18px; object-fit:contain;" />
-                <span style="font-size:0.68rem; font-weight:700; color:#fff;">${m.teamA} (${scA})</span>
-              </div>
-              <span style="font-size:0.6rem; color:var(--color-gold); font-weight:700;">VS</span>
-              <div style="display:flex; align-items:center; gap:3px;">
-                <img src="${lB}" alt="${m.teamB}" style="width:18px; height:18px; object-fit:contain;" />
-                <span style="font-size:0.68rem; font-weight:700; color:#fff;">${m.teamB} (${scB})</span>
-              </div>
+          <div class="fbt-rotate-item ${idx === 0 ? 'active' : ''}">
+            <span style="font-family:var(--font-heading); font-size:0.55rem; color:var(--color-gold); font-weight:700;">${m.sport.toUpperCase()}</span>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="font-size:0.65rem; font-weight:700; color:#fff;">${m.teamA} (${scA})</span>
+              <span style="font-size:0.55rem; color:var(--color-gold);">VS</span>
+              <span style="font-size:0.65rem; font-weight:700; color:#fff;">${m.teamB} (${scB})</span>
             </div>
           </div>
         `;
@@ -1218,12 +1282,10 @@
         rotatingHistoryInterval = setInterval(() => {
           const items = container.querySelectorAll('.fbt-rotate-item');
           if (items.length === 0) return;
-
           items[currentRotateIndex].classList.remove('active');
           items[currentRotateIndex].classList.add('exit');
 
           currentRotateIndex = (currentRotateIndex + 1) % items.length;
-
           items[currentRotateIndex].classList.remove('exit');
           items[currentRotateIndex].classList.add('active');
         }, 4000);
@@ -1232,11 +1294,7 @@
 
     function renderLeaderboard() {
       const container = document.getElementById("leaderboardContainer");
-      const awaitsBanner = document.getElementById("resultsAwaitBanner");
-
       const sorted = [...batchData].sort((a, b) => b.score - a.score);
-      const hasScores = sorted.some(item => item.score > 0);
-      if (awaitsBanner) awaitsBanner.style.display = hasScores ? "none" : "flex";
 
       if (container) {
         const maxScore = Math.max(...sorted.map(s => s.score), 100);
@@ -1246,12 +1304,12 @@
           return `
             <div class="leaderboard-card rank-${rank}">
               <div class="rank-badge">#${rank}</div>
-              <img src="${team.logo}" alt="${team.name} Emblem" class="batch-emblem" onerror="this.style.display='none';" />
+              <img src="${team.logo}" alt="${team.name}" class="batch-emblem" onerror="this.style.display='none';" />
               <div class="batch-title">${team.name}</div>
-              <div class="points-display">${team.score.toLocaleString()} <span style="font-size:0.9rem; color:var(--color-stone-light); font-family:var(--font-heading);">POINTS</span></div>
+              <div class="points-display">${team.score.toLocaleString()} <span style="font-size:0.85rem; color:var(--color-stone-light); font-family:var(--font-heading);">PTS</span></div>
               <div class="stats-row">
                 <div class="stat-item"><span class="stat-val">${team.wins}</span><span class="stat-lbl">WINS</span></div>
-                <div class="stat-item"><span class="stat-val">${team.growth}</span><span class="stat-lbl">GROWTH RATE</span></div>
+                <div class="stat-item"><span class="stat-val">${team.growth}</span><span class="stat-lbl">GROWTH</span></div>
               </div>
               <div class="progress-track-bar"><div class="progress-fill-bar" style="width: ${percent}%;"></div></div>
             </div>
@@ -1278,11 +1336,11 @@
       let width = canvas.width = window.innerWidth;
       let height = canvas.height = window.innerHeight;
       window.addEventListener('resize', () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; });
-      const particles = Array.from({ length: 80 }, () => ({
+      const particles = Array.from({ length: 45 }, () => ({
         x: Math.random() * width, y: Math.random() * height,
-        radius: Math.random() * 2.2 + 0.6,
+        radius: Math.random() * 2 + 0.5,
         color: Math.random() > 0.3 ? 'rgba(216, 230, 248, ' : 'rgba(255, 110, 32, ',
-        alpha: Math.random() * 0.7 + 0.2, vy: -(Math.random() * 0.7 + 0.2), vx: (Math.random() - 0.5) * 0.4
+        alpha: Math.random() * 0.5 + 0.2, vy: -(Math.random() * 0.6 + 0.2), vx: (Math.random() - 0.5) * 0.3
       }));
       function animate() {
         ctx.clearRect(0, 0, width, height);
@@ -1309,18 +1367,6 @@
         else { audio.play(); isPlaying = true; toggleBtn.style.opacity = '1'; }
       });
     }
-
-    function initRouteModals() {
-      const modal = document.getElementById("routeModal");
-      document.querySelectorAll("[data-route]").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          modal.classList.add("open");
-        });
-      });
-      document.getElementById("closeModalBtn").addEventListener("click", () => modal.classList.remove("open"));
-    }
-    function closeRouteModal() { document.getElementById("routeModal").classList.remove("open"); }
   </script>
 </body>
 </html>
