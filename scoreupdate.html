@@ -1,5 +1,5 @@
 <!-- ==========================================================================
-     FILE: scoreupdater.html (E-WEEK 2026 Admin Management Portal - With Fixtures Tab)
+     FILE: scoreupdater.html (E-WEEK 2026 Admin Management Portal)
      ========================================================================== -->
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +7,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E-WEEK 2026 | Management Portal</title>
-  <meta name="description" content="Secure administrative portal for updating scores, fixtures, and live news feeds for E-WEEK 2026." />
+  <meta name="description" content="Secure administrative portal for updating scores, fixtures, other events, and live news feeds for E-WEEK 2026." />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -56,8 +56,9 @@
     .back-home:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.6); }
 
     .admin-main-section { padding: 140px 0 90px; position: relative; z-index: 10; text-align: center; }
+    .section-eyebrow { font-family: var(--font-heading); font-size: 0.75rem; letter-spacing: 0.25em; color: var(--color-gold); text-transform: uppercase; display: block; margin-bottom: 8px; }
     .section-title { font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); color: #fff; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
-    .section-subtitle { font-size: 1rem; color: var(--color-stone-light, #8f9bb3); margin-bottom: 30px; }
+    .section-subtitle { font-size: 1rem; color: #8f9bb3; margin-bottom: 30px; }
 
     /* Tab switcher */
     .portal-tabs {
@@ -102,6 +103,51 @@
     .matchup-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; }
     .vs-badge { font-family: var(--font-display); font-weight: 900; color: var(--color-gold); font-size: 1.1rem; text-align: center; }
 
+    /* Placement Grid for Extra Events */
+    .placement-card {
+      background: rgba(14, 17, 23, 0.6);
+      border: 1px solid rgba(197, 160, 89, 0.2);
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .placement-title {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-gold-light);
+      margin-bottom: 10px;
+    }
+    .placement-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* Image Preview */
+    .image-preview-wrapper {
+      margin-top: 10px;
+      display: none;
+      align-items: center;
+      gap: 15px;
+      padding: 10px;
+      background: rgba(8, 10, 15, 0.6);
+      border: 1px dashed rgba(197, 160, 89, 0.4);
+      border-radius: 6px;
+    }
+    .image-preview-wrapper img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--color-gold);
+    }
+    .image-preview-info {
+      font-size: 0.82rem;
+      color: var(--color-silver-mid);
+    }
+
     .btn-submit {
       display: block; width: 100%; padding: 16px; font-family: var(--font-heading); font-size: 0.9rem; font-weight: 700;
       letter-spacing: 0.25em; text-transform: uppercase; color: #0b0d12;
@@ -130,16 +176,17 @@
   <main class="container admin-main-section">
     <span class="section-eyebrow">TOURNAMENT CONTROL CENTER</span>
     <h1 class="section-title">PORTAL MANAGER</h1>
-    <p class="section-subtitle">Manage live match scores, publish fixtures, or broadcast featured news updates.</p>
+    <p class="section-subtitle">Manage match scores, other events, fixtures, and broadcast news updates with Drive image upload.</p>
 
     <div class="portal-tabs">
       <button class="tab-btn active" onclick="switchTab('scores')">Manage Scores</button>
+      <button class="tab-btn" onclick="switchTab('other')">Other Events</button>
       <button class="tab-btn" onclick="switchTab('fixtures')">Set Fixtures</button>
       <button class="tab-btn" onclick="switchTab('news')">Publish News</button>
     </div>
 
     <div class="admin-panel">
-      <!-- SCORES FORM -->
+      <!-- 1. REGULAR SCORES FORM -->
       <form id="scoreUpdateForm" class="form-section active">
         <div class="form-group">
           <label class="form-label" for="eventSelect">Select Event / Sport</label>
@@ -218,7 +265,95 @@
         <div id="scoreStatusMsg" class="status-msg"></div>
       </form>
 
-      <!-- FIXTURES FORM TAB -->
+      <!-- 2. OTHER / EXTRA EVENTS FORM (Places 1st, 2nd, 3rd) -->
+      <form id="otherEventForm" class="form-section">
+        <div class="form-group">
+          <label class="form-label" for="otherEventName">Event / Competition Name</label>
+          <input type="text" id="otherEventName" class="form-control" placeholder="e.g., Tug of War, Photography Contest, Drama" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="otherCategory">Category</label>
+          <select id="otherCategory" class="form-select" required>
+            <option value="COMMON">Common / Open</option>
+            <option value="MEN">Men</option>
+            <option value="WOMEN">Women</option>
+          </select>
+        </div>
+
+        <!-- 1st Place -->
+        <div class="placement-card">
+          <div class="placement-title">&#129351; 1st Place (Winner)</div>
+          <div class="placement-grid">
+            <div>
+              <label class="form-label" for="place1Team">Batch / Team</label>
+              <select id="place1Team" class="form-select" required>
+                <option value="" disabled selected>Select Winner</option>
+                <option value="E22">E22</option>
+                <option value="E23">E23</option>
+                <option value="E24">E24</option>
+                <option value="E25">E25</option>
+                <option value="STAFF">STAFF</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label" for="place1Points">Points Awarded</label>
+              <input type="number" id="place1Points" class="form-control" placeholder="e.g., 10" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- 2nd Place -->
+        <div class="placement-card">
+          <div class="placement-title">&#129352; 2nd Place (Runner-up)</div>
+          <div class="placement-grid">
+            <div>
+              <label class="form-label" for="place2Team">Batch / Team</label>
+              <select id="place2Team" class="form-select" required>
+                <option value="" disabled selected>Select 2nd Place</option>
+                <option value="E22">E22</option>
+                <option value="E23">E23</option>
+                <option value="E24">E24</option>
+                <option value="E25">E25</option>
+                <option value="STAFF">STAFF</option>
+                <option value="N/A">None / N/A</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label" for="place2Points">Points Awarded</label>
+              <input type="number" id="place2Points" class="form-control" placeholder="e.g., 7" value="0" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- 3rd Place -->
+        <div class="placement-card">
+          <div class="placement-title">&#129353; 3rd Place</div>
+          <div class="placement-grid">
+            <div>
+              <label class="form-label" for="place3Team">Batch / Team</label>
+              <select id="place3Team" class="form-select" required>
+                <option value="" disabled selected>Select 3rd Place</option>
+                <option value="E22">E22</option>
+                <option value="E23">E23</option>
+                <option value="E24">E24</option>
+                <option value="E25">E25</option>
+                <option value="STAFF">STAFF</option>
+                <option value="N/A">None / N/A</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label" for="place3Points">Points Awarded</label>
+              <input type="number" id="place3Points" class="form-control" placeholder="e.g., 5" value="0" required />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitOtherBtn">Save Other Event Results</button>
+        <div id="otherStatusMsg" class="status-msg"></div>
+      </form>
+
+      <!-- 3. FIXTURES FORM TAB -->
       <form id="fixtureUpdateForm" class="form-section">
         <div class="form-group">
           <label class="form-label" for="fixDate">Match Date</label>
@@ -276,7 +411,7 @@
         <div id="fixtureStatusMsg" class="status-msg"></div>
       </form>
 
-      <!-- NEWS FEED FORM -->
+      <!-- 4. NEWS FEED FORM (With Direct Google Drive Upload) -->
       <form id="newsUpdateForm" class="form-section">
         <div class="form-group">
           <label class="form-label" for="newsTitle">News Headline / Title</label>
@@ -292,9 +427,22 @@
           </select>
         </div>
 
+        <!-- File Upload to Drive -->
         <div class="form-group">
-          <label class="form-label" for="newsImageURL">Image URL</label>
-          <input type="url" id="newsImageURL" class="form-control" placeholder="https://example.com/image.jpg" required />
+          <label class="form-label" for="newsImageFile">Upload Image (Direct to Google Drive)</label>
+          <input type="file" id="newsImageFile" class="form-control" accept="image/png, image/jpeg, image/webp" />
+          <div id="imagePreviewWrapper" class="image-preview-wrapper">
+            <img id="imagePreview" alt="Image preview" />
+            <div class="image-preview-info" id="imagePreviewInfo"></div>
+          </div>
+          <small style="color: var(--color-silver-dark); font-size: 0.78rem; margin-top: 5px; display: block;">
+            The uploaded image is transferred directly to your Google Drive and linked in Google Sheets. Or provide an external URL below if no file is selected.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newsImageURL">Or Image URL (Fallback if not uploading)</label>
+          <input type="url" id="newsImageURL" class="form-control" placeholder="https://example.com/image.jpg" />
         </div>
 
         <div class="form-group">
@@ -310,7 +458,7 @@
           </select>
         </div>
 
-        <button type="submit" class="btn-submit" id="submitNewsBtn">Publish News Feed Item</button>
+        <button type="submit" class="btn-submit" id="submitNewsBtn">Upload Image & Publish News</button>
         <div id="newsStatusMsg" class="status-msg"></div>
       </form>
     </div>
@@ -326,16 +474,50 @@
       if (tab === 'scores') {
         document.querySelectorAll('.tab-btn')[0].classList.add('active');
         document.getElementById('scoreUpdateForm').classList.add('active');
-      } else if (tab === 'fixtures') {
+      } else if (tab === 'other') {
         document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('otherEventForm').classList.add('active');
+      } else if (tab === 'fixtures') {
+        document.querySelectorAll('.tab-btn')[2].classList.add('active');
         document.getElementById('fixtureUpdateForm').classList.add('active');
       } else {
-        document.querySelectorAll('.tab-btn')[2].classList.add('active');
+        document.querySelectorAll('.tab-btn')[3].classList.add('active');
         document.getElementById('newsUpdateForm').classList.add('active');
       }
     }
 
-    // Score Form Handler
+    // Image preview helper
+    let selectedImageBase64 = null;
+    let selectedImageFilename = null;
+    let selectedImageMime = null;
+
+    document.getElementById("newsImageFile").addEventListener("change", function(e) {
+      const file = e.target.files[0];
+      const previewWrapper = document.getElementById("imagePreviewWrapper");
+      const previewImg = document.getElementById("imagePreview");
+      const previewInfo = document.getElementById("imagePreviewInfo");
+
+      if (file) {
+        selectedImageFilename = file.name;
+        selectedImageMime = file.type;
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const fullDataUrl = event.target.result;
+          previewImg.src = fullDataUrl;
+          selectedImageBase64 = fullDataUrl.split(',')[1];
+          previewInfo.innerHTML = `<strong>${file.name}</strong><br>${(file.size / 1024).toFixed(1)} KB`;
+          previewWrapper.style.display = "flex";
+        };
+        reader.readAsDataURL(file);
+      } else {
+        selectedImageBase64 = null;
+        selectedImageFilename = null;
+        selectedImageMime = null;
+        previewWrapper.style.display = "none";
+      }
+    });
+
+    // 1. Regular Score Form Handler
     document.getElementById("scoreUpdateForm").addEventListener("submit", async function(e) {
       e.preventDefault();
       const submitBtn = document.getElementById("submitScoreBtn");
@@ -383,7 +565,57 @@
       }
     });
 
-    // Fixture Form Handler
+    // 2. Other Events Handler (New tab in Google Sheet)
+    document.getElementById("otherEventForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById("submitOtherBtn");
+      const statusMsg = document.getElementById("otherStatusMsg");
+
+      const eventName = document.getElementById("otherEventName").value.trim();
+      const category = document.getElementById("otherCategory").value;
+      const place1Team = document.getElementById("place1Team").value;
+      const place1Pts = document.getElementById("place1Points").value;
+      const place2Team = document.getElementById("place2Team").value;
+      const place2Pts = document.getElementById("place2Points").value;
+      const place3Team = document.getElementById("place3Team").value;
+      const place3Pts = document.getElementById("place3Points").value;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "RECORDING...";
+      statusMsg.textContent = "";
+
+      const payload = {
+        action: "updateOtherEvent",
+        eventName: eventName,
+        category: category,
+        place1Team: place1Team,
+        place1Pts: place1Pts,
+        place2Team: place2Team,
+        place2Pts: place2Pts,
+        place3Team: place3Team,
+        place3Pts: place3Pts,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: "POST", mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        statusMsg.style.color = "#34d399";
+        statusMsg.textContent = "SUCCESS: Extra event results recorded in sheet!";
+        document.getElementById("otherEventForm").reset();
+      } catch (err) {
+        statusMsg.style.color = "#ff4d4d";
+        statusMsg.textContent = "Failed to communicate with backend.";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Save Other Event Results";
+      }
+    });
+
+    // 3. Fixture Form Handler
     document.getElementById("fixtureUpdateForm").addEventListener("submit", async function(e) {
       e.preventDefault();
       const submitBtn = document.getElementById("submitFixtureBtn");
@@ -431,7 +663,7 @@
       }
     });
 
-    // News Feed Form Handler
+    // 4. News Feed Form Handler (With Drive upload)
     document.getElementById("newsUpdateForm").addEventListener("submit", async function(e) {
       e.preventDefault();
       const submitBtn = document.getElementById("submitNewsBtn");
@@ -439,18 +671,31 @@
 
       const title = document.getElementById("newsTitle").value;
       const category = document.getElementById("newsCategory").value;
-      const imageUrl = document.getElementById("newsImageURL").value;
+      const fallbackUrl = document.getElementById("newsImageURL").value;
       const description = document.getElementById("newsDescription").value;
       const active = document.getElementById("newsActive").value;
 
+      if (!selectedImageBase64 && !fallbackUrl) {
+        statusMsg.style.color = "#ff4d4d";
+        statusMsg.textContent = "Please choose an image file to upload or enter an Image URL.";
+        return;
+      }
+
       submitBtn.disabled = true;
-      submitBtn.textContent = "BROADCASTING...";
+      submitBtn.textContent = selectedImageBase64 ? "UPLOADING TO DRIVE..." : "BROADCASTING...";
       statusMsg.textContent = "";
 
       const payload = {
         action: "updateNews",
-        title: title, category: category, imageUrl: imageUrl,
-        description: description, active: active, timestamp: new Date().toISOString()
+        title: title,
+        category: category,
+        imageUrl: fallbackUrl,
+        imageFileBase64: selectedImageBase64 || null,
+        imageFileName: selectedImageFilename || null,
+        imageMimeType: selectedImageMime || null,
+        description: description,
+        active: active,
+        timestamp: new Date().toISOString()
       };
 
       try {
@@ -460,18 +705,22 @@
           body: JSON.stringify(payload)
         });
         statusMsg.style.color = "#34d399";
-        statusMsg.textContent = "SUCCESS: News feed item broadcasted!";
+        statusMsg.textContent = "SUCCESS: News broadcasted and image uploaded to Google Drive!";
         document.getElementById("newsUpdateForm").reset();
+        document.getElementById("imagePreviewWrapper").style.display = "none";
+        selectedImageBase64 = null;
+        selectedImageFilename = null;
+        selectedImageMime = null;
       } catch (err) {
         statusMsg.style.color = "#ff4d4d";
         statusMsg.textContent = "Failed to broadcast news feed.";
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Publish News Feed Item";
+        submitBtn.textContent = "Upload Image & Publish News";
       }
     });
 
-    // Particle Engine
+    // Particle Canvas Engine
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let w = canvas.width = window.innerWidth;
