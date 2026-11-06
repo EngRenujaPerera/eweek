@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Art Competition | E-WEEK 2026</title>
+  <meta name="description" content="E-WEEK 2026 Art Competition - Rules, Themes, and Registration" />
+  
+  <!-- Tab Icon -->
+  <link rel="icon" type="image/png" href="logo.png" />
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --color-obsidian: #080a0f;
+      --color-charcoal: #0e1117;
+      --color-graphite: #141822;
+      --color-steel-dark: #1b212d;
+      --color-stone: #5d677d;
+      --color-stone-light: #94a3b8;
+
+      --color-silver-pure: #ffffff;
+      --color-silver-bright: #e2e7f0;
+      --color-silver-mid: #cbd5e1;
+
+      --color-gold: #c5a059;
+      --color-gold-light: #e5c98d;
+      --color-gold-deep: #8f6e2b;
+
+      --font-display: 'Cinzel', Georgia, serif;
+      --font-body: 'Inter', sans-serif;
+
+      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background-color: var(--color-obsidian); color: var(--color-silver-bright); font-family: var(--font-body); }
+    body {
+      min-height: 100vh;
+      line-height: 1.6;
+      background-color: var(--color-obsidian);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.08) 0%, transparent 60%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 48px 48px, 48px 48px;
+      overflow-x: hidden;
+      padding-bottom: 60px;
+    }
+
+    .container { width: 92%; max-width: 900px; margin: 0 auto; position: relative; z-index: 10; }
+
+    /* Site Navigation */
+    .site-header {
+      position: sticky; top: 0; width: 100%; z-index: 1000; padding: 12px 0;
+      background: linear-gradient(180deg, rgba(12, 15, 23, 0.98) 0%, rgba(8, 10, 15, 0.95) 100%);
+      border-bottom: 1px solid rgba(197, 160, 89, 0.4);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+    }
+    .nav-wrapper { display: flex; align-items: center; justify-content: space-between; }
+    .brand-identity { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand-logo-img { height: 40px; width: auto; object-fit: contain; filter: drop-shadow(0 0 8px rgba(197,160,89,0.3)); }
+    .brand-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; letter-spacing: 0.18em; color: #fff; display: block; }
+    .back-link { font-family: var(--font-display); font-size: 0.76rem; letter-spacing: 0.15em; color: var(--color-gold); text-decoration: none; text-transform: uppercase; transition: var(--transition-smooth); }
+    .back-link:hover { color: var(--color-gold-light); text-shadow: 0 0 8px rgba(197, 160, 89, 0.6); }
+
+    /* Page Hero */
+    .page-hero { text-align: center; padding: 35px 0 20px; }
+    .page-title { font-family: var(--font-display); font-size: clamp(1.6rem, 3.2vw, 2.4rem); font-weight: 800; letter-spacing: 0.08em; color: #fff; margin-bottom: 8px; }
+    .page-subtitle { font-size: 0.92rem; color: var(--color-stone-light); }
+    .gold-divider { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 20px auto 25px; opacity: 0.8; }
+    .gold-divider::before, .gold-divider::after { content: ''; height: 1px; width: 60px; background: linear-gradient(90deg, transparent, var(--color-gold), transparent); }
+    .divider-node { width: 6px; height: 6px; background: var(--color-gold); transform: rotate(45deg); box-shadow: 0 0 8px var(--color-gold); }
+
+    /* Stage Steps Tracker */
+    .steps-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+    .step-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-family: var(--font-display);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: rgba(20, 25, 36, 0.85);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      color: var(--color-stone-light);
+    }
+    .step-pill.active {
+      background: rgba(197, 160, 89, 0.18);
+      border-color: var(--color-gold);
+      color: var(--color-gold-light);
+      box-shadow: 0 0 12px rgba(197, 160, 89, 0.25);
+    }
+    .step-connector { width: 30px; height: 1px; background: rgba(197, 160, 89, 0.3); }
+
+    /* Glass Panel */
+    .glass-card {
+      background: linear-gradient(160deg, rgba(20, 25, 36, 0.95) 0%, rgba(10, 13, 19, 0.98) 100%);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      border-radius: 8px;
+      padding: 30px 28px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.7);
+      margin-bottom: 30px;
+    }
+
+    /* Rules List */
+    .rules-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .rules-list li {
+      position: relative;
+      padding-left: 24px;
+      font-size: 0.92rem;
+      color: var(--color-silver-mid);
+    }
+    .rules-list li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--color-gold);
+      font-size: 0.85rem;
+    }
+
+    /* Specification Grid */
+    .spec-box {
+      margin: 22px 0;
+      padding: 18px 20px;
+      background: rgba(8, 10, 15, 0.6);
+      border: 1px solid rgba(197, 160, 89, 0.2);
+      border-radius: 6px;
+    }
+    .spec-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      color: var(--color-gold-light);
+      margin-bottom: 12px;
+      letter-spacing: 0.08em;
+    }
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .spec-item {
+      background: rgba(20, 25, 36, 0.7);
+      padding: 10px 14px;
+      border-radius: 4px;
+      border: 1px solid rgba(197, 160, 89, 0.15);
+      font-size: 0.85rem;
+      color: var(--color-stone-light);
+    }
+    .spec-item strong {
+      color: var(--color-silver-pure);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Themes Display Box */
+    .themes-container {
+      margin: 22px 0;
+      padding: 18px 20px;
+      background: rgba(197, 160, 89, 0.05);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 6px;
+    }
+    .themes-title {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      color: var(--color-gold-light);
+      margin-bottom: 10px;
+      letter-spacing: 0.08em;
+    }
+    .themes-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+    }
+    .themes-list li {
+      font-size: 0.86rem;
+      color: var(--color-silver-mid);
+      position: relative;
+      padding-left: 18px;
+    }
+    .themes-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--color-gold);
+    }
+
+    /* Checkbox Bar */
+    .agree-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      background: rgba(197, 160, 89, 0.08);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      border-radius: 6px;
+      margin: 24px 0 20px;
+      cursor: pointer;
+    }
+    .agree-container input[type="checkbox"] {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--color-gold);
+      cursor: pointer;
+    }
+    .agree-label { font-size: 0.88rem; color: var(--color-silver-bright); user-select: none; cursor: pointer; }
+
+    /* Buttons */
+    .btn-gold {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 20px;
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #0c0e14;
+      background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+      border: 1px solid var(--color-gold-light);
+      border-radius: 4px;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+    }
+    .btn-gold:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(0.8);
+      box-shadow: none !important;
+      transform: none !important;
+    }
+    .btn-gold:not(:disabled):hover {
+      box-shadow: 0 0 20px rgba(197, 160, 89, 0.6);
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      color: var(--color-silver-mid);
+      width: auto;
+      padding: 10px 18px;
+    }
+    .btn-secondary:hover {
+      border-color: var(--color-gold);
+      color: var(--color-gold-light);
+    }
+
+    /* Form Fields */
+    .form-group { margin-bottom: 22px; }
+    .form-label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--color-silver-pure);
+      margin-bottom: 8px;
+    }
+    .required-star { color: #f87171; margin-left: 2px; }
+
+    .input-text {
+      width: 100%;
+      padding: 12px 14px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      background: rgba(10, 13, 19, 0.9);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      border-radius: 4px;
+      color: var(--color-silver-bright);
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+    .input-text:focus {
+      border-color: var(--color-gold-light);
+      box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+    }
+
+    .radio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+    }
+    .radio-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: rgba(10, 13, 19, 0.7);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    .radio-card:hover { border-color: var(--color-gold); background: rgba(197, 160, 89, 0.08); }
+    .radio-card input[type="radio"], .radio-card input[type="checkbox"] {
+      accent-color: var(--color-gold);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .radio-card span { font-size: 0.88rem; color: var(--color-silver-mid); user-select: none; }
+
+    /* Vertical Checklist for Themes */
+    .checkbox-vertical-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checkbox-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      background: rgba(10, 13, 19, 0.7);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    .checkbox-card:hover { border-color: var(--color-gold); background: rgba(197, 160, 89, 0.08); }
+    .checkbox-card input[type="checkbox"] {
+      accent-color: var(--color-gold);
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+    }
+    .checkbox-card span { font-size: 0.88rem; color: var(--color-silver-mid); user-select: none; }
+
+    .form-nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .form-status {
+      display: none;
+      padding: 14px;
+      border-radius: 4px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    .form-status.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    /* Success Card */
+    .success-card {
+      display: none;
+      text-align: center;
+      padding: 40px 24px;
+    }
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(197, 160, 89, 0.15);
+      border: 2px solid var(--color-gold);
+      color: var(--color-gold-light);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(197, 160, 89, 0.35);
+    }
+    .success-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .success-title span { color: var(--color-gold-light); }
+    .success-message {
+      font-size: 0.95rem;
+      color: var(--color-silver-mid);
+      max-width: 540px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+    .success-summary {
+      background: rgba(10, 13, 19, 0.85);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 6px;
+      padding: 18px;
+      max-width: 440px;
+      margin: 0 auto 28px;
+      text-align: left;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.85rem;
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-label { color: var(--color-stone-light); }
+    .summary-val { color: var(--color-silver-bright); font-weight: 600; text-align: right; }
+
+    .success-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    .site-footer {
+      margin-top: 50px;
+      padding: 30px 12px 20px;
+      border-top: 1px solid rgba(197, 160, 89, 0.25);
+      text-align: center;
+    }
+    .footer-seal { width: 38px; height: 38px; margin: 0 auto 12px; object-fit: contain; }
+
+    @media (max-width: 640px) {
+      .container { width: 92%; }
+      .site-header { padding: 10px 0; }
+      .glass-card { padding: 20px 16px; }
+      .radio-grid { grid-template-columns: 1fr 1fr; }
+      .form-nav-row { flex-direction: column-reverse; }
+      .btn-secondary { width: 100%; text-align: center; }
+      .success-card { padding: 25px 12px; }
+      .success-actions { flex-direction: column; width: 100%; }
+      .success-actions .btn-gold { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="https://www.eweek.lk" class="brand-identity">
+        <img src="logo.png" alt="E-WEEK 2026 Logo" class="brand-logo-img" />
+        <span class="brand-title">E-WEEK 2026</span>
+      </a>
+      <a href="https://www.eweek.lk/aesthetic.html" class="back-link">&larr; Competitions</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero">
+      <h1 class="page-title">ART COMPETITION</h1>
+      <p class="page-subtitle">Faculty of Engineering &bull; University of Jaffna</p>
+      <div class="gold-divider"><span class="divider-node"></span></div>
+    </section>
+
+    <!-- Stage Progress Indicator -->
+    <div class="steps-nav" id="stepsNav">
+      <div class="step-pill active" id="stepPill1">1. Rules & Guidelines</div>
+      <div class="step-connector"></div>
+      <div class="step-pill" id="stepPill2">2. Registration</div>
+    </div>
+
+    <!-- STAGE 1: Rules & Regulations -->
+    <section class="glass-card" id="stage1">
+      <h2 style="font-family: var(--font-display); font-size: 1.25rem; color: #fff; margin-bottom: 16px;">
+        Rules and Regulations
+      </h2>
+
+      <ul class="rules-list">
+        <li>Anyone from the Faculty of Engineering (undergraduates and staff) can participate.</li>
+        <li>Each participant can submit a maximum of 2 artworks.</li>
+        <li>Artworks must be completed on standard A3 paper size.</li>
+        <li>Any colouring medium can be used (pencil, watercolour, acrylic, oil pastel, charcoal, etc.).</li>
+        <li>Digital prints and digitally assisted designs are strictly not accepted.</li>
+        <li>All artworks must be 100% original creations. Copying or plagiarism will lead to immediate disqualification.</li>
+        <li>Artworks must be handed over physically to your appointed batch representative on or before the submission deadline.</li>
+        <li>The top three prizes will be awarded to different individuals (one person cannot win multiple places).</li>
+        <li>Judging evaluates creativity, relevance to chosen theme, and artistic skill. The judges' decision is final.</li>
+        <li>The top 5 artworks will be exhibited at the Faculty Auditorium during the final ceremony.</li>
+        <li>Winning entries will earn championship points towards overall batch standings.</li>
+      </ul>
+
+      <!-- Technical Specifications Summary -->
+      <div class="spec-box">
+        <h3 class="spec-title">Artwork Specifications</h3>
+        <div class="spec-grid">
+          <div class="spec-item">
+            <strong>Paper Dimension:</strong> Standard A3 Size
+          </div>
+          <div class="spec-item">
+            <strong>Eligible Media:</strong> Traditional (Pencil, Watercolour, Acrylic, etc.)
+          </div>
+          <div class="spec-item">
+            <strong>Submissions:</strong> Max 2 Artworks Per Artist
+          </div>
+          <div class="spec-item">
+            <strong>Restrictions:</strong> Digital Prints Strictly Prohibited
+          </div>
+        </div>
+      </div>
+
+      <!-- Official Themes -->
+      <div class="themes-container">
+        <h3 class="themes-title">Official Competition Themes</h3>
+        <ul class="themes-list">
+          <li>Seeds of Hope, Dreams of Tomorrow</li>
+          <li>The Secret Beauty of the Earth</li>
+          <li>Memories Never Fade</li>
+          <li>Faces of Happiness</li>
+          <li>The Silence Between Two Hearts</li>
+        </ul>
+      </div>
+
+      <!-- Agreement Checkbox -->
+      <label class="agree-container">
+        <input type="checkbox" id="rulesCheckbox" onchange="toggleStageButton()" />
+        <span class="agree-label">
+          I have read, understood, and agreed to abide by all the art competition guidelines, paper dimensions, and submission criteria stated above.
+        </span>
+      </label>
+
+      <button id="toStage2Btn" class="btn-gold" disabled onclick="goToStage(2)">
+        Proceed to Registration &rarr;
+      </button>
+    </section>
+
+    <!-- STAGE 2: Registration Form -->
+    <section class="glass-card" id="stage2" style="display: none;">
+      <h2 style="font-family: var(--font-display); font-size: 1.25rem; color: #fff; margin-bottom: 18px;">
+        Artist Registration
+      </h2>
+
+      <form id="artRegistrationForm" onsubmit="handleFormSubmit(event)">
+        <!-- Full Name -->
+        <div class="form-group">
+          <label class="form-label" for="fullName">Full Name <span class="required-star">*</span></label>
+          <input type="text" id="fullName" name="fullName" class="input-text" placeholder="Enter your full name" required />
+        </div>
+
+        <!-- Registration Number -->
+        <div class="form-group">
+          <label class="form-label" for="regNumber">Registration Number <span class="required-star">*</span></label>
+          <input type="text" id="regNumber" name="regNumber" class="input-text" placeholder="e.g. 2023/E/xxx or Staff ID" required />
+        </div>
+
+        <!-- Batch -->
+        <div class="form-group">
+          <label class="form-label">Batch <span class="required-star">*</span></label>
+          <div class="radio-grid">
+            <label class="radio-card">
+              <input type="radio" name="batch" value="E23" required />
+              <span>E23</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="batch" value="E24" required />
+              <span>E24</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="batch" value="E25" required />
+              <span>E25</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="batch" value="Staff" required />
+              <span>Staff</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Contact Number -->
+        <div class="form-group">
+          <label class="form-label" for="contactNumber">Contact Number <span class="required-star">*</span></label>
+          <input type="tel" id="contactNumber" name="contactNumber" class="input-text" placeholder="e.g. 077 123 4567" required />
+        </div>
+
+        <!-- How many artworks are you registering? -->
+        <div class="form-group">
+          <label class="form-label">How many artworks are you registering? <span class="required-star">*</span></label>
+          <div class="radio-grid" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));">
+            <label class="radio-card">
+              <input type="radio" name="artworkCount" value="1 artwork" required onchange="handleArtworkCountChange()" />
+              <span>1 artwork</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="artworkCount" value="2 artwork" required onchange="handleArtworkCountChange()" />
+              <span>2 artwork</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Select the theme for your artwork/s. -->
+        <div class="form-group">
+          <label class="form-label">
+            Select the theme for your artwork/s <span class="required-star">*</span>
+            <span id="themeHint" style="font-size: 0.76rem; color: var(--color-stone-light); margin-left: 6px; font-weight: normal;">(Choose according to artwork count)</span>
+          </label>
+          <div class="checkbox-vertical-list">
+            <label class="checkbox-card">
+              <input type="checkbox" name="theme" value="Seeds of Hope, Dreams of Tomorrow" onchange="validateThemeSelection()" />
+              <span>Seeds of Hope, Dreams of Tomorrow</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="theme" value="The Secret Beauty of the Earth" onchange="validateThemeSelection()" />
+              <span>The Secret Beauty of the Earth</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="theme" value="Faces of Happiness" onchange="validateThemeSelection()" />
+              <span>Faces of Happiness</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="theme" value="The Silence Between Two Hearts" onchange="validateThemeSelection()" />
+              <span>The Silence Between Two Hearts</span>
+            </label>
+            <label class="checkbox-card">
+              <input type="checkbox" name="theme" value="Memories Never Fade" onchange="validateThemeSelection()" />
+              <span>Memories Never Fade</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="form-nav-row">
+          <button type="button" class="btn-gold btn-secondary" onclick="goToStage(1)">&larr; Back to Rules</button>
+          <button type="submit" id="submitBtn" class="btn-gold" style="width: auto; min-width: 220px;">
+            Submit Registration
+          </button>
+        </div>
+
+        <div id="formStatus" class="form-status"></div>
+      </form>
+    </section>
+
+    <!-- SUCCESS STAGE -->
+    <section class="glass-card success-card" id="successSection">
+      <div class="success-icon">&#10003;</div>
+      <h2 class="success-title">
+        You have successfully registered to the <span>Art Competition</span>!
+      </h2>
+      <p class="success-message">
+        Your registration has been logged in the official entries record. Ensure your artwork is completed on A3 paper using traditional media and handed over to your batch representative before the deadline.
+      </p>
+
+      <div class="success-summary">
+        <div class="summary-row">
+          <span class="summary-label">Artist:</span>
+          <span class="summary-val" id="sumName">-</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Registration No:</span>
+          <span class="summary-val" id="sumReg">-</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Batch:</span>
+          <span class="summary-val" id="sumBatch">-</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Artworks:</span>
+          <span class="summary-val" id="sumCount">-</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Themes:</span>
+          <span class="summary-val" id="sumThemes">-</span>
+        </div>
+      </div>
+
+      <div class="success-actions">
+        <a href="https://www.eweek.lk/aesthetic.html" class="btn-gold" style="width: auto; min-width: 200px;">
+          Explore Other Competitions
+        </a>
+        <button type="button" class="btn-gold btn-secondary" onclick="resetToStageOne()">
+          Register Another Entry
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <img src="logo.png" alt="E-WEEK 2026 Logo" class="footer-seal" />
+      <p style="font-family: var(--font-display); letter-spacing: 0.15em; color: var(--color-silver-mid); font-size: 0.82rem;">
+        E-WEEK 2026 &bull; FACULTY OF ENGINEERING &bull; UNIVERSITY OF JAFFNA
+      </p>
+      <p style="font-size: 0.72rem; color: var(--color-stone-light); margin-top: 4px;">
+        Organized by the E23 Batch
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxtoiMPivlMICcTQB4g4cHhXWIyQlqfH1JgnKYgPQFLXcb24WbC-xCeFapKC70cwOeo/exec";
+
+    function toggleStageButton() {
+      const checkbox = document.getElementById('rulesCheckbox');
+      const nextBtn = document.getElementById('toStage2Btn');
+      nextBtn.disabled = !checkbox.checked;
+    }
+
+    function goToStage(stageNum) {
+      const s1 = document.getElementById('stage1');
+      const s2 = document.getElementById('stage2');
+      const succ = document.getElementById('successSection');
+      const p1 = document.getElementById('stepPill1');
+      const p2 = document.getElementById('stepPill2');
+
+      succ.style.display = 'none';
+
+      if (stageNum === 2) {
+        s1.style.display = 'none';
+        s2.style.display = 'block';
+        p1.classList.remove('active');
+        p2.classList.add('active');
+      } else {
+        s2.style.display = 'none';
+        s1.style.display = 'block';
+        p2.classList.remove('active');
+        p1.classList.add('active');
+      }
+      window.scrollTo({ top: 100, behavior: 'smooth' });
+    }
+
+    function handleArtworkCountChange() {
+      const selected = document.querySelector('input[name="artworkCount"]:checked')?.value;
+      const themeHint = document.getElementById('themeHint');
+      if (selected === "1 artwork") {
+        themeHint.textContent = "(Please choose exactly 1 theme)";
+      } else if (selected === "2 artwork") {
+        themeHint.textContent = "(Please choose 1 or 2 themes)";
+      }
+      validateThemeSelection();
+    }
+
+    function validateThemeSelection() {
+      const selectedCount = document.querySelector('input[name="artworkCount"]:checked')?.value;
+      const checkedThemes = document.querySelectorAll('input[name="theme"]:checked');
+      const maxAllowed = selectedCount === "1 artwork" ? 1 : 2;
+
+      if (checkedThemes.length > maxAllowed) {
+        alert(`You selected ${selectedCount}. You can choose a maximum of ${maxAllowed} theme(s).`);
+        event.target.checked = false;
+      }
+    }
+
+    function resetToStageOne() {
+      document.getElementById('artRegistrationForm').reset();
+      document.getElementById('rulesCheckbox').checked = false;
+      document.getElementById('toStage2Btn').disabled = true;
+      document.getElementById('stepsNav').style.display = 'flex';
+      goToStage(1);
+    }
+
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('artRegistrationForm');
+      const statusBox = document.getElementById('formStatus');
+      const submitBtn = document.getElementById('submitBtn');
+
+      statusBox.className = 'form-status';
+      statusBox.style.display = 'none';
+
+      // Verify theme selection
+      const checkedThemes = Array.from(document.querySelectorAll('input[name="theme"]:checked')).map(cb => cb.value);
+      if (checkedThemes.length === 0) {
+        statusBox.textContent = 'Please select at least one theme for your artwork.';
+        statusBox.className = 'form-status error';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      data.themes = checkedThemes.join(', '); // Join multiple themes cleanly
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+        });
+
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          document.getElementById('sumName').textContent = data.fullName || '-';
+          document.getElementById('sumReg').textContent = data.regNumber || '-';
+          document.getElementById('sumBatch').textContent = data.batch || '-';
+          document.getElementById('sumCount').textContent = data.artworkCount || '-';
+          document.getElementById('sumThemes').textContent = data.themes || '-';
+
+          document.getElementById('stage2').style.display = 'none';
+          document.getElementById('stepsNav').style.display = 'none';
+          document.getElementById('successSection').style.display = 'block';
+
+          window.scrollTo({ top: 120, behavior: 'smooth' });
+        } else {
+          throw new Error(result.message || 'Submission failed. Please check your data and retry.');
+        }
+      } catch (err) {
+        statusBox.textContent = err.message || 'An error occurred while submitting. Please try again.';
+        statusBox.className = 'form-status error';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Registration';
+      }
+    }
+  </script>
+</body>
+</html>
