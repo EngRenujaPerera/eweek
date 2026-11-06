@@ -290,7 +290,7 @@
     }
     .hero-countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
     .hero-c-item {
-      display: flex flex-direction: column; align-items: center;
+      display: flex; flex-direction: column; align-items: center;
       background: rgba(8, 10, 15, 0.6); border: 1px solid rgba(226, 231, 240, 0.15);
       padding: 10px 4px; border-radius: 6px;
     }
@@ -304,7 +304,7 @@
     }
 
     /* Panels & Sections */
-    .about-section, .results-section, .featured-news-section, .app-download-section, .contact-section { padding: 60px 0; position: relative; z-index: 5; }
+    .about-section, .results-section, .featured-news-section, .contact-section { padding: 60px 0; position: relative; z-index: 5; }
     .silver-panel {
       max-width: 840px; margin: 0 auto; padding: 32px 20px;
       background: linear-gradient(135deg, rgba(20, 24, 34, 0.88) 0%, rgba(10, 13, 19, 0.94) 100%);
@@ -586,168 +586,6 @@
     .news-modal-title { font-family: var(--font-display); font-size: 1.35rem; color: #fff; font-weight: 800; margin-bottom: 10px; line-height: 1.3; }
     .news-modal-desc { font-size: 0.9rem; color: var(--color-silver-bright); line-height: 1.6; }
 
-    /* ==========================================================================
-       OFFICIAL APP DOWNLOAD SECTION (Dark Obsidian & Gold Cyber-Glass)
-       ========================================================================== */
-    .app-download-section {
-      padding: 60px 0;
-      position: relative;
-      z-index: 5;
-    }
-
-    .app-download-card {
-      max-width: 920px;
-      margin: 0 auto;
-      padding: 40px 32px;
-      background: linear-gradient(135deg, rgba(20, 25, 36, 0.9) 0%, rgba(10, 13, 19, 0.96) 100%);
-      border: 1px solid rgba(197, 160, 89, 0.35);
-      border-radius: 14px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(197, 160, 89, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 36px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .app-download-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(197, 160, 89, 0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .app-content-col {
-      flex: 1;
-      text-align: left;
-    }
-
-    .app-platform-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-heading);
-      font-size: 0.65rem;
-      letter-spacing: 0.16em;
-      color: #34d399;
-      background: rgba(52, 211, 153, 0.1);
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      padding: 4px 10px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .app-title {
-      font-family: var(--font-display);
-      font-size: clamp(1.4rem, 3.5vw, 2rem);
-      font-weight: 900;
-      color: #fff;
-      letter-spacing: 0.08em;
-      line-height: 1.25;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-
-    .app-description {
-      font-family: var(--font-story);
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      color: var(--color-silver-mid);
-      line-height: 1.55;
-      margin-bottom: 20px;
-    }
-
-    .app-badges-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .btn-download-apk {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 26px;
-      background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
-      border: 1px solid var(--color-gold-light);
-      border-radius: 8px;
-      color: #080a0f;
-      font-family: var(--font-heading);
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      box-shadow: 0 8px 24px rgba(197, 160, 89, 0.35);
-      transition: var(--transition-smooth);
-    }
-
-    .btn-download-apk:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 12px 30px rgba(197, 160, 89, 0.55);
-      color: #000;
-    }
-
-    .btn-download-apk svg {
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
-
-    .btn-download-apk:hover svg {
-      transform: translateY(2px);
-    }
-
-    .app-specs-tag {
-      font-family: var(--font-body);
-      font-size: 0.72rem;
-      color: var(--color-stone-light);
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .app-icon-col {
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .app-device-badge {
-      width: 105px;
-      height: 105px;
-      border-radius: 24px;
-      background: linear-gradient(145deg, #181d28 0%, #0d1017 100%);
-      border: 1px solid rgba(197, 160, 89, 0.45);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(197, 160, 89, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      transition: var(--transition-smooth);
-    }
-
-    .app-download-card:hover .app-device-badge {
-      transform: rotate(-3deg) scale(1.05);
-      border-color: var(--color-gold);
-    }
-
-    .app-device-badge img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7));
-    }
-
     .contact-card {
       max-width: 700px; margin: 24px auto 0; padding: 28px 18px;
       background: linear-gradient(180deg, rgba(20, 25, 36, 0.85) 0%, rgba(10, 12, 18, 0.95) 100%);
@@ -785,27 +623,6 @@
       .news-slider-controls {
         position: static;
         margin-top: 6px;
-      }
-
-      .app-download-card {
-        flex-direction: column-reverse;
-        text-align: center;
-        padding: 32px 20px;
-        gap: 24px;
-      }
-      .app-content-col {
-        text-align: center;
-      }
-      .app-badges-row {
-        justify-content: center;
-        flex-direction: column;
-      }
-      .app-specs-tag {
-        align-items: center;
-      }
-      .app-device-badge {
-        width: 85px;
-        height: 85px;
       }
     }
 
@@ -1034,48 +851,6 @@
       </div>
     </section>
 
-    <!-- ==========================================================================
-         OFFICIAL EWEEK 2026 ANDROID APP DOWNLOAD SLOT
-         ========================================================================== -->
-    <section class="app-download-section" id="downloadApp">
-      <div class="container">
-        <div class="app-download-card">
-          <div class="app-content-col">
-            <div class="app-platform-pill">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0001s.4482-.9993.9993-.9993c.551 0 .9993.4478.9993.9993s-.4483 1.0001-.9993 1.0001m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0001s.4482-.9993.9993-.9993c.5511 0 .9993.4478.9993.9993s-.4482 1.0001-.9993 1.0001m11.4045-6.02l1.996-3.456a.416.416 0 00-.1523-.5676.416.416 0 00-.568.1523l-2.0223 3.503c-1.4276-.6532-3.0315-1.0188-4.735-1.0188-1.7034 0-3.3073.3656-4.7349 1.0188L5.644 4.8878a.416.416 0 00-.568-.1523.416.416 0 00-.1523.5676l1.996 3.456C3.0487 10.849 1 14.7144 1 19.1667h22c0-4.4523-2.0487-8.3177-5.8785-10.3672"/>
-              </svg>
-              <span>Android Edition</span>
-            </div>
-
-            <h3 class="app-title">Download Official E-WEEK App</h3>
-            <p class="app-description">
-              Experience the tournament with real-time score updates, instant fixture alerts, and squad rosters straight from your device.
-            </p>
-
-            <div class="app-badges-row">
-              <a href="eweek2026.apk" download class="btn-download-apk" aria-label="Download E-WEEK 2026 APK">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="7 10 12 15 17 10"></polyline>
-                  <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                <span>Download</span>
-              </a>
-
-             
-            </div>
-          </div>
-
-          <div class="app-icon-col">
-            <div class="app-device-badge">
-              <img src="image/logo.png" alt="E-WEEK 2026 App Logo" onerror="this.src='image/logo2.png';" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="contact-section" id="contact">
       <div class="container">
         <span class="section-eyebrow">OFFICIAL INQUIRIES</span>
@@ -1125,7 +900,7 @@
     </div>
   </div>
 
-  <script>
+ <script>
     const EVENT_START_DATE = "2026-11-14T00:00:00";
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzo1KtK5zMkmLykmHdjJRqzNEtGccwfM1wGNF7JGB6mYiRDBJdSQ3cboJo4-hRerV4TQ/exec";
 
@@ -1332,6 +1107,31 @@
       });
     }
 
+    // =========================================================================
+    // UPDATED SCORE UPDATING MECHANISM (PODIUM SUPPORT)
+    // =========================================================================
+
+    // Helper: Parse string like "1st (E23) (10 pts)" or raw "E23"
+    function parsePodiumEntry(str, defaultRank) {
+      if (!str) return { rank: defaultRank, batch: "N/A", pts: 0 };
+      const match = String(str).match(/(?:(\d(?:st|nd|rd)?)\s*)?\(([^)]+)\)\s*(?:\(([^)]+)\))?/i);
+      if (match) {
+        const rank = match[1] || defaultRank;
+        const batch = (match[2] || "").trim().toUpperCase();
+        let ptsStr = match[3] || "0";
+        let pts = parseInt(ptsStr.replace(/\D/g, ''), 10) || 0;
+        return { rank, batch, pts };
+      }
+      return { rank: defaultRank, batch: String(str).trim().toUpperCase(), pts: 0 };
+    }
+
+    // Helper: Check if a match item is a podium event
+    function isPodiumEvent(m) {
+      if (m.type === "podium") return true;
+      if (typeof m.teamA === 'string' && /1st\s*\(/i.test(m.teamA)) return true;
+      return false;
+    }
+
     async function fetchLiveScores(isPolling) {
       const cbName = 'scores_cb_' + Math.round(Math.random() * 1000000);
       window[cbName] = function(res) {
@@ -1366,60 +1166,105 @@
       }
 
       const latest = matches[matches.length - 1];
-      const sA = Number(latest.scoreA) || 0;
-      const sB = Number(latest.scoreB) || 0;
-      const teamAName = String(latest.teamA).toUpperCase();
-      const teamBName = String(latest.teamB).toUpperCase();
-
-      const logoA = logoMap[teamAName] || "image/logo.png";
-      const logoB = logoMap[teamBName] || "image/logo.png";
-
-      let statusDisplay = latest.status;
-      if (latest.status === "Completed") {
-        if (sA > sB) statusDisplay = `Win: ${latest.teamA}`;
-        else if (sB > sA) statusDisplay = `Win: ${latest.teamB}`;
-        else statusDisplay = "Tied";
-      }
+      const isPodium = isPodiumEvent(latest);
 
       if (matchTitleEl) matchTitleEl.textContent = `${latest.sport} (${latest.category})`;
 
       if (scorecardEl) {
-        scorecardEl.innerHTML = `
-          <div class="fbt-team-item">
-            <img src="${logoA}" alt="${latest.teamA}" class="fbt-emblem" onerror="this.style.display='none';" />
-            <span class="fbt-team-name">${latest.teamA}</span>
-            <span class="fbt-score">${sA}</span>
-          </div>
-          <span class="fbt-vs">:</span>
-          <div class="fbt-team-item">
-            <img src="${logoB}" alt="${latest.teamB}" class="fbt-emblem" onerror="this.style.display='none';" />
-            <span class="fbt-team-name">${latest.teamB}</span>
-            <span class="fbt-score">${sB}</span>
-          </div>
-          <div style="border-left: 1px solid rgba(226,231,240,0.12); padding-left: 4px; margin-left: 2px;">
-            <span class="fbt-winner">${statusDisplay}</span>
-          </div>
-        `;
+        if (isPodium) {
+          // Format as: 1st (Batch)(Pts)
+          const p1 = latest.place1Team 
+            ? { rank: "1st", batch: latest.place1Team.toUpperCase(), pts: Number(latest.place1Pts) || 0 }
+            : parsePodiumEntry(latest.teamA, "1st");
+          const p2 = latest.place2Team 
+            ? { rank: "2nd", batch: latest.place2Team.toUpperCase(), pts: Number(latest.place2Pts) || 0 }
+            : parsePodiumEntry(latest.teamB, "2nd");
+
+          const logo1 = logoMap[p1.batch] || "image/logo.png";
+          const logo2 = logoMap[p2.batch] || "image/logo.png";
+
+          scorecardEl.innerHTML = `
+            <div class="fbt-team-item">
+              <img src="${logo1}" alt="${p1.batch}" class="fbt-emblem" onerror="this.style.display='none';" />
+              <span class="fbt-team-name" style="color:var(--color-gold); font-weight:800;">1st (${p1.batch})(${p1.pts})</span>
+            </div>
+            <span class="fbt-vs">&bull;</span>
+            <div class="fbt-team-item">
+              <img src="${logo2}" alt="${p2.batch}" class="fbt-emblem" onerror="this.style.display='none';" />
+              <span class="fbt-team-name" style="color:var(--color-silver-mid);">2nd (${p2.batch})(${p2.pts})</span>
+            </div>
+            <div style="border-left: 1px solid rgba(226,231,240,0.12); padding-left: 4px; margin-left: 2px;">
+              <span class="fbt-winner">Podium</span>
+            </div>
+          `;
+        } else {
+          // Standard Head-to-Head matchup
+          const sA = Number(latest.scoreA) || 0;
+          const sB = Number(latest.scoreB) || 0;
+          const teamAName = String(latest.teamA).toUpperCase();
+          const teamBName = String(latest.teamB).toUpperCase();
+
+          const logoA = logoMap[teamAName] || "image/logo.png";
+          const logoB = logoMap[teamBName] || "image/logo.png";
+
+          let statusDisplay = latest.status;
+          if (latest.status === "Completed") {
+            if (sA > sB) statusDisplay = `Win: ${latest.teamA}`;
+            else if (sB > sA) statusDisplay = `Win: ${latest.teamB}`;
+            else statusDisplay = "Tied";
+          }
+
+          scorecardEl.innerHTML = `
+            <div class="fbt-team-item">
+              <img src="${logoA}" alt="${latest.teamA}" class="fbt-emblem" onerror="this.style.display='none';" />
+              <span class="fbt-team-name">${latest.teamA}</span>
+              <span class="fbt-score">${sA}</span>
+            </div>
+            <span class="fbt-vs">:</span>
+            <div class="fbt-team-item">
+              <img src="${logoB}" alt="${latest.teamB}" class="fbt-emblem" onerror="this.style.display='none';" />
+              <span class="fbt-team-name">${latest.teamB}</span>
+              <span class="fbt-score">${sB}</span>
+            </div>
+            <div style="border-left: 1px solid rgba(226,231,240,0.12); padding-left: 4px; margin-left: 2px;">
+              <span class="fbt-winner">${statusDisplay}</span>
+            </div>
+          `;
+        }
       }
 
       const historyMatches = [...matches].reverse().slice(1, 6);
       setupRotatingHistory(historyMatches);
 
+      // Score Aggregation for Leaderboard
       let scoreMap = { "E22": 0, "E23": 0, "E24": 0, "E25": 0, "STAFF": 0 };
       let winsMap = { "E22": 0, "E23": 0, "E24": 0, "E25": 0, "STAFF": 0 };
 
       matches.forEach(m => {
-        const tA = String(m.teamA).toUpperCase();
-        const tB = String(m.teamB).toUpperCase();
-        const scA = Number(m.scoreA) || 0;
-        const scB = Number(m.scoreB) || 0;
+        if (isPodiumEvent(m)) {
+          const p1 = m.place1Team ? { batch: m.place1Team.toUpperCase(), pts: Number(m.place1Pts) || 0 } : parsePodiumEntry(m.teamA, "1st");
+          const p2 = m.place2Team ? { batch: m.place2Team.toUpperCase(), pts: Number(m.place2Pts) || 0 } : parsePodiumEntry(m.teamB, "2nd");
+          const p3 = m.place3Team ? { batch: m.place3Team.toUpperCase(), pts: Number(m.place3Pts) || 0 } : parsePodiumEntry(m.scoreA, "3rd");
 
-        if (scoreMap[tA] !== undefined) scoreMap[tA] += scA;
-        if (scoreMap[tB] !== undefined) scoreMap[tB] += scB;
+          if (scoreMap[p1.batch] !== undefined) {
+            scoreMap[p1.batch] += p1.pts;
+            winsMap[p1.batch]++;
+          }
+          if (scoreMap[p2.batch] !== undefined) scoreMap[p2.batch] += p2.pts;
+          if (scoreMap[p3.batch] !== undefined) scoreMap[p3.batch] += p3.pts;
+        } else {
+          const tA = String(m.teamA).toUpperCase();
+          const tB = String(m.teamB).toUpperCase();
+          const scA = Number(m.scoreA) || 0;
+          const scB = Number(m.scoreB) || 0;
 
-        if (m.status === "Completed") {
-          if (scA > scB && winsMap[tA] !== undefined) winsMap[tA]++;
-          else if (scB > scA && winsMap[tB] !== undefined) winsMap[tB]++;
+          if (scoreMap[tA] !== undefined) scoreMap[tA] += scA;
+          if (scoreMap[tB] !== undefined) scoreMap[tB] += scB;
+
+          if (m.status === "Completed") {
+            if (scA > scB && winsMap[tA] !== undefined) winsMap[tA]++;
+            else if (scB > scA && winsMap[tB] !== undefined) winsMap[tB]++;
+          }
         }
       });
 
@@ -1482,22 +1327,38 @@
       }
 
       container.innerHTML = historyList.map((m, idx) => {
-        const tA = String(m.teamA).toUpperCase();
-        const tB = String(m.teamB).toUpperCase();
-        const lA = logoMap[tA] || "image/logo.png";
-        const lB = logoMap[tB] || "image/logo.png";
-        const scA = Number(m.scoreA) || 0;
-        const scB = Number(m.scoreB) || 0;
-        return `
-          <div class="fbt-rotate-item ${idx === 0 ? 'active' : ''}">
-            <span style="font-family:var(--font-heading); font-size:0.55rem; color:var(--color-gold); font-weight:700;">${m.sport.toUpperCase()}</span>
-            <div style="display:flex; align-items:center; gap:6px;">
-              <span style="font-size:0.65rem; font-weight:700; color:#fff;">${m.teamA} (${scA})</span>
-              <span style="font-size:0.55rem; color:var(--color-gold);">VS</span>
-              <span style="font-size:0.65rem; font-weight:700; color:#fff;">${m.teamB} (${scB})</span>
+        const isPodium = isPodiumEvent(m);
+
+        if (isPodium) {
+          const p1 = m.place1Team ? { rank: "1st", batch: m.place1Team.toUpperCase(), pts: Number(m.place1Pts) || 0 } : parsePodiumEntry(m.teamA, "1st");
+          const p2 = m.place2Team ? { rank: "2nd", batch: m.place2Team.toUpperCase(), pts: Number(m.place2Pts) || 0 } : parsePodiumEntry(m.teamB, "2nd");
+          const p3 = m.place3Team ? { rank: "3rd", batch: m.place3Team.toUpperCase(), pts: Number(m.place3Pts) || 0 } : parsePodiumEntry(m.scoreA, "3rd");
+
+          return `
+            <div class="fbt-rotate-item ${idx === 0 ? 'active' : ''}">
+              <span style="font-family:var(--font-heading); font-size:0.55rem; color:var(--color-gold); font-weight:700;">${(m.sport || "EVENT").toUpperCase()}</span>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:0.62rem; font-weight:800; color:#ffd700;">1st (${p1.batch})(${p1.pts})</span>
+                <span style="font-size:0.52rem; color:var(--color-stone-light);">&bull;</span>
+                <span style="font-size:0.62rem; font-weight:700; color:#cbd5e1;">2nd (${p2.batch})(${p2.pts})</span>
+                ${p3.batch !== "N/A" ? `<span style="font-size:0.52rem; color:var(--color-stone-light);">&bull;</span><span style="font-size:0.62rem; font-weight:700; color:#cd7f32;">3rd (${p3.batch})(${p3.pts})</span>` : ''}
+              </div>
             </div>
-          </div>
-        `;
+          `;
+        } else {
+          const scA = Number(m.scoreA) || 0;
+          const scB = Number(m.scoreB) || 0;
+          return `
+            <div class="fbt-rotate-item ${idx === 0 ? 'active' : ''}">
+              <span style="font-family:var(--font-heading); font-size:0.55rem; color:var(--color-gold); font-weight:700;">${(m.sport || "MATCH").toUpperCase()}</span>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:0.65rem; font-weight:700; color:#fff;">${m.teamA} (${scA})</span>
+                <span style="font-size:0.55rem; color:var(--color-gold);">VS</span>
+                <span style="font-size:0.65rem; font-weight:700; color:#fff;">${m.teamB} (${scB})</span>
+              </div>
+            </div>
+          `;
+        }
       }).join('');
 
       if (rotatingHistoryInterval) clearInterval(rotatingHistoryInterval);
