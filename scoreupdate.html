@@ -1,5 +1,5 @@
 <!-- ==========================================================================
-     FILE: scoreupdater.html (E-WEEK 2026 Admin Management Portal - App Ready)
+     FILE: scoreupdater.html (E-WEEK 2026 Admin Management Portal - Unified)
      ========================================================================== -->
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +20,7 @@
     :root {
       --color-obsidian: #080a0f;
       --color-charcoal: #0e1117;
-      --color-card-bg: rgba(16, 20, 29, 0.88);
+      --color-card-bg: rgba(16, 20, 29, 0.92);
       --color-silver-pure: #ffffff;
       --color-silver-bright: #e2e7f0;
       --color-silver-mid: #94a3b8;
@@ -49,7 +49,7 @@
 
     body {
       min-height: 100vh;
-      background: radial-gradient(circle at 50% 0%, #151c28 0%, var(--color-obsidian) 70%);
+      background: radial-gradient(circle at 50% 0%, #151c28 0%, var(--color-obsidian) 75%);
       background-attachment: fixed;
       position: relative;
       overflow-x: hidden;
@@ -64,7 +64,7 @@
       height: 100vh;
       z-index: 1;
       pointer-events: none;
-      opacity: 0.55;
+      opacity: 0.5;
     }
 
     /* App Header */
@@ -138,15 +138,15 @@
     .section-subtitle {
       font-size: 0.88rem;
       color: var(--color-silver-mid);
-      margin-bottom: 24px;
+      margin-bottom: 22px;
       line-height: 1.4;
     }
 
-    /* Mobile Segmented Tab Controller */
+    /* Main Navigation Tabs */
     .portal-tabs {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
       background: rgba(14, 17, 23, 0.9);
       padding: 6px;
       border-radius: 10px;
@@ -157,10 +157,10 @@
 
     .tab-btn {
       font-family: var(--font-display);
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
+      font-size: 0.74rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 10px 4px;
+      padding: 11px 6px;
       background: transparent;
       border: none;
       color: var(--color-silver-mid);
@@ -176,16 +176,49 @@
       background: linear-gradient(135deg, var(--color-gold) 0%, #8c6239 100%);
       color: #080a0f;
       font-weight: 700;
-      box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3);
+      box-shadow: 0 4px 12px rgba(197, 160, 89, 0.35);
     }
 
-    /* Form Panel Card */
+    /* Sub-Mode Toggle (Inside Manage Scores) */
+    .mode-toggle-group {
+      display: flex;
+      background: rgba(8, 10, 15, 0.7);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 8px;
+      padding: 4px;
+      margin-bottom: 20px;
+      gap: 6px;
+    }
+
+    .mode-toggle-btn {
+      flex: 1;
+      padding: 9px 8px;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: transparent;
+      border: none;
+      color: var(--color-silver-mid);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .mode-toggle-btn.active {
+      background: rgba(197, 160, 89, 0.2);
+      color: var(--color-gold-light);
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      font-weight: 600;
+    }
+
+    /* Admin Box */
     .admin-panel {
       background: var(--color-card-bg);
       border: 1px solid rgba(197, 160, 89, 0.3);
       border-radius: 14px;
       padding: 24px 20px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       text-align: left;
@@ -195,7 +228,7 @@
     .form-section.active { display: block; }
 
     .form-group { margin-bottom: 18px; }
-    
+
     .form-label {
       display: block;
       font-family: var(--font-display);
@@ -250,13 +283,18 @@
       text-align: center;
     }
 
+    /* Podium Cards for Placements */
     .placement-card {
-      background: rgba(8, 10, 15, 0.6);
-      border: 1px solid rgba(197, 160, 89, 0.2);
+      background: rgba(8, 10, 15, 0.7);
+      border: 1px solid rgba(197, 160, 89, 0.25);
       border-radius: 8px;
       padding: 14px;
       margin-bottom: 12px;
     }
+
+    .placement-card.place-1 { border-left: 4px solid #ffd700; }
+    .placement-card.place-2 { border-left: 4px solid #c0c0c0; }
+    .placement-card.place-3 { border-left: 4px solid #cd7f32; }
 
     .placement-title {
       font-family: var(--font-display);
@@ -265,6 +303,9 @@
       text-transform: uppercase;
       color: var(--color-gold-light);
       margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .placement-grid {
@@ -318,14 +359,8 @@
       user-select: none;
     }
 
-    .btn-submit:active {
-      transform: scale(0.98);
-    }
-
-    .btn-submit:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+    .btn-submit:active { transform: scale(0.98); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
     .status-msg {
       margin-top: 16px;
@@ -337,12 +372,8 @@
     }
 
     @media (max-width: 480px) {
-      .portal-tabs {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .admin-panel {
-        padding: 20px 16px;
-      }
+      .admin-panel { padding: 20px 16px; }
+      .placement-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -358,36 +389,64 @@
   <main class="container admin-main-section">
     <span class="section-eyebrow">TOURNAMENT SYSTEM</span>
     <h1 class="section-title">CONTROL PORTAL</h1>
-    <p class="section-subtitle">Real-time match scoring, fixtures, other events, and news feed publisher.</p>
+    <p class="section-subtitle">Real-time match scoring, podium placements, fixtures, and news feed publisher.</p>
 
+    <!-- 3 Core Navigation Tabs -->
     <div class="portal-tabs" role="tablist">
-      <button class="tab-btn active" onclick="switchTab('scores')">Scores</button>
-      <button class="tab-btn" onclick="switchTab('other')">Placements</button>
-      <button class="tab-btn" onclick="switchTab('fixtures')">Fixtures</button>
-      <button class="tab-btn" onclick="switchTab('news')">News</button>
+      <button class="tab-btn active" onclick="switchMainTab('scores')">Manage Scores</button>
+      <button class="tab-btn" onclick="switchMainTab('fixtures')">Set Fixtures</button>
+      <button class="tab-btn" onclick="switchMainTab('news')">Publish News</button>
     </div>
 
     <div class="admin-panel">
-      <!-- 1. SCORES -->
+      
+      <!-- =================================================================
+           1. UNIFIED SCORES SECTION (Matches + 1st/2nd/3rd Place Events)
+           ================================================================= -->
       <form id="scoreUpdateForm" class="form-section active">
+        
+        <!-- Sub-Mode Selector -->
+        <div class="mode-toggle-group">
+          <button type="button" class="mode-toggle-btn active" id="modeMatchupBtn" onclick="setScoreMode('matchup')">
+            &#9876; Head-to-Head Match
+          </button>
+          <button type="button" class="mode-toggle-btn" id="modePodiumBtn" onclick="setScoreMode('podium')">
+            &#127942; 1st / 2nd / 3rd Podium
+          </button>
+        </div>
+
         <div class="form-group">
-          <label class="form-label" for="eventSelect">Sport / Event</label>
-          <select id="eventSelect" class="form-select" required>
+          <label class="form-label" for="eventSelect">Event / Competition Name</label>
+          <select id="eventSelect" class="form-select" onchange="handleEventSelectChange(this.value)" required>
             <option value="" disabled selected>-- Select Event --</option>
-            <option value="Cricket">Cricket</option>
-            <option value="Football">Football</option>
-            <option value="Volleyball">Volleyball</option>
-            <option value="Basketball">Basketball</option>
-            <option value="Netball">Netball</option>
-            <option value="Elle">Elle</option>
-            <option value="Badminton">Badminton</option>
-            <option value="Table Tennis">Table Tennis</option>
-            <option value="Carrom">Carrom</option>
-            <option value="Chess">Chess</option>
-            <option value="Debate">Debate</option>
-            <option value="E Speaker">E Speaker</option>
-            <option value="Athletics">Athletics Track Events</option>
+            <optgroup label="Team Match Sports">
+              <option value="Cricket">Cricket</option>
+              <option value="Football">Football</option>
+              <option value="Volleyball">Volleyball</option>
+              <option value="Basketball">Basketball</option>
+              <option value="Netball">Netball</option>
+              <option value="Elle">Elle</option>
+              <option value="Badminton">Badminton</option>
+              <option value="Table Tennis">Table Tennis</option>
+              <option value="Carrom">Carrom</option>
+              <option value="Chess">Chess</option>
+            </optgroup>
+            <optgroup label="Podium / Position Events">
+              <option value="Athletics Track Events">Athletics Track Events</option>
+              <option value="Debate">Debate</option>
+              <option value="E Speaker">E Speaker</option>
+              <option value="Tug of War">Tug of War</option>
+              <option value="Hackathon">Hackathon / Coding</option>
+              <option value="Drama / Cultural">Drama / Cultural Event</option>
+              <option value="Other">Other Custom Event</option>
+            </optgroup>
           </select>
+        </div>
+
+        <!-- Custom Event Name Field (Shown only when 'Other' is picked) -->
+        <div class="form-group" id="customEventGroup" style="display: none;">
+          <label class="form-label" for="customEventName">Specify Event Title</label>
+          <input type="text" id="customEventName" class="form-control" placeholder="e.g. Photography, Bridge Building" />
         </div>
 
         <div class="form-group">
@@ -399,125 +458,131 @@
           </select>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Matchup</label>
-          <div class="matchup-grid">
-            <select id="teamASelect" class="form-select" required>
-              <option value="" disabled selected>Team A</option>
-              <option value="E22">E22</option>
-              <option value="E23">E23</option>
-              <option value="E24">E24</option>
-              <option value="E25">E25</option>
-              <option value="STAFF">STAFF</option>
+        <!-- SUB-CONTAINER A: HEAD-TO-HEAD MATCHUP -->
+        <div id="matchupContainer">
+          <div class="form-group">
+            <label class="form-label">Matchup Teams</label>
+            <div class="matchup-grid">
+              <select id="teamASelect" class="form-select">
+                <option value="" disabled selected>Team A</option>
+                <option value="E22">E22</option>
+                <option value="E23">E23</option>
+                <option value="E24">E24</option>
+                <option value="E25">E25</option>
+                <option value="STAFF">STAFF</option>
+              </select>
+              <span class="vs-badge">VS</span>
+              <select id="teamBSelect" class="form-select">
+                <option value="" disabled selected>Team B</option>
+                <option value="E22">E22</option>
+                <option value="E23">E23</option>
+                <option value="E24">E24</option>
+                <option value="E25">E25</option>
+                <option value="STAFF">STAFF</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="matchup-grid form-group">
+            <div>
+              <label class="form-label" for="scoreA">Score / Points A</label>
+              <input type="number" id="scoreA" class="form-control" placeholder="e.g. 145" />
+            </div>
+            <div></div>
+            <div>
+              <label class="form-label" for="scoreB">Score / Points B</label>
+              <input type="number" id="scoreB" class="form-control" placeholder="e.g. 130" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="matchStatus">Match State</label>
+            <select id="matchStatus" class="form-select">
+              <option value="Completed">Completed (Final Result)</option>
+              <option value="Live">Live / Ongoing</option>
+              <option value="Upcoming">Upcoming</option>
             </select>
-            <span class="vs-badge">VS</span>
-            <select id="teamBSelect" class="form-select" required>
-              <option value="" disabled selected>Team B</option>
-              <option value="E22">E22</option>
-              <option value="E23">E23</option>
-              <option value="E24">E24</option>
-              <option value="E25">E25</option>
-              <option value="STAFF">STAFF</option>
-            </select>
           </div>
         </div>
 
-        <div class="matchup-grid form-group">
-          <div>
-            <label class="form-label" for="scoreA">Points / Score A</label>
-            <input type="number" id="scoreA" class="form-control" placeholder="e.g. 145" required />
+        <!-- SUB-CONTAINER B: PODIUM / 1ST, 2ND, 3RD PLACE -->
+        <div id="podiumContainer" style="display: none;">
+          <!-- 1st Place -->
+          <div class="placement-card place-1">
+            <div class="placement-title">&#129351; 1st Place (Champion / Winner)</div>
+            <div class="placement-grid">
+              <div>
+                <label class="form-label" for="place1Team">Winning Batch</label>
+                <select id="place1Team" class="form-select">
+                  <option value="" disabled selected>Select Batch</option>
+                  <option value="E22">E22</option>
+                  <option value="E23">E23</option>
+                  <option value="E24">E24</option>
+                  <option value="E25">E25</option>
+                  <option value="STAFF">STAFF</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label" for="place1Points">Points Awarded</label>
+                <input type="number" id="place1Points" class="form-control" placeholder="e.g. 10" />
+              </div>
+            </div>
           </div>
-          <div></div>
-          <div>
-            <label class="form-label" for="scoreB">Points / Score B</label>
-            <input type="number" id="scoreB" class="form-control" placeholder="e.g. 130" required />
+
+          <!-- 2nd Place -->
+          <div class="placement-card place-2">
+            <div class="placement-title">&#129352; 2nd Place (Runner-up)</div>
+            <div class="placement-grid">
+              <div>
+                <label class="form-label" for="place2Team">2nd Place Batch</label>
+                <select id="place2Team" class="form-select">
+                  <option value="" disabled selected>Select Batch</option>
+                  <option value="E22">E22</option>
+                  <option value="E23">E23</option>
+                  <option value="E24">E24</option>
+                  <option value="E25">E25</option>
+                  <option value="STAFF">STAFF</option>
+                  <option value="N/A">None / N/A</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label" for="place2Points">Points Awarded</label>
+                <input type="number" id="place2Points" class="form-control" placeholder="e.g. 7" value="0" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 3rd Place -->
+          <div class="placement-card place-3">
+            <div class="placement-title">&#129353; 3rd Place</div>
+            <div class="placement-grid">
+              <div>
+                <label class="form-label" for="place3Team">3rd Place Batch</label>
+                <select id="place3Team" class="form-select">
+                  <option value="" disabled selected>Select Batch</option>
+                  <option value="E22">E22</option>
+                  <option value="E23">E23</option>
+                  <option value="E24">E24</option>
+                  <option value="E25">E25</option>
+                  <option value="STAFF">STAFF</option>
+                  <option value="N/A">None / N/A</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label" for="place3Points">Points Awarded</label>
+                <input type="number" id="place3Points" class="form-control" placeholder="e.g. 5" value="0" />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="matchStatus">Match State</label>
-          <select id="matchStatus" class="form-select" required>
-            <option value="Completed">Completed</option>
-            <option value="Live">Live / Ongoing</option>
-            <option value="Upcoming">Upcoming</option>
-          </select>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submitScoreBtn">Publish Score</button>
+        <button type="submit" class="btn-submit" id="submitScoreBtn">Publish to Score Sheet</button>
         <div id="scoreStatusMsg" class="status-msg"></div>
       </form>
 
-      <!-- 2. OTHER EVENTS (PLACEMENTS) -->
-      <form id="otherEventForm" class="form-section">
-        <div class="form-group">
-          <label class="form-label" for="otherEventName">Event / Activity Name</label>
-          <input type="text" id="otherEventName" class="form-control" placeholder="e.g. Tug of War, Drama" required />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="otherCategory">Category</label>
-          <select id="otherCategory" class="form-select" required>
-            <option value="COMMON">Common / Open</option>
-            <option value="MEN">Men</option>
-            <option value="WOMEN">Women</option>
-          </select>
-        </div>
-
-        <!-- 1st Place -->
-        <div class="placement-card">
-          <div class="placement-title">&#129351; 1st Place (Winner)</div>
-          <div class="placement-grid">
-            <select id="place1Team" class="form-select" required>
-              <option value="" disabled selected>Winner</option>
-              <option value="E22">E22</option>
-              <option value="E23">E23</option>
-              <option value="E24">E24</option>
-              <option value="E25">E25</option>
-              <option value="STAFF">STAFF</option>
-            </select>
-            <input type="number" id="place1Points" class="form-control" placeholder="Points" required />
-          </div>
-        </div>
-
-        <!-- 2nd Place -->
-        <div class="placement-card">
-          <div class="placement-title">&#129352; 2nd Place</div>
-          <div class="placement-grid">
-            <select id="place2Team" class="form-select" required>
-              <option value="" disabled selected>2nd Place</option>
-              <option value="E22">E22</option>
-              <option value="E23">E23</option>
-              <option value="E24">E24</option>
-              <option value="E25">E25</option>
-              <option value="STAFF">STAFF</option>
-              <option value="N/A">None / N/A</option>
-            </select>
-            <input type="number" id="place2Points" class="form-control" placeholder="Points" value="0" required />
-          </div>
-        </div>
-
-        <!-- 3rd Place -->
-        <div class="placement-card">
-          <div class="placement-title">&#129353; 3rd Place</div>
-          <div class="placement-grid">
-            <select id="place3Team" class="form-select" required>
-              <option value="" disabled selected>3rd Place</option>
-              <option value="E22">E22</option>
-              <option value="E23">E23</option>
-              <option value="E24">E24</option>
-              <option value="E25">E25</option>
-              <option value="STAFF">STAFF</option>
-              <option value="N/A">None / N/A</option>
-            </select>
-            <input type="number" id="place3Points" class="form-control" placeholder="Points" value="0" required />
-          </div>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submitOtherBtn">Save Results</button>
-        <div id="otherStatusMsg" class="status-msg"></div>
-      </form>
-
-      <!-- 3. FIXTURES -->
+      <!-- =================================================================
+           2. FIXTURES TAB
+           ================================================================= -->
       <form id="fixtureUpdateForm" class="form-section">
         <div class="form-group">
           <label class="form-label" for="fixDate">Match Date</label>
@@ -530,7 +595,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="fixSport">Sport / Event</label>
+          <label class="form-label" for="fixSport">Sport / Event Title</label>
           <input type="text" id="fixSport" class="form-control" placeholder="e.g. Football Match 03" required />
         </div>
 
@@ -575,11 +640,13 @@
         <div id="fixtureStatusMsg" class="status-msg"></div>
       </form>
 
-      <!-- 4. NEWS FEED (With Drive Upload) -->
+      <!-- =================================================================
+           3. NEWS FEED TAB
+           ================================================================= -->
       <form id="newsUpdateForm" class="form-section">
         <div class="form-group">
           <label class="form-label" for="newsTitle">News Headline</label>
-          <input type="text" id="newsTitle" class="form-control" placeholder="e.g. E23 Clinches Badminton Trophy!" required />
+          <input type="text" id="newsTitle" class="form-control" placeholder="e.g. E23 Clinches Badminton Championship!" required />
         </div>
 
         <div class="form-group">
@@ -592,7 +659,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="newsImageFile">Upload Image (Public Google Drive File)</label>
+          <label class="form-label" for="newsImageFile">Upload Image (Public Google Drive Link)</label>
           <input type="file" id="newsImageFile" class="form-control" accept="image/png, image/jpeg, image/webp" />
           <div id="imagePreviewWrapper" class="image-preview-wrapper">
             <img id="imagePreview" alt="Image preview" />
@@ -621,18 +688,22 @@
         <button type="submit" class="btn-submit" id="submitNewsBtn">Publish News</button>
         <div id="newsStatusMsg" class="status-msg"></div>
       </form>
+
     </div>
   </main>
 
   <script>
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzo1KtK5zMkmLykmHdjJRqzNEtGccwfM1wGNF7JGB6mYiRDBJdSQ3cboJo4-hRerV4TQ/exec";
 
-    function switchTab(tab) {
+    // Track active sub-mode inside the Score tab
+    let currentScoreMode = 'matchup'; // 'matchup' or 'podium'
+
+    function switchMainTab(tab) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
 
-      const tabs = ['scores', 'other', 'fixtures', 'news'];
-      const forms = ['scoreUpdateForm', 'otherEventForm', 'fixtureUpdateForm', 'newsUpdateForm'];
+      const tabs = ['scores', 'fixtures', 'news'];
+      const forms = ['scoreUpdateForm', 'fixtureUpdateForm', 'newsUpdateForm'];
       const idx = tabs.indexOf(tab);
 
       if (idx !== -1) {
@@ -641,7 +712,64 @@
       }
     }
 
-    // Image preview & Base64 encoder
+    // Toggle submode between Matchup vs Podium
+    function setScoreMode(mode) {
+      currentScoreMode = mode;
+      const matchupBtn = document.getElementById('modeMatchupBtn');
+      const podiumBtn = document.getElementById('modePodiumBtn');
+      const matchupBox = document.getElementById('matchupContainer');
+      const podiumBox = document.getElementById('podiumContainer');
+
+      if (mode === 'matchup') {
+        matchupBtn.classList.add('active');
+        podiumBtn.classList.remove('active');
+        matchupBox.style.display = 'block';
+        podiumBox.style.display = 'none';
+
+        // Toggle required tags
+        document.getElementById('teamASelect').required = true;
+        document.getElementById('teamBSelect').required = true;
+        document.getElementById('scoreA').required = true;
+        document.getElementById('scoreB').required = true;
+        document.getElementById('place1Team').required = false;
+        document.getElementById('place1Points').required = false;
+      } else {
+        podiumBtn.classList.add('active');
+        matchupBtn.classList.remove('active');
+        podiumBox.style.display = 'block';
+        matchupBox.style.display = 'none';
+
+        // Toggle required tags
+        document.getElementById('teamASelect').required = false;
+        document.getElementById('teamBSelect').required = false;
+        document.getElementById('scoreA').required = false;
+        document.getElementById('scoreB').required = false;
+        document.getElementById('place1Team').required = true;
+        document.getElementById('place1Points').required = true;
+      }
+    }
+
+    // Auto-switch mode based on event category selected
+    function handleEventSelectChange(val) {
+      const customEventGroup = document.getElementById('customEventGroup');
+      if (val === 'Other') {
+        customEventGroup.style.display = 'block';
+        document.getElementById('customEventName').required = true;
+      } else {
+        customEventGroup.style.display = 'none';
+        document.getElementById('customEventName').required = false;
+      }
+
+      const podiumEvents = ['Athletics Track Events', 'Debate', 'E Speaker', 'Tug of War', 'Hackathon', 'Drama / Cultural'];
+      if (podiumEvents.includes(val)) {
+        setScoreMode('podium');
+      }
+    }
+
+    // Initialize required flags on load
+    setScoreMode('matchup');
+
+    // Image handling for News
     let selectedImageBase64 = null;
     let selectedImageFilename = null;
     let selectedImageMime = null;
@@ -672,7 +800,7 @@
       }
     });
 
-    // Helper for requests
+    // Reusable fetch sender
     async function sendData(payload, btn, msgBox, successText, formId) {
       btn.disabled = true;
       const originalText = btn.textContent;
@@ -689,6 +817,12 @@
         msgBox.style.color = "var(--color-emerald)";
         msgBox.textContent = `SUCCESS: ${successText}`;
         document.getElementById(formId).reset();
+        
+        // Reset sub-components
+        if (formId === 'scoreUpdateForm') {
+          document.getElementById('customEventGroup').style.display = 'none';
+          setScoreMode('matchup');
+        }
         if (formId === 'newsUpdateForm') {
           document.getElementById("imagePreviewWrapper").style.display = "none";
           selectedImageBase64 = null;
@@ -704,49 +838,79 @@
       }
     }
 
-    // 1. Scores Submit
+    // =================================================================
+    // FORM SUBMISSIONS
+    // =================================================================
+
+    // 1. Unified Score Form Submit
     document.getElementById("scoreUpdateForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const teamA = document.getElementById("teamASelect").value;
-      const teamB = document.getElementById("teamBSelect").value;
       const msg = document.getElementById("scoreStatusMsg");
-
-      if (teamA === teamB) {
-        msg.style.color = "var(--color-crimson)";
-        msg.textContent = "Error: Team A and Team B cannot be the same.";
-        return;
+      
+      let sportVal = document.getElementById("eventSelect").value;
+      if (sportVal === 'Other') {
+        sportVal = document.getElementById('customEventName').value.trim() || 'Other Event';
       }
 
-      sendData({
-        action: "updateScore",
-        sport: document.getElementById("eventSelect").value,
-        category: document.getElementById("categorySelect").value,
-        teamA, teamB,
-        scoreA: document.getElementById("scoreA").value,
-        scoreB: document.getElementById("scoreB").value,
-        status: document.getElementById("matchStatus").value,
-        timestamp: new Date().toISOString()
-      }, document.getElementById("submitScoreBtn"), msg, "Score published successfully!", "scoreUpdateForm");
+      const categoryVal = document.getElementById("categorySelect").value;
+
+      if (currentScoreMode === 'matchup') {
+        const teamA = document.getElementById("teamASelect").value;
+        const teamB = document.getElementById("teamBSelect").value;
+        const scoreA = document.getElementById("scoreA").value;
+        const scoreB = document.getElementById("scoreB").value;
+        const status = document.getElementById("matchStatus").value;
+
+        if (teamA === teamB) {
+          msg.style.color = "var(--color-crimson)";
+          msg.textContent = "Error: Team A and Team B cannot be the same.";
+          return;
+        }
+
+        const payload = {
+          action: "updateScore",
+          entryType: "head_to_head",
+          sport: sportVal,
+          category: categoryVal,
+          teamA: teamA,
+          teamB: teamB,
+          scoreA: scoreA,
+          scoreB: scoreB,
+          status: status,
+          timestamp: new Date().toISOString()
+        };
+
+        sendData(payload, document.getElementById("submitScoreBtn"), msg, "Match score recorded in Match Score sheet!", "scoreUpdateForm");
+
+      } else {
+        // Podium (1st, 2nd, 3rd) mode
+        const p1Team = document.getElementById("place1Team").value;
+        const p1Pts = document.getElementById("place1Points").value;
+        const p2Team = document.getElementById("place2Team").value || "N/A";
+        const p2Pts = document.getElementById("place2Points").value || "0";
+        const p3Team = document.getElementById("place3Team").value || "N/A";
+        const p3Pts = document.getElementById("place3Points").value || "0";
+
+        const payload = {
+          action: "updateScore",
+          entryType: "podium",
+          sport: sportVal,
+          category: categoryVal,
+          place1Team: p1Team,
+          place1Pts: p1Pts,
+          place2Team: p2Team,
+          place2Pts: p2Pts,
+          place3Team: p3Team,
+          place3Pts: p3Pts,
+          status: "Completed",
+          timestamp: new Date().toISOString()
+        };
+
+        sendData(payload, document.getElementById("submitScoreBtn"), msg, "Podium results recorded in Match Score sheet!", "scoreUpdateForm");
+      }
     });
 
-    // 2. Placements Submit
-    document.getElementById("otherEventForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      sendData({
-        action: "updateOtherEvent",
-        eventName: document.getElementById("otherEventName").value.trim(),
-        category: document.getElementById("otherCategory").value,
-        place1Team: document.getElementById("place1Team").value,
-        place1Pts: document.getElementById("place1Points").value,
-        place2Team: document.getElementById("place2Team").value,
-        place2Pts: document.getElementById("place2Points").value,
-        place3Team: document.getElementById("place3Team").value,
-        place3Pts: document.getElementById("place3Points").value,
-        timestamp: new Date().toISOString()
-      }, document.getElementById("submitOtherBtn"), document.getElementById("otherStatusMsg"), "Results recorded!", "otherEventForm");
-    });
-
-    // 3. Fixture Submit
+    // 2. Fixture Form Submit
     document.getElementById("fixtureUpdateForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const teamA = document.getElementById("fixTeamA").value;
@@ -768,10 +932,10 @@
         venue: document.getElementById("fixVenue").value,
         status: document.getElementById("fixStatus").value,
         timestamp: new Date().toISOString()
-      }, document.getElementById("submitFixtureBtn"), msg, "Fixture scheduled!", "fixtureUpdateForm");
+      }, document.getElementById("submitFixtureBtn"), msg, "Fixture scheduled successfully!", "fixtureUpdateForm");
     });
 
-    // 4. News Submit
+    // 3. News Feed Submit
     document.getElementById("newsUpdateForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const msg = document.getElementById("newsStatusMsg");
@@ -794,10 +958,10 @@
         description: document.getElementById("newsDescription").value,
         active: document.getElementById("newsActive").value,
         timestamp: new Date().toISOString()
-      }, document.getElementById("submitNewsBtn"), msg, "News broadcasted!", "newsUpdateForm");
+      }, document.getElementById("submitNewsBtn"), msg, "News broadcasted successfully!", "newsUpdateForm");
     });
 
-    // Lightweight Particle Background
+    // Background Particle Canvas
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let w = canvas.width = window.innerWidth;
