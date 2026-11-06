@@ -710,71 +710,211 @@
     </div>
   </footer>
 
-  <script>
+<script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzo1KtK5zMkmLykmHdjJRqzNEtGccwfM1wGNF7JGB6mYiRDBJdSQ3cboJo4-hRerV4TQ/exec";
+
     document.addEventListener("DOMContentLoaded", () => {
-      setTimeout(() => document.getElementById('preloader').classList.add('loaded'), 400);
+      // 1. Dismiss preloader
+      const preloader = document.getElementById('preloader');
+      if (preloader) {
+        setTimeout(() => preloader.classList.add('loaded'), 350);
+      }
+
+      // 2. Initialize Core Modules
       initParticleEngine();
       initMobileNav();
       initSequentialReveal();
+      initContactFormHandler();
     });
 
-    function initParticleEngine() {
-      const canvas = document.getElementById('particle-canvas');
-      const ctx = canvas.getContext('2d');
-      let width = canvas.width = window.innerWidth;
-      let height = canvas.height = window.innerHeight;
-      window.addEventListener('resize', () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; });
-      const particles = Array.from({ length: 45 }, () => ({
-        x: Math.random() * width, y: Math.random() * height,
-        radius: Math.random() * 2 + 0.5,
-        color: Math.random() > 0.3 ? 'rgba(216, 230, 248, ' : 'rgba(255, 110, 32, ',
-        alpha: Math.random() * 0.5 + 0.2, vy: -(Math.random() * 0.6 + 0.2), vx: (Math.random() - 0.5) * 0.3
-      }));
-      function animate() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach(p => {
-          p.y += p.vy; p.x += p.vx;
-          if (p.y < 0) { p.y = height + 10; p.x = Math.random() * width; }
-          ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color + p.alpha + ')'; ctx.fill();
-        });
-        requestAnimationFrame(animate);
-      }
-      animate();
-    }
-
+    /* =========================================================================
+       1. Mobile Navigation & Touch Handlers
+       ========================================================================= */
     function initMobileNav() {
       const hamburger = document.getElementById('hamburgerBtn');
       const mobileMenu = document.getElementById('mobileMenu');
       const navLinks = document.querySelectorAll('.mobile-nav-link');
 
+      if (!hamburger || !mobileMenu) return;
+
+      function closeMenu() {
+        mobileMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.classList.remove('nav-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      }
+
       function toggleMenu() {
         const isOpen = mobileMenu.classList.toggle('active');
         hamburger.classList.toggle('active', isOpen);
         document.body.classList.toggle('nav-open', isOpen);
-        hamburger.setAttribute('aria-expanded', isOpen);
-        mobileMenu.setAttribute('aria-hidden', !isOpen);
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+        mobileMenu.setAttribute('aria-hidden', String(!isOpen));
       }
 
       hamburger.addEventListener('click', toggleMenu);
+
       navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          if (mobileMenu.classList.contains('active')) toggleMenu();
-        });
+        link.addEventListener('click', closeMenu);
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+          closeMenu();
+        }
       });
     }
 
+    /* =========================================================================
+       2. Committee Cards Scroll Reveal Animation
+       ========================================================================= */
     function initSequentialReveal() {
       const cards = document.querySelectorAll('.member-card, .email-card');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('reveal');
-          }
-        });
-      }, { threshold: 0.1 });
+      if (!cards.length) return;
 
-      cards.forEach(card => observer.observe(card));
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('reveal');
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        cards.forEach(card => observer.observe(card));
+      } else {
+        // Fallback for older browsers
+        cards.forEach(card => card.classList.add('reveal'));
+      }
+    }
+
+    /* =========================================================================
+       3. Contact Message Form Asynchronous Submission
+       ========================================================================= */
+    function initContactFormHandler() {
+      const form = document.getElementById('contactForm');
+      if (!form) return;
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      form.addEventListener('submit', async (e) => {
+        // If an Apps Script endpoint exists, send via fetch payload
+        if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes("AKfycbxzo1KtK5zMkmLykmHdjJRqzNEtGccwfM1wGNF7JGB6mYiRDBJdSQ3cboJo4-hRerV4TQ")) {
+          // If user keeps placeholder, let native mailto form handle it
+          return;
+        }
+
+        e.preventDefault();
+
+        const name = document.getElementById('senderName').value.trim();
+        const email = document.getElementById('senderEmail').value.trim();
+        const subject = document.getElementById('senderSubject').value.trim();
+        const message = document.getElementById('senderMessage').value.trim();
+
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = "SENDING...";
+
+        const payload = {
+          action: "contactForm",
+          name: name,
+          email: email,
+          subject: subject,
+          message: message,
+          timestamp: new Date().toISOString()
+        };
+
+        try {
+          await fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          submitBtn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+          submitBtn.style.color = "#ffffff";
+          submitBtn.textContent = "MESSAGE SENT!";
+          form.reset();
+
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.style.background = "";
+            submitBtn.style.color = "";
+            submitBtn.textContent = originalBtnText;
+          }, 4500);
+
+        } catch (err) {
+          // Fallback to mailto client if offline or fetch fails
+          window.location.href = `mailto:eweek2026@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + message)}`;
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+        }
+      });
+    }
+
+    /* =========================================================================
+       4. Lightweight Particle Background Engine
+       ========================================================================= */
+    function initParticleEngine() {
+      const canvas = document.getElementById('particle-canvas');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      let dpr = window.devicePixelRatio || 1;
+      let width, height;
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.scale(dpr, dpr);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      const particleCount = Math.min(45, Math.floor(window.innerWidth / 22));
+      const particles = Array.from({ length: particleCount }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 1.8 + 0.6,
+        isGold: Math.random() > 0.65,
+        alpha: Math.random() * 0.45 + 0.25,
+        vy: -(Math.random() * 0.45 + 0.15),
+        vx: (Math.random() - 0.5) * 0.25
+      }));
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.y += p.vy;
+          p.x += p.vx;
+
+          if (p.y < 0) {
+            p.y = height + 10;
+            p.x = Math.random() * width;
+          }
+          if (p.x < 0) p.x = width;
+          if (p.x > width) p.x = 0;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.isGold
+            ? `rgba(197, 160, 89, ${p.alpha})`
+            : `rgba(226, 231, 240, ${p.alpha})`;
+          ctx.fill();
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
     }
   </script>
 </body>
