@@ -17,7 +17,7 @@
 
   <style>
     /* ==========================================================================
-       1. CSS VARIABLES & DESIGN TOKENS (GOT METALLIC SILVER, GOLD & RED THEME)
+       1. CSS VARIABLES & DESIGN TOKENS (METALLIC SILVER & GOLD THEME)
        ========================================================================== */
     :root {
       --color-obsidian: #080a0f;
@@ -66,7 +66,6 @@
       line-height: 1.6;
       background-color: var(--color-obsidian);
       overflow-x: hidden;
-      padding-bottom: 70px;
     }
     body.nav-open { overflow: hidden; }
 
@@ -104,90 +103,6 @@
     .film-grain-overlay {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 4; pointer-events: none; opacity: 0.045;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    }
-
-    /* ==========================================================================
-       GOT 3-COLUMN TRIPLE-PANEL ULTRA-COMPACT BOTTOM TICKER BAR
-       ========================================================================== */
-    .fixed-bottom-ticker {
-      position: fixed; bottom: 0; left: 0; width: 100vw; z-index: 1000;
-      background: linear-gradient(180deg, rgba(14, 18, 26, 0.98) 0%, rgba(6, 8, 13, 1) 100%);
-      border-top: 1px solid rgba(197, 160, 89, 0.45);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 6px 2%;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 12px;
-      align-items: center;
-      box-shadow: 0 -10px 30px rgba(0,0,0,0.95), inset 0 1px 0 rgba(197, 160, 89, 0.2);
-    }
-
-    /* Column 1: Latest Result */
-    .fbt-col-latest {
-      display: flex; align-items: center; justify-content: space-between;
-      border-right: 1px solid rgba(226, 231, 240, 0.12);
-      padding-right: 10px; overflow: hidden;
-    }
-    .fbt-left { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-    .fbt-badge-wrap { display: flex; align-items: center; gap: 4px; }
-    .fbt-tag {
-      font-family: var(--font-heading); font-size: 0.58rem; letter-spacing: 0.15em; color: #0b0d12; font-weight: 800; text-transform: uppercase;
-      background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%); padding: 2px 5px; border-radius: 2px;
-      box-shadow: 0 0 8px rgba(197, 160, 89, 0.35);
-    }
-    .fbt-pulse { width: 6px; height: 6px; background: #34d399; border-radius: 50%; box-shadow: 0 0 6px #34d399; animation: pulseGlow 1.5s infinite; }
-    @keyframes pulseGlow { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 10px #34d399; } 100% { transform: scale(0.9); opacity: 0.7; } }
-
-    .fbt-match-info { font-family: var(--font-display); font-size: 0.7rem; color: var(--color-silver-bright); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
-    .fbt-scorecard-mini { display: flex; align-items: center; gap: 6px; background: rgba(8, 10, 15, 0.85); border: 1px solid rgba(226, 231, 240, 0.1); padding: 3px 6px; border-radius: 4px; }
-    .fbt-team-item { display: flex; align-items: center; gap: 4px; }
-    .fbt-emblem { width: 18px; height: 18px; object-fit: contain; }
-    .fbt-team-name { font-family: var(--font-heading); font-size: 0.62rem; font-weight: 700; color: var(--color-silver-mid); }
-    .fbt-score { font-family: var(--font-display); font-size: 0.78rem; font-weight: 900; color: var(--color-crimson-red); }
-    .fbt-vs { font-family: var(--font-display); font-size: 0.58rem; color: var(--color-gold); font-weight: 700; }
-    .fbt-winner { color: #34d399; font-family: var(--font-heading); font-size: 0.58rem; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
-
-    /* Column 2: Recent 5 Rotating */
-    .fbt-col-history {
-      display: flex; align-items: center; justify-content: center; padding: 0 8px; border-right: 1px solid rgba(226, 231, 240, 0.12); overflow: hidden; height: 32px;
-    }
-    .fbt-rotating-container {
-      flex: 1; position: relative; height: 32px; overflow: hidden; display: flex; align-items: center; width: 100%;
-    }
-    .fbt-rotate-item {
-      position: absolute; width: 100%; display: flex; align-items: center; justify-content: space-between;
-      background: linear-gradient(135deg, rgba(20, 25, 36, 0.85) 0%, rgba(10, 13, 19, 0.95) 100%);
-      border: 1px solid rgba(197, 160, 89, 0.25); padding: 3px 8px; border-radius: 4px;
-      opacity: 0; transform: translateY(12px) rotateX(15deg);
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .fbt-rotate-item.active { opacity: 1; transform: translateY(0) rotateX(0deg); }
-    .fbt-rotate-item.exit { opacity: 0; transform: translateY(-12px) rotateX(-15deg); }
-
-    /* Column 3: Overall Status */
-    .fbt-col-status {
-      display: flex; align-items: center; justify-content: flex-end; padding-left: 6px; overflow: hidden;
-    }
-    .fbt-status-podium {
-      display: flex; align-items: center; gap: 8px; background: rgba(8, 10, 15, 0.75); border: 1px solid rgba(197, 160, 89, 0.25); padding: 3px 8px; border-radius: 4px;
-    }
-    .fbt-podium-item { display: flex; align-items: center; gap: 3px; }
-    .fbt-podium-item.p1 .fbt-p-emblem { width: 22px; height: 22px; filter: drop-shadow(0 0 6px rgba(197, 160, 89, 0.7)); }
-    .fbt-podium-item.p1 .p-rank { color: var(--color-gold); font-size: 0.65rem; font-weight: 900; }
-    .fbt-podium-item.p1 .p-pts { color: var(--color-silver-bright); font-size: 0.65rem; font-weight: 800; }
-
-    .fbt-p-emblem { width: 18px; height: 18px; object-fit: contain; }
-    .p-rank { font-family: var(--font-heading); font-size: 0.55rem; color: var(--color-silver-dark); font-weight: 700; text-transform: uppercase; }
-    .p-pts { font-family: var(--font-display); font-size: 0.62rem; color: var(--color-silver-mid); font-weight: 700; }
-
-    @keyframes awaitingPulse {
-      0% { opacity: 0.6; }
-      50% { opacity: 1; text-shadow: 0 0 12px rgba(52, 211, 153, 0.8); transform: scale(1.02); }
-      100% { opacity: 0.6; }
-    }
-    .awaiting-animation {
-      display: inline-block; font-family: var(--font-display); font-size: 0.7rem; font-weight: 900; color: #34d399; letter-spacing: 0.12em; text-transform: uppercase; animation: awaitingPulse 1.8s ease-in-out infinite; text-align: center; width: 100%;
     }
 
     /* ==========================================================================
@@ -388,19 +303,14 @@
 
     /* ==========================================================================
        RESPONSIVE BREAKPOINTS (Mobile & Tablet Optimization)
-       ========================================================================= */
+       ========================================================================== */
     @media (max-width: 992px) {
       .desktop-nav-menu { display: none; }
       .hamburger-btn { display: flex; }
       .merch-container { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-      .fixed-bottom-ticker { grid-template-columns: 1fr; gap: 6px; padding: 6px 12px; }
-      .fbt-col-history { display: none; }
-      .fbt-col-latest { border-right: none; padding-right: 0; }
-      .fbt-col-status { justify-content: center; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px; }
     }
 
     @media (max-width: 600px) {
-      body { padding-bottom: 85px; }
       .container { width: 94%; }
       .merch-hero { padding: 95px 0 20px; }
       .merch-grid-section { padding: 15px 0 60px; }
@@ -411,9 +321,6 @@
       .merch-price { font-size: 1.15rem; }
       .btn-silver { padding: 10px 18px; font-size: 0.75rem; min-height: 40px; }
       .silver-modal { padding: 26px 18px; }
-      .fbt-match-info { max-width: 100px; font-size: 0.65rem; }
-      .fbt-team-name { font-size: 0.58rem; }
-      .fbt-score { font-size: 0.72rem; }
     }
   </style>
 </head>
@@ -438,53 +345,6 @@
 
   <div class="cinematic-lens-overlay" aria-hidden="true"></div>
   <div class="film-grain-overlay" aria-hidden="true"></div>
-
-  <!-- GOT METALLIC SILVER 3-COLUMN COMPACT FOOTER TICKER -->
-  <aside class="fixed-bottom-ticker" id="floatingResultsWidget" aria-label="Live Match Ticker">
-    <!-- Column 1: Latest Result -->
-    <div class="fbt-col-latest">
-      <div class="fbt-left">
-        <div class="fbt-badge-wrap">
-          <div class="fbt-pulse" id="fbtPulseIndicator"></div>
-          <span class="fbt-tag" id="fbtTagTitle">LATEST</span>
-        </div>
-        <div class="fbt-match-info" id="fbtMatchTitle">Syncing...</div>
-      </div>
-      <div class="fbt-scorecard-mini" id="fbtScorecard">
-        <div style="font-size:0.65rem; color:var(--color-stone-light);">Loading...</div>
-      </div>
-    </div>
-
-    <!-- Column 2: Recent 5 Rotating History -->
-    <div class="fbt-col-history">
-      <div class="fbt-rotating-container" id="fbtRotatingContainer">
-        <div class="fbt-rotate-item active" style="justify-content:center;">
-          <span style="font-size:0.65rem; color:var(--color-stone-light);">Waiting for recent history...</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Column 3: Overall Status (Top 3 Positions Summary) -->
-    <div class="fbt-col-status" id="fbtStatusContainer">
-      <div class="fbt-status-podium">
-        <div class="fbt-podium-item p1">
-          <img src="image/e23.png" alt="1st" class="fbt-p-emblem" />
-          <span class="p-rank">1st:</span>
-          <span class="p-pts">0</span>
-        </div>
-        <div class="fbt-podium-item">
-          <img src="image/e22.png" alt="2nd" class="fbt-p-emblem" />
-          <span class="p-rank">2nd:</span>
-          <span class="p-pts">0</span>
-        </div>
-        <div class="fbt-podium-item">
-          <img src="image/e24.png" alt="3rd" class="fbt-p-emblem" />
-          <span class="p-rank">3rd:</span>
-          <span class="p-pts">0</span>
-        </div>
-      </div>
-    </div>
-  </aside>
 
   <header class="site-header" id="siteHeader">
     <div class="nav-wrapper">
@@ -648,30 +508,11 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzo1KtK5zMkmLykmHdjJRqzNEtGccwfM1wGNF7JGB6mYiRDBJdSQ3cboJo4-hRerV4TQ/exec";
-
-    const logoMap = {
-      "E22": "image/e22.png",
-      "E23": "image/e23.png",
-      "E24": "image/e24.png",
-      "E25": "image/e25.png",
-      "STAFF": "image/staff.png"
-    };
-
-    let lastKnownMatchCount = -1;
-    let rotatingHistoryInterval = null;
-    let currentRotateIndex = 0;
-
     document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => document.getElementById('preloader').classList.add('loaded'), 400);
       initParticleEngine();
       initMobileNav();
       initOrderModals();
-
-      fetchLiveScores(false);
-      setInterval(() => {
-        fetchLiveScores(true);
-      }, 12000);
     });
 
     function initMobileNav() {
@@ -693,218 +534,6 @@
           if (mobileMenu.classList.contains('active')) toggleMenu();
         });
       });
-    }
-
-    async function fetchLiveScores(isPolling) {
-      const pulseDot = document.getElementById('fbtPulseIndicator');
-      if (isPolling && pulseDot) {
-        pulseDot.style.background = "#34d399";
-        pulseDot.style.boxShadow = "0 0 6px #34d399";
-      }
-
-      const cbName = 'scores_cb_' + Math.round(Math.random() * 1000000);
-      window[cbName] = function(res) {
-        delete window[cbName];
-        if (scriptElem && scriptElem.parentNode) document.body.removeChild(scriptElem);
-
-        const matches = (res && res.matches) ? res.matches : [];
-        if (lastKnownMatchCount !== -1 && matches.length > lastKnownMatchCount) {
-          showAwaitingTransition();
-        } else {
-          processScoresData(res);
-        }
-        lastKnownMatchCount = matches.length;
-      };
-
-      const scriptElem = document.createElement('script');
-      scriptElem.src = `${APPS_SCRIPT_URL}?action=getScores&callback=${cbName}`;
-      scriptElem.onerror = () => {
-        if (window[cbName]) delete window[cbName];
-        if (scriptElem.parentNode) document.body.removeChild(scriptElem);
-        if (!isPolling) {
-          const matchTitleEl = document.getElementById('fbtMatchTitle');
-          if (matchTitleEl) matchTitleEl.textContent = "Unable to load latest score feed.";
-        }
-      };
-      document.body.appendChild(scriptElem);
-    }
-
-    function showAwaitingTransition() {
-      const matchTitleEl = document.getElementById('fbtMatchTitle');
-      const scorecardEl = document.getElementById('fbtScorecard');
-      const rotatingContainer = document.getElementById('fbtRotatingContainer');
-
-      if (matchTitleEl) matchTitleEl.textContent = "NEW RESULT";
-      if (scorecardEl) scorecardEl.innerHTML = `<span style="font-size:0.6rem; color:#34d399;">Syncing...</span>`;
-
-      if (rotatingContainer) {
-        rotatingContainer.innerHTML = `
-          <div class="fbt-rotate-item active" style="justify-content: center; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.4); width: 100%;">
-            <span class="awaiting-animation">Awaits new result...</span>
-          </div>
-        `;
-      }
-
-      setTimeout(() => {
-        fetchLiveScores(false);
-      }, 3500);
-    }
-
-    function processScoresData(res) {
-      const matches = (res && res.matches) ? res.matches : [];
-      const matchTitleEl = document.getElementById('fbtMatchTitle');
-      const scorecardEl = document.getElementById('fbtScorecard');
-
-      if (matches.length === 0) {
-        if (matchTitleEl) matchTitleEl.textContent = "No match results published yet.";
-        if (scorecardEl) scorecardEl.innerHTML = `<span style="font-size:0.6rem; color:var(--color-stone-light);">Awaiting fixtures...</span>`;
-        const rc = document.getElementById('fbtRotatingContainer');
-        if (rc) rc.innerHTML = `<div class="fbt-rotate-item active" style="justify-content:center;"><span style="font-size:0.65rem; color:var(--color-stone-light);">No recent history available.</span></div>`;
-        updateTop3Status({});
-        return;
-      }
-
-      const latest = matches[matches.length - 1];
-      const sA = Number(latest.scoreA) || 0;
-      const sB = Number(latest.scoreB) || 0;
-
-      const teamAName = String(latest.teamA).toUpperCase();
-      const teamBName = String(latest.teamB).toUpperCase();
-
-      const logoA = logoMap[teamAName] || "image/logo.png";
-      const logoB = logoMap[teamBName] || "image/logo.png";
-
-      let statusDisplay = latest.status;
-      if (latest.status === "Completed") {
-        if (sA > sB) statusDisplay = `Winner: ${latest.teamA}`;
-        else if (sB > sA) statusDisplay = `Winner: ${latest.teamB}`;
-        else statusDisplay = "Match Tied";
-      }
-
-      if (matchTitleEl) matchTitleEl.textContent = `${latest.sport.toUpperCase()} (${latest.category})`;
-
-      if (scorecardEl) {
-        scorecardEl.innerHTML = `
-          <div class="fbt-team-item">
-            <img src="${logoA}" alt="${latest.teamA}" class="fbt-emblem" onerror="this.style.display='none';" />
-            <span class="fbt-team-name">${latest.teamA}</span>
-            <span class="fbt-score">${sA}</span>
-          </div>
-          <span class="fbt-vs">VS</span>
-          <div class="fbt-team-item">
-            <img src="${logoB}" alt="${latest.teamB}" class="fbt-emblem" onerror="this.style.display='none';" />
-            <span class="fbt-team-name">${latest.teamB}</span>
-            <span class="fbt-score">${sB}</span>
-          </div>
-          <div style="border-left: 1px solid rgba(226,231,240,0.12); padding-left: 6px; margin-left: 2px; display:flex; flex-direction:column; text-align:right;">
-            <span class="fbt-winner">${statusDisplay}</span>
-            <span style="font-size:0.5rem; color:var(--color-silver-dark);">${latest.status}</span>
-          </div>
-        `;
-      }
-
-      const historyMatches = [...matches].reverse().slice(1, 6);
-      setupRotatingHistory(historyMatches);
-
-      let scoreMap = { "E22": 0, "E23": 0, "E24": 0, "E25": 0, "STAFF": 0 };
-      matches.forEach(m => {
-        const tA = String(m.teamA).toUpperCase();
-        const tB = String(m.teamB).toUpperCase();
-        if (scoreMap[tA] !== undefined) scoreMap[tA] += (Number(m.scoreA) || 0);
-        if (scoreMap[tB] !== undefined) scoreMap[tB] += (Number(m.scoreB) || 0);
-      });
-
-      updateTop3Status(scoreMap);
-    }
-
-    function updateTop3Status(scoreMap) {
-      const statusContainer = document.getElementById('fbtStatusContainer');
-      if (!statusContainer) return;
-
-      const sortedTeams = Object.keys(scoreMap).map(name => ({
-        name: name,
-        score: scoreMap[name],
-        logo: logoMap[name] || "image/logo.png"
-      })).sort((a, b) => b.score - a.score);
-
-      const t1 = sortedTeams[0] || { name: "E23", score: 0, logo: "image/e23.png" };
-      const t2 = sortedTeams[1] || { name: "E22", score: 0, logo: "image/e22.png" };
-      const t3 = sortedTeams[2] || { name: "E24", score: 0, logo: "image/e24.png" };
-
-      statusContainer.innerHTML = `
-        <div class="fbt-status-podium">
-          <div class="fbt-podium-item p1" title="1st Place: ${t1.name}">
-            <img src="${t1.logo}" alt="${t1.name}" class="fbt-p-emblem" />
-            <span class="p-rank">1:</span>
-            <span class="p-pts">${t1.score}</span>
-          </div>
-          <div class="fbt-podium-item" title="2nd Place: ${t2.name}">
-            <img src="${t2.logo}" alt="${t2.name}" class="fbt-p-emblem" />
-            <span class="p-rank">2:</span>
-            <span class="p-pts">${t2.score}</span>
-          </div>
-          <div class="fbt-podium-item" title="3rd Place: ${t3.name}">
-            <img src="${t3.logo}" alt="${t3.name}" class="fbt-p-emblem" />
-            <span class="p-rank">3:</span>
-            <span class="p-pts">${t3.score}</span>
-          </div>
-        </div>
-      `;
-    }
-
-    function setupRotatingHistory(historyList) {
-      const container = document.getElementById('fbtRotatingContainer');
-      if (!container) return;
-
-      if (historyList.length === 0) {
-        container.innerHTML = `<div class="fbt-rotate-item active" style="width:100%; justify-content:center;"><span style="font-size:0.65rem; color:var(--color-stone-light);">No prior match history available.</span></div>`;
-        return;
-      }
-
-      container.innerHTML = historyList.map((m, idx) => {
-        const tA = String(m.teamA).toUpperCase();
-        const tB = String(m.teamB).toUpperCase();
-        const lA = logoMap[tA] || "image/logo.png";
-        const lB = logoMap[tB] || "image/logo.png";
-        const scA = Number(m.scoreA) || 0;
-        const scB = Number(m.scoreB) || 0;
-        return `
-          <div class="fbt-rotate-item ${idx === 0 ? 'active' : ''}" data-index="${idx}">
-            <div style="display:flex; align-items:center; gap:5px;">
-              <span style="font-family:var(--font-heading); font-size:0.58rem; color:var(--color-gold); font-weight:700;">${m.sport.toUpperCase()}</span>
-            </div>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="display:flex; align-items:center; gap:3px;">
-                <img src="${lA}" alt="${m.teamA}" style="width:18px; height:18px; object-fit:contain;" />
-                <span style="font-size:0.68rem; font-weight:700; color:#fff;">${m.teamA} (${scA})</span>
-              </div>
-              <span style="font-size:0.6rem; color:var(--color-gold); font-weight:700;">VS</span>
-              <div style="display:flex; align-items:center; gap:3px;">
-                <img src="${lB}" alt="${m.teamB}" style="width:18px; height:18px; object-fit:contain;" />
-                <span style="font-size:0.68rem; font-weight:700; color:#fff;">${m.teamB} (${scB})</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      if (rotatingHistoryInterval) clearInterval(rotatingHistoryInterval);
-
-      if (historyList.length > 1) {
-        currentRotateIndex = 0;
-        rotatingHistoryInterval = setInterval(() => {
-          const items = container.querySelectorAll('.fbt-rotate-item');
-          if (items.length === 0) return;
-
-          items[currentRotateIndex].classList.remove('active');
-          items[currentRotateIndex].classList.add('exit');
-
-          currentRotateIndex = (currentRotateIndex + 1) % items.length;
-
-          items[currentRotateIndex].classList.remove('exit');
-          items[currentRotateIndex].classList.add('active');
-        }, 4000);
-      }
     }
 
     function initParticleEngine() {
