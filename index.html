@@ -145,15 +145,6 @@
     .p-rank { font-family: var(--font-heading); font-size: 0.55rem; color: var(--color-silver-dark); font-weight: 700; text-transform: uppercase; }
     .p-pts { font-family: var(--font-display); font-size: 0.62rem; color: var(--color-silver-mid); font-weight: 700; }
 
-    @keyframes awaitingPulse {
-      0% { opacity: 0.6; }
-      50% { opacity: 1; text-shadow: 0 0 12px rgba(52, 211, 153, 0.8); transform: scale(1.02); }
-      100% { opacity: 0.6; }
-    }
-    .awaiting-animation {
-      display: inline-block; font-family: var(--font-display); font-size: 0.7rem; font-weight: 900; color: #34d399; letter-spacing: 0.12em; text-transform: uppercase; animation: awaitingPulse 1.8s ease-in-out infinite; text-align: center; width: 100%;
-    }
-
     /* Preloader */
     .preloader-screen {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -211,9 +202,20 @@
       border: 1px solid #ffffff; border-radius: 4px; min-height: 48px;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8); transition: var(--transition-smooth);
     }
+    .btn-silver:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,255,255,0.25); color: #000; }
+    .btn-silver-gold {
+      background: linear-gradient(180deg, var(--color-gold-light) 0%, var(--color-gold) 100%);
+      border-color: var(--color-gold-light); color: #0b0d12;
+    }
+    .btn-silver-gold:hover {
+      box-shadow: 0 10px 25px rgba(197, 160, 89, 0.45);
+    }
     .btn-silver-secondary {
       background: linear-gradient(180deg, #1f2533 0%, #121620 100%);
       color: var(--color-silver-bright); border: 1px solid var(--color-steel-aged);
+    }
+    .btn-silver-secondary:hover {
+      border-color: var(--color-gold); color: #fff; transform: translateY(-2px);
     }
 
     /* Site Header */
@@ -304,7 +306,7 @@
     }
 
     /* Panels & Sections */
-    .about-section, .results-section, .featured-news-section, .contact-section { padding: 60px 0; position: relative; z-index: 5; }
+    .about-section, .results-section, .featured-news-section, .aesthetic-section, .app-download-section, .contact-section { padding: 60px 0; position: relative; z-index: 5; }
     .silver-panel {
       max-width: 840px; margin: 0 auto; padding: 32px 20px;
       background: linear-gradient(135deg, rgba(20, 24, 34, 0.88) 0%, rgba(10, 13, 19, 0.94) 100%);
@@ -347,8 +349,39 @@
     .progress-fill-bar { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 3px; width: 0%; transition: width 1.2s ease; }
 
     /* ==========================================================================
-       CENTERED CINEMATIC SLIDE-RAIL NEWSFEED (UNCLUTTERED CARD DISPLAY)
+       AESTHETIC REGISTRATION SECTION
        ========================================================================== */
+    .aesthetic-section {
+      text-align: center;
+    }
+
+    /* ==========================================================================
+       APK DOWNLOAD SECTION
+       ========================================================================== */
+    .apk-card {
+      max-width: 980px; margin: 0 auto;
+      background: linear-gradient(145deg, rgba(20, 25, 36, 0.92) 0%, rgba(9, 12, 17, 0.98) 100%);
+      border: 1px solid rgba(197, 160, 89, 0.35); border-radius: 14px;
+      padding: 36px 30px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 20px 45px rgba(0,0,0,0.85);
+      display: grid; grid-template-columns: auto 1fr auto; gap: 28px; align-items: center;
+    }
+    .apk-logo-wrap {
+      width: 90px; height: 90px; border-radius: 18px; background: rgba(8, 10, 15, 0.9);
+      border: 1px solid rgba(197, 160, 89, 0.4); display: flex; align-items: center; justify-content: center;
+      padding: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+    }
+    .apk-logo-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.4)); }
+    .apk-details-title { font-family: var(--font-display); font-size: 1.45rem; color: #fff; font-weight: 800; margin-bottom: 4px; }
+    .apk-details-meta {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 0.72rem; color: var(--color-gold-light); font-family: var(--font-heading);
+    }
+    .apk-meta-tag { background: rgba(197, 160, 89, 0.15); border: 1px solid rgba(197, 160, 89, 0.3); padding: 2px 6px; border-radius: 3px; }
+    .apk-desc { font-size: 0.85rem; color: var(--color-silver-mid); line-height: 1.5; max-width: 520px; }
+    .apk-action-group { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+    .apk-spec-text { font-size: 0.68rem; color: var(--color-stone-light); text-align: center; width: 100%; }
+
+    /* News Section */
     .news-section-header {
       position: relative;
       display: flex;
@@ -556,7 +589,7 @@
     }
     .news-time-stamp { font-size: 0.65rem; color: var(--color-stone-light); }
 
-    /* News Modal Popup (FULL FLYER DISPLAY FIX) */
+    /* News Modal Popup */
     .news-modal-backdrop {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(4, 5, 8, 0.94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -582,7 +615,6 @@
       color: #0b0d12;
     }
 
-    /* FULL FLYER ASPECT RATIO CONTAINER */
     .news-modal-img-wrap {
       width: 100%;
       display: flex;
@@ -629,6 +661,10 @@
       .fbt-col-history { display: none; }
       .fbt-col-latest { border-right: none; padding-right: 0; }
       .fbt-col-status { justify-content: center; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px; }
+      
+      .apk-card { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+      .apk-action-group { align-items: center; }
+      .apk-desc { max-width: 100%; }
     }
 
     @media (max-width: 768px) {
@@ -749,7 +785,7 @@
         </div>
       </a>
 
-      <!-- Desktop Navigation -->
+      <!-- Desktop Navigation (Original Untouched) -->
       <nav aria-label="Primary Navigation">
         <ul class="desktop-nav-menu">
           <li><a href="index.html#hero" class="nav-item-link active">Home</a></li>
@@ -770,7 +806,7 @@
     </div>
   </header>
 
-  <!-- Mobile Menu Overlay -->
+  <!-- Mobile Menu Overlay (Original Untouched) -->
   <div class="mobile-menu-overlay" id="mobileMenu" aria-hidden="true">
     <ul class="mobile-nav-list">
       <li><a href="index.html#hero" class="mobile-nav-link active">Home</a></li>
@@ -836,6 +872,25 @@
       </div>
     </section>
 
+    <!-- AESTHETIC EVENT REGISTRATION SECTION -->
+    <section class="aesthetic-section" id="aestheticSection">
+      <div class="container" style="text-align: center;">
+        <span class="section-eyebrow">CULTURAL & CREATIVE ARENA</span>
+        <h2 class="section-title">AESTHETIC EVENTS</h2>
+        <p class="section-subtitle">Showcase your artistry, stage talent, vocal mastery, and cultural elegance</p>
+        <div class="silver-divider"><span class="divider-node"></span></div>
+
+        <div style="margin-top: 30px;">
+          <a href="aesthetic.html" class="btn-silver btn-silver-gold">
+            <span>REGISTRATION</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- CENTERED TITLE CINEMATIC SLIDE-RAIL NEWS FEED SECTION -->
     <section class="featured-news-section" id="featuredNewsSection">
       <div class="container">
@@ -862,6 +917,46 @@
             <div style="text-align: center; color: var(--color-stone-light); padding: 40px; width: 100%;">
               Loading top story broadcasts...
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APK DOWNLOAD SECTION -->
+    <section class="app-download-section" id="appDownloadSection">
+      <div class="container">
+        <span class="section-eyebrow">MOBILE BROADCAST COMPANION</span>
+        <h2 class="section-title">DOWNLOAD OFFICIAL APP</h2>
+        <p class="section-subtitle">Real-time match alerts, fixtures, live score alerts, and offline access directly on Android</p>
+        <div class="silver-divider"><span class="divider-node"></span></div>
+
+        <div class="apk-card">
+          <div class="apk-logo-wrap">
+            <img src="image/logo.png" alt="E-WEEK App" class="apk-logo-img" onerror="this.style.display='none';" />
+          </div>
+
+          <div class="apk-info-col">
+            <h3 class="apk-details-title">E-WEEK 2026 APK</h3>
+            <div class="apk-details-meta">
+              <span class="apk-meta-tag">v1.0.0</span>
+              <span class="apk-meta-tag">Android 7.0+</span>
+              <span class="apk-meta-tag">Direct Package</span>
+            </div>
+            <p class="apk-desc">
+              Experience ultra-low latency push notifications for live games, instant standings updates, roster listings, and event timetables optimized for mobile devices.
+            </p>
+          </div>
+
+          <div class="apk-action-group">
+            <a href="eweek2026.apk" class="btn-silver btn-silver-gold" download="eweek2026.apk">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>DOWNLOAD APK</span>
+            </a>
+            <span class="apk-spec-text">eweek2026.apk &bull; Safe & Verified</span>
           </div>
         </div>
       </div>
