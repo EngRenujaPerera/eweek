@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E-Week 2026 | Team Registration & Team Card</title>
-  <!-- Tab Favicon -->
-<link rel="icon" type="image/png" href="logo.png" />
-<link rel="apple-touch-icon" href="logo.png" />
+  <!-- Tab Favicon (Dynamic based on realm) -->
+  <link id="tabFavicon" rel="icon" type="image/png" href="logotf.png" />
+  <link id="appleFavicon" rel="apple-touch-icon" href="logotf.png" />
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -30,7 +30,7 @@
 
     .font-cinzel { font-family: 'Cinzel', serif; }
 
-    /* Login Background Video Layer */
+    /* Background Layers */
     .bg-video-container {
       position: fixed;
       inset: 0;
@@ -58,7 +58,6 @@
       background: linear-gradient(to bottom, rgba(3, 3, 5, 0.65) 0%, rgba(3, 3, 5, 0.88) 60%, #030305 100%);
     }
 
-    /* Portal Static Background Image Layer */
     .portal-bg {
       position: fixed;
       inset: 0;
@@ -68,12 +67,13 @@
       background-position: center;
       background-repeat: no-repeat;
       background-color: #030305;
+      transition: background-image 0.5s ease-in-out;
     }
 
     .portal-bg-overlay {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(3, 3, 5, 0.78) 0%, rgba(3, 3, 5, 0.92) 80%, #030305 100%);
+      background: radial-gradient(circle at center, rgba(3, 3, 5, 0.75) 0%, rgba(3, 3, 5, 0.92) 80%, #030305 100%);
     }
 
     #emberCanvas {
@@ -83,9 +83,8 @@
       z-index: 1;
     }
 
-    /* Valyrian Shield & Panels */
     .valyrian-shield {
-      background: linear-gradient(160deg, rgba(14, 15, 20, 0.90) 0%, rgba(6, 7, 10, 0.97) 100%);
+      background: linear-gradient(160deg, rgba(14, 15, 20, 0.92) 0%, rgba(6, 7, 10, 0.98) 100%);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       border: 1px solid rgba(203, 213, 225, 0.35);
@@ -101,7 +100,6 @@
       box-shadow: 0 0 35px rgba(148, 163, 184, 0.4), inset 0 0 20px rgba(0, 0, 0, 0.9);
     }
 
-    /* GOT Iron-Bar Nav Bar */
     .valyrian-nav-bar {
       background: linear-gradient(90deg, rgba(10, 11, 15, 0.94) 0%, rgba(22, 24, 32, 0.96) 50%, rgba(10, 11, 15, 0.94) 100%);
       backdrop-filter: blur(15px);
@@ -109,7 +107,6 @@
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.12);
     }
 
-    /* Cinematic Spinner */
     .valyrian-spinner {
       width: 50px;
       height: 50px;
@@ -144,7 +141,7 @@
     <div class="bg-video-overlay"></div>
   </div>
 
-  <!-- Static Background Image Container (Active during Portal) -->
+  <!-- Static/Dynamic Background Image Container (Active during Portal) -->
   <div id="portalBgContainer" class="hidden portal-bg">
     <div class="portal-bg-overlay"></div>
   </div>
@@ -155,7 +152,7 @@
   <!-- Background Soundtrack -->
   <audio id="bgAudio" src="track.mp3" loop preload="auto"></audio>
 
-  <!-- ================= PORTAL CLOSED DEADLINE OVERLAY ================= -->
+  <!-- Deadline Closed Modal -->
   <div id="deadlineClosedModal" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
     <div class="valyrian-shield max-w-lg w-full p-8 rounded-3xl text-center space-y-6 border border-rose-900/60 shadow-[0_0_80px_rgba(225,29,72,0.3)]">
       <div class="w-20 h-20 mx-auto rounded-full border border-rose-500/70 bg-rose-950/40 flex items-center justify-center text-3xl shadow-[0_0_30px_rgba(225,29,72,0.4)]">
@@ -164,8 +161,8 @@
       <div class="space-y-2">
         <h2 class="text-xl sm:text-2xl font-bold font-cinzel text-rose-300 uppercase tracking-widest">Portal Has Closed</h2>
         <p class="text-xs font-cinzel text-amber-400 tracking-wider">Registration Deadline Reached</p>
-        <p class="text-xs text-slate-400 font-light leading-relaxed pt-2">
-          The official submission deadline for team cards was <strong class="text-slate-200">November 13th, 11:59 PM</strong>. Submission rosters are now sealed in the Citadel archives.
+        <p id="deadlineNoticeText" class="text-xs text-slate-400 font-light leading-relaxed pt-2">
+          The official submission deadline has passed. Submission rosters are now sealed in the Citadel archives.
         </p>
       </div>
       <div class="p-3 bg-stone-950/80 rounded-xl border border-slate-800 text-[11px] font-cinzel text-slate-500 tracking-widest uppercase">
@@ -174,7 +171,7 @@
     </div>
   </div>
 
-  <!-- ================= LOADING BUFFER ================= -->
+  <!-- Loading Overlay -->
   <div id="loadingOverlay" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center space-y-4">
     <div class="valyrian-spinner"></div>
     <div class="text-center space-y-1">
@@ -183,20 +180,20 @@
     </div>
   </div>
 
-  <!-- ================= INSTRUCTION MANUAL PDF MODAL ================= -->
+  <!-- PDF Manual Modal -->
   <div id="pdfModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6">
     <div class="valyrian-shield max-w-4xl w-full h-[85vh] rounded-2xl flex flex-col overflow-hidden border border-slate-600/50 shadow-2xl">
       <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-stone-950/80">
         <div class="flex items-center space-x-2">
           <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-          <h3 class="text-xs sm:text-sm font-cinzel font-bold text-amber-300 tracking-[0.2em] uppercase">Instruction Manual - Citadel Scroll</h3>
+          <h3 id="modalPdfTitle" class="text-xs sm:text-sm font-cinzel font-bold text-amber-300 tracking-[0.2em] uppercase">Instruction Manual - Citadel Scroll</h3>
         </div>
         <button id="closePdfModal" class="bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/60 rounded-full px-3 py-1 text-[11px] font-cinzel tracking-wider uppercase transition-all cursor-pointer">
           Close Scroll
         </button>
       </div>
       <div class="flex-1 bg-black/50 p-2">
-        <iframe src="manual.pdf" class="w-full h-full rounded-xl border border-slate-800" title="Instruction Manual"></iframe>
+        <iframe id="pdfIframe" src="manual.pdf" class="w-full h-full rounded-xl border border-slate-800" title="Instruction Manual"></iframe>
       </div>
     </div>
   </div>
@@ -209,7 +206,7 @@
           <img src="logo.png" onerror="this.src='https://lh3.googleusercontent.com/a/ACg8ocKVCZ3dwhUxDnuDbv2TfiSLT54QDnjOOAb-ke-HPQSY0R6qt4o=s360-c-no';" alt="Insignia" class="w-full h-full object-cover" />
         </div>
         <h2 class="text-xl font-bold font-cinzel text-slate-200 tracking-wider">LOGIN</h2>
-        <p class="text-[11px] text-slate-400 font-cinzel">Verify credentials (Rep or Admin) to unlock team portal</p>
+        <p class="text-[11px] text-slate-400 font-cinzel">Verify credentials (Rep or Admin) to unlock portal</p>
       </div>
 
       <form id="loginForm" class="space-y-4">
@@ -240,10 +237,10 @@
     </div>
   </div>
 
-  <!-- ================= 2. REGISTRATION PORTAL ================= -->
+  <!-- ================= 2. PORTAL ================= -->
   <div id="portalScreen" class="hidden relative z-10 max-w-7xl mx-auto py-6 px-4 sm:px-8 space-y-6">
 
-    <!-- Iron-Bar Nav -->
+    <!-- Top Navigation -->
     <nav class="valyrian-nav-bar rounded-2xl px-5 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
       <div class="flex items-center space-x-3">
         <div class="w-8 h-8 rounded-full border border-amber-500/50 bg-black flex items-center justify-center shadow-[0_0_10px_rgba(245,158,11,0.3)]">
@@ -255,31 +252,38 @@
       </div>
 
       <div class="flex flex-wrap items-center gap-3">
-        <!-- Instruction Manual Trigger -->
         <button id="openPortalPdfBtn" type="button" class="bg-black/60 hover:bg-black text-slate-300 border border-slate-700/60 rounded-full px-3.5 py-1.5 text-[11px] font-cinzel tracking-wider flex items-center space-x-1.5 transition-all cursor-pointer">
-          <span>Manual</span>
+          <span id="manualButtonLabel">Manual</span>
         </button>
 
-        <!-- Audio Control Toggle -->
         <button id="audioToggleBtn" type="button" class="bg-black/60 hover:bg-black text-slate-300 border border-slate-600/60 rounded-full px-3.5 py-1.5 text-[11px] font-cinzel tracking-wider flex items-center space-x-2 transition-all cursor-pointer">
           <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse" id="audioIndicatorDot"></span>
           <span id="audioStatusText">Soundtrack: On</span>
         </button>
 
-        <!-- Sign Out Button -->
         <button id="logoutBtn" class="bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/60 rounded-full px-4 py-1.5 text-[11px] font-cinzel font-bold tracking-widest uppercase transition-all shadow-md cursor-pointer">
           Sign Out
         </button>
       </div>
     </nav>
 
-    <!-- Valyrian Countdown Banner -->
+    <!-- SECTION SWITCHER: Track & Field vs Gaming Night -->
+    <div class="valyrian-nav-bar p-2 rounded-2xl flex flex-col sm:flex-row items-center justify-center gap-2 border border-slate-700/60">
+      <button id="switchSportsBtn" type="button" class="w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-gradient-to-r from-amber-600/80 to-amber-700/90 text-white shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+        Track, Field & Sports Realm
+      </button>
+      <button id="switchGamingBtn" type="button" class="w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-black/50 text-slate-400 hover:text-slate-200 hover:bg-stone-900/80">
+        Gaming Night Realm
+      </button>
+    </div>
+
+    <!-- Countdown Banner -->
     <div id="countdownBanner" class="valyrian-nav-bar rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 border border-amber-600/40 bg-gradient-to-r from-stone-950 via-amber-950/30 to-stone-950 shadow-xl">
       <div class="flex items-center space-x-3 text-center sm:text-left">
         <span class="text-2xl animate-pulse">⏳</span>
         <div>
-          <h3 class="text-xs font-cinzel font-bold text-amber-300 tracking-[0.2em] uppercase">Submission Deadline: Nov 13, 11:59 PM</h3>
-          <p class="text-[10px] text-slate-400 font-cinzel">Team card submission closes promptly when time expires</p>
+          <h3 id="countdownTitle" class="text-xs font-cinzel font-bold text-amber-300 tracking-[0.2em] uppercase">Submission Deadline: Nov 13, 11:59 PM</h3>
+          <p id="countdownSub" class="text-[10px] text-slate-400 font-cinzel">Team card submission closes promptly when time expires</p>
         </div>
       </div>
       <div id="countdownBoxes" class="flex items-center space-x-2 text-center font-cinzel">
@@ -305,23 +309,25 @@
       </div>
     </div>
 
-    <!-- Header -->
+    <!-- Header with Dynamic Realm Logo -->
     <header class="text-center py-4 px-4 space-y-3">
       <div class="inline-block relative">
-        <div class="w-32 h-32 sm:w-40 sm:h-40 mx-auto rounded-full overflow-hidden sigil-glow bg-black flex items-center justify-center transform transition-transform duration-500 hover:scale-105">
-          <img src="logo.png" onerror="this.src='https://lh3.googleusercontent.com/a/ACg8ocKVCZ3dwhUxDnuDbv2TfiSLT54QDnjOOAb-ke-HPQSY0R6qt4o=s360-c-no';" alt="Official Insignia" class="w-full h-full object-cover filter contrast-125" />
+        <div class="w-28 h-28 sm:w-36 sm:h-36 mx-auto rounded-full overflow-hidden sigil-glow bg-black flex items-center justify-center transform transition-transform duration-500 hover:scale-105">
+          <img id="portalHeaderLogo" src="logo.png" onerror="this.src='https://lh3.googleusercontent.com/a/ACg8ocKVCZ3dwhUxDnuDbv2TfiSLT54QDnjOOAb-ke-HPQSY0R6qt4o=s360-c-no';" alt="Official Insignia" class="w-full h-full object-cover filter contrast-125" />
         </div>
         <p class="text-[11px] uppercase tracking-[0.4em] text-slate-300 font-cinzel font-bold mt-3">
           Faculty of Engineering • University of Jaffna
         </p>
       </div>
 
+      <!-- Realm Specific Banner Logo (logotf.png / logogn.png) -->
       <div class="relative my-2 flex items-center justify-center">
         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-slate-500/15 to-transparent blur-xl pointer-events-none"></div>
-        <img src="eweek.png" alt="E-Week 2026" class="relative max-w-[240px] sm:max-w-[300px] md:max-w-[380px] w-full h-auto object-contain filter drop-shadow-[0_10px_25px_rgba(0,0,0,0.95)]" />
+        <img id="realmBannerLogo" src="logotf.png" alt="Realm Insignia" class="relative max-w-[240px] sm:max-w-[300px] md:max-w-[380px] w-full h-auto object-contain filter drop-shadow-[0_10px_25px_rgba(0,0,0,0.95)] transition-all duration-300" />
       </div>
     </header>
 
+    <!-- MAIN FORM CONTAINER -->
     <main class="valyrian-shield rounded-3xl p-6 sm:p-12 relative">
       <div id="teamCardForm" class="space-y-6">
 
@@ -337,37 +343,15 @@
           </div>
 
           <div>
-            <label class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-2">
+            <label id="eventSelectLabel" class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-2">
               The Sport / Event
             </label>
             <select id="sportSelect" class="w-full bg-[#0d0c11] border border-slate-800 text-slate-200 rounded-xl p-3 text-sm font-cinzel focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all cursor-pointer">
-              <option value="">-- Choose Event --</option>
-              <option value="cricket">Cricket</option>
-              <option value="volleyball">Volleyball</option>
-              <option value="basketball">Basketball</option>
-              <option value="football">Football</option>
-              <option value="netball">Netball</option>
-              <option value="elle">Elle (Mix)</option>
-              <option value="marathon">Marathon</option>
-              <optgroup label="Athletics Events">
-                <option value="100m">100m</option>
-                <option value="200m">200m</option>
-                <option value="400m">400m</option>
-                <option value="800m">800m</option>
-                <option value="1500m">1500m</option>
-                <option value="4x100">4x100m Relay</option>
-                <option value="4x400">4x400m Relay</option>
-                <option value="100m_hurdles">Mix Relay</option>
-                <option value="shotput">Shot Put</option>
-                <option value="longjump">Long Jump</option>
-                <option value="discuss_throw">Discuss Throw</option>
-                <option value="high_jump">High Jump</option>
-                <option value="javelin_throw">Javelin Throw</option>
-              </optgroup>
+              <!-- Populated dynamically via JS -->
             </select>
           </div>
 
-          <div>
+          <div id="categoryContainer">
             <label class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-2">
               Category / Realm
             </label>
@@ -378,28 +362,19 @@
           </div>
         </div>
 
-        <!-- Sport Specific Rules Display -->
+        <!-- Sport/Game Specific Rules Display -->
         <div id="activeRulesNotice" class="hidden bg-stone-950/90 border border-amber-600/40 rounded-2xl p-5 shadow-lg space-y-4">
-          <!-- General Rules Section -->
           <div class="space-y-2 border-b border-slate-800/80 pb-3">
             <div class="flex items-center justify-between">
-              <h4 class="text-xs font-cinzel font-bold text-amber-300 uppercase tracking-widest flex items-center gap-2">
+              <h4 id="generalRulesTitle" class="text-xs font-cinzel font-bold text-amber-300 uppercase tracking-widest flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                General Sports Rules & Regulations (Mandatory For All Events)
+                General Rules & Regulations
               </h4>
               <span class="text-[10px] font-cinzel text-amber-400 bg-amber-950/60 border border-amber-700/60 px-2 py-0.5 rounded-full">General Protocol</span>
             </div>
-            <ul class="space-y-1.5 list-disc list-inside text-xs text-slate-300 font-light">
-              <li>For all team events the teams must present before 10 min of the event time.</li>
-              <li>The judge / umpire decision will be considered as final.</li>
-              <li>If anyone or team argues with judge or umpire and also with another team, definitely disqualified.</li>
-              <li>Discipline must be strictly followed.</li>
-              <li>If the team or any participant is late for an event for more than 10 minutes, the team or the participants will be disqualified unless informed in advance with valid reason.</li>
-              <li>Each event will start immediately after the end of the previous event due to the tight schedule[cite: 5]. However, it will be informed at least 10 minutes before the event begins.</li>
-            </ul>
+            <ul id="generalRulesList" class="space-y-1.5 list-disc list-inside text-xs text-slate-300 font-light"></ul>
           </div>
 
-          <!-- Specific Event Rules Section -->
           <div class="space-y-2">
             <div class="flex items-center justify-between">
               <h4 id="activeRulesSportName" class="text-xs font-cinzel font-bold text-amber-300 uppercase tracking-widest flex items-center gap-2">
@@ -408,13 +383,11 @@
               </h4>
               <span id="activeRulesBadge" class="text-[10px] font-cinzel text-amber-400 bg-amber-950/60 border border-amber-700/60 px-2 py-0.5 rounded-full"></span>
             </div>
-            <ul id="activeRulesList" class="space-y-1.5 list-disc list-inside text-xs text-slate-300 font-light">
-              <!-- Dynamically populated -->
-            </ul>
+            <ul id="activeRulesList" class="space-y-1.5 list-disc list-inside text-xs text-slate-300 font-light"></ul>
           </div>
         </div>
 
-        <!-- Unified Rules Checkbox -->
+        <!-- Consent Checkbox -->
         <div id="rulesConsentSection" class="p-4 bg-gradient-to-r from-stone-950 via-amber-950/20 to-stone-950 rounded-2xl border border-amber-500/40 shadow-inner">
           <label class="flex items-start sm:items-center space-x-3 cursor-pointer select-none">
             <input type="checkbox" id="rulesCheckbox" class="w-5 h-5 mt-0.5 sm:mt-0 rounded bg-[#0d0c11] border-slate-700 text-amber-500 focus:ring-amber-500 accent-amber-500 cursor-pointer" />
@@ -429,12 +402,24 @@
           </label>
         </div>
 
-        <!-- Player Roster Table -->
+        <!-- Team Name Inputs for Gaming Multi-teams -->
+        <div id="gamingTeamNameInputs" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-4 bg-stone-950/80 p-5 rounded-2xl border border-amber-600/30">
+          <div>
+            <label id="team1NameLabel" class="block text-[11px] uppercase tracking-widest text-amber-300 font-cinzel font-bold mb-1">Squad Name (Team 1)</label>
+            <input type="text" id="gaming_team1_name" placeholder="e.g. Dire Wolves" class="w-full bg-[#0d0c11] border border-slate-800 focus:border-amber-400 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none font-cinzel" />
+          </div>
+          <div id="team2NameWrapper" class="hidden">
+            <label id="team2NameLabel" class="block text-[11px] uppercase tracking-widest text-amber-300 font-cinzel font-bold mb-1">Squad Name (Team 2)</label>
+            <input type="text" id="gaming_team2_name" placeholder="e.g. Ironborn" class="w-full bg-[#0d0c11] border border-slate-800 focus:border-amber-400 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none font-cinzel" />
+          </div>
+        </div>
+
+        <!-- Roster Table -->
         <div class="space-y-3 relative">
           <div class="flex flex-col sm:flex-row justify-between items-baseline gap-1">
             <h2 class="text-sm sm:text-base font-bold font-cinzel tracking-wider text-slate-200 flex items-center gap-2">
-              <img src="logo.png" onerror="this.src='https://lh3.googleusercontent.com/a/ACg8ocKVCZ3dwhUxDnuDbv2TfiSLT54QDnjOOAb-ke-HPQSY0R6qt4o=s360-c-no';" class="w-5 h-5 rounded-full border border-slate-500/60 inline-block object-cover" alt="icon" />
-              <span id="rosterTitle">Squad Roster, Roles & Captain Designation</span>
+              <img id="rosterSubIcon" src="logotf.png" onerror="this.src='logo.png';" class="w-5 h-5 rounded-full border border-slate-500/60 inline-block object-cover" alt="icon" />
+              <span id="rosterTitle">Squad Roster & Designation</span>
             </h2>
             <span id="lockStatusIndicator" class="text-xs font-cinzel text-amber-400/90 tracking-wider">🔒 Locked: Accept Rules Above</span>
           </div>
@@ -451,11 +436,11 @@
 
             <!-- Table Header -->
             <div id="tableHeader" class="grid grid-cols-12 bg-slate-950/90 px-4 py-3 font-cinzel text-xs text-slate-300 font-bold uppercase tracking-widest border-b border-slate-800">
-              <div class="col-span-1 text-center text-slate-500">Rank</div>
+              <div class="col-span-1 text-center text-slate-500">Slot</div>
               <div class="col-span-5 px-3">Player Full Name</div>
-              <div class="col-span-3 px-3">Reg. No.</div>
-              <div id="roleHeaderCol" class="hidden col-span-3 px-3">Cricket Role</div>
-              <div class="col-span-3 px-3 text-center">Captain?</div>
+              <div class="col-span-3 px-3">Reg. No. (E-No)</div>
+              <div id="roleHeaderCol" class="hidden col-span-3 px-3">Role / Designation</div>
+              <div id="captainHeaderCol" class="col-span-3 px-3 text-center">Captain?</div>
             </div>
 
             <div id="playersContainer" class="divide-y divide-slate-900/80">
@@ -471,7 +456,7 @@
           </button>
 
           <button type="button" id="finalizeBtn" disabled class="w-full bg-gradient-to-r from-slate-900 via-slate-800 to-zinc-900 hover:from-slate-800 hover:to-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed text-slate-100 font-cinzel font-bold tracking-[0.2em] text-xs uppercase py-4 px-4 rounded-xl border border-slate-400/50 shadow-[0_0_20px_rgba(148,163,184,0.25)] transition-all flex items-center justify-center space-x-2 cursor-pointer">
-            <span>Finalize & Download Word Card (.docx)</span>
+            <span id="finalizeBtnText">Finalize & Download Word Card (.docx)</span>
           </button>
         </div>
 
@@ -485,19 +470,29 @@
 
   <script>
     /******************************************************************
-     * 0. DEADLINE COUNTDOWN CONTROLLER (Nov 13, 11:59:59 PM)
+     * 0. APPS SCRIPT URLS & DEADLINES
      ******************************************************************/
-    const DEADLINE_TIMESTAMP = new Date(2026, 10, 13, 23, 59, 59).getTime();
+    const SPORTS_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkFJsbdHQFZDAiFYWXyCIUvGbmbt0PxGqSGjm_FCEFvjSIC11CUEFyrhlcK30pzJ9fBg/exec";
+    const GAMING_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz649lEcMFanP_CSXa5ZrX6ee9yJVQKHZKsegIKNURpA0_CbFbs2S1zodepG0biSXRw/exec";
+
+    const DEADLINE_SPORTS = new Date(2026, 10, 13, 23, 59, 59).getTime(); // Nov 13 11:59 PM
+    const DEADLINE_GAMING = new Date(2026, 10, 14, 23, 59, 59).getTime(); // Nov 14 11:59 PM
+
+    let currentSection = "sports"; // "sports" or "gaming"
 
     const cdDays = document.getElementById("cdDays");
     const cdHours = document.getElementById("cdHours");
     const cdMins = document.getElementById("cdMins");
     const cdSecs = document.getElementById("cdSecs");
     const deadlineClosedModal = document.getElementById("deadlineClosedModal");
+    const countdownTitle = document.getElementById("countdownTitle");
+    const countdownSub = document.getElementById("countdownSub");
+    const deadlineNoticeText = document.getElementById("deadlineNoticeText");
 
     function enforceDeadlineStatus() {
+      const activeDeadline = (currentSection === "gaming") ? DEADLINE_GAMING : DEADLINE_SPORTS;
       const now = new Date().getTime();
-      const distance = DEADLINE_TIMESTAMP - now;
+      const distance = activeDeadline - now;
 
       if (distance <= 0) {
         cdDays.innerText = "00";
@@ -515,6 +510,7 @@
         return true;
       }
 
+      deadlineClosedModal.classList.add("hidden");
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((distance / (1000 * 60)) % 60);
@@ -529,151 +525,50 @@
     }
 
     setInterval(enforceDeadlineStatus, 1000);
-    enforceDeadlineStatus();
 
     /******************************************************************
-     * 1. COMPLETE RULES & REGULATIONS DATA SOURCE (E-WEEK 2024 ARCHIVES)
+     * 1. RULES & REGULATIONS DATA SOURCE (SPORTS & GAMING)
      ******************************************************************/
+    const GENERAL_SPORTS_RULES = [
+      "For all team events the teams must present before 10 min of the event time.",
+      "The judge / umpire decision will be considered as final.",
+      "If anyone or team argues with judge or umpire and also with another team, definitely disqualified.",
+      "Discipline must be strictly followed.",
+      "If the team or any participant is late for an event for more than 10 minutes, the team or the participants will be disqualified unless informed in advance with valid reason.",
+      "Each event will start immediately after the end of the previous event due to tight schedule. However, it will be informed at least 10 minutes before the event begins."
+    ];
+
+    const GENERAL_GAMING_RULES = [
+      "All competitors are expected to know and understand all rules. Not knowing a rule will not be accepted as an excuse[cite: 3].",
+      "At LAN & online tournaments, all players are expected to be present on time[cite: 3].",
+      "Tournament brackets (single/double elimination) are decided by organizers and will be randomized[cite: 3].",
+      "Gaming night organizers have the authority to cancel games if registrations are insufficient or time runs out[cite: 3].",
+      "Team cards must be submitted before 14th November 2026[cite: 3].",
+      "Points: 1st Place = 30 pts, 2nd Place = 20 pts, 3rd Place = 10 pts (Category 1 rules apply)[cite: 3]."
+    ];
+
     const RULES_REGULATIONS_DATA = {
+      // Sports
       "volleyball": {
         title: "Volleyball Rules & Regulations",
         badge: "League Tournament",
         rules: [
           "This is a league Tournament.",
           "The draw will be arranged before the start of the match.",
-          "Each game will consist of three (3) sets of 25 points each. (Depending on the schedule of the day, maybe it will be increased to (5) sets.)",
-          "Two (2) time outs will be permitted per team during any given set.",
-          "Further International volleyball rules will be followed."
-        ]
-      },
-      "table_tennis": {
-        title: "Table Tennis Rules & Regulations",
-        badge: "Men's and Women's",
-        rules: [
-          "There should be 3 players in a team - 2 singles and one person to play the doubles along with one of the singles players.",
-          "Each single game will consist of 3 sets of 11 points in each. In the case of 10-10 situation the game will continue till one player gets a 2-point clearance. (One player gets one serve each).",
-          "A double game will consist of 3 sets of 15 points and similar rule will apply for 14-14 situation.",
-          "In the event where a team comprises less than the minimum no of players required at the time of play, (i.e. 4 members) then, that particular team will have to concede a walkover.",
-          "In the case of the finals, 4 singles games (including reverse singles) and one doubles game will be played.",
-          "Further International table tennis rules will be followed."
-        ]
-      },
-      "marathon": {
-        title: "Marathon Rules & Regulations",
-        badge: "Team Event",
-        rules: [
-          "This is an event conducted as a team. Maximum 20 participants can represent each batch.",
-          "Participants should attend and pass medical checkup.",
-          "Participants dress should be in a good manner.",
-          "All participants are required to be present 30 minutes prior to the start of the marathon.",
-          "Participants cannot get help from any others who do not take part in the event and also from any vehicles during the event. If found, you will be disqualified.",
-          "The event map should be followed strictly.",
-          "If a participant disturbs another who takes part in the event, he will lose his points.",
-          "Points system: First finisher will get 75 points; second finisher will get 74; points reduce from 75 to 1.",
-          "If anyone leaves the event midway and finished the first half (from University junction up to Kilinochchi police station), that person receives 1 point.",
-          "Points calculated will be considered only in deciding the rank obtained by a particular batch for the event (not raw overall E-Week points).",
-          "If anyone needs emergency medical attention, the organizing committee will take care of you."
-        ]
-      },
-      "football": {
-        title: "Football Rules & Regulations",
-        badge: "Match Rules",
-        rules: [
-          "Match Duration: Two 20-minute halves with a 5-minute break in between.",
-          "Team Composition: Each team must have a minimum of 7 players to start the match (including 1 goalkeeper).",
-          "The goalkeeper is the only player allowed to handle the ball within the 18-yard box.",
-          "Substitutions: Substitutions can be made at any time during the match, with no limit on the number of substitutions.",
-          "Fouls & Discipline: Yellow cards issued for minor fouls. Red cards issued for serious fouls or unsporting behavior (player sent off cannot be replaced).",
-          "Jersey: Outfield players must wear the same color jersey; only the goalkeeper may wear a different-colored jersey.",
-          "Footwear: Wearing boots is not compulsory.",
-          "Further international football rules will be followed."
-        ]
-      },
-      "badminton_men": {
-        title: "Badminton Rules & Regulations (Men's)",
-        badge: "Men's Tie",
-        rules: [
-          "Minimum 6 players nominated: 3 for singles and 3 for doubles. Only ONE player who has played singles may play again in doubles.",
-          "Order of matches in a tie: 1st Singles, 2nd Singles, 3rd Singles, 1st Doubles, 2nd Doubles.",
-          "If a team comprises less than the minimum required players at match time (i.e., 4 members), that team concedes a walkover.",
-          "Each singles & doubles game consists of 3 sets of 21 points each. At 20-20, game continues until 2-point clearance up to 25 points.",
-          "Official shuttlecock: Yonex Mavis 600.",
-          "Finals: Singles match consists of three 21-point sets with standard tie-break.",
-          "Further International badminton rules will be followed."
-        ]
-      },
-      "badminton_women": {
-        title: "Badminton Rules & Regulations (Women's)",
-        badge: "Women's Tie",
-        rules: [
-          "Minimum 4 players nominated: 2 for singles and 2 for doubles. The two singles players CANNOT play in the doubles match of the same tie.",
-          "Order of matches in a tie: 1st Singles, 2nd Singles, 1st Doubles.",
-          "If a team comprises less than 4 members at match time, that team concedes a walkover.",
-          "Each singles & doubles game consists of 3 sets of 21 points each. At 20-20, game continues until 2-point clearance up to 25 points.",
-          "Official shuttlecock: Yonex Mavis 600.",
-          "Finals: Singles match consists of three 21-point sets with standard tie-break.",
-          "Further International badminton rules will be followed."
-        ]
-      },
-      "elle": {
-        title: "Elle Rules & Regulations",
-        badge: "Federation Rules",
-        rules: [
-          "The team squad should consist of 20 players; each team fields 16 players.",
-          "At least 4 girls must participate in each team including the 16 playing members.",
-          "25 balls allocated per team; 5 balls must be faced by girls.",
-          "If the match is a tie, 5 additional balls are awarded to play.",
-          "Proper rules must be explained at the beginning of the match to the captains.",
-          "Players must wear proper attire (no long bottoms for boys).",
-          "Further National Elle federation rules will be followed."
+          "Each game will consist of three (3) sets of 25 points each (may increase to 5 depending on schedule).",
+          "Two (2) time outs permitted per team per set.",
+          "International volleyball rules will be followed."
         ]
       },
       "cricket": {
         title: "Cricket Rules & Regulations",
         badge: "Soft Ball League",
         rules: [
-          "Team squad should consist of 15 players (11 players per side).",
-          "All league matches consist of 7 overs per side (Final consists of 10 overs per side).",
-          "Only 2 bowlers are allowed to bowl 2 overs (in 7-over matches); in the final, 4 bowlers can bowl 2 overs.",
-          "Powerplay: First 2 overs (batting powerplay: max 3 fielders outside 30-yard circle; after powerplay, max 5 fielders outside).",
-          "Top team from league qualifies directly for final. 2nd & 3rd places play in playoff for final spot.",
-          "Winning team earns 2 points. Tied matches decided by Super Over (6 balls, 2 wickets). Net Run Rate considered on tied points.",
-          "Compulsory for all players to wear long bottoms.",
-          "No LBW. Shoulder height no ball and rain interruptions will be considered. National soft ball federation rules apply."
-        ]
-      },
-      "chess": {
-        title: "Chess Rules & Regulations",
-        badge: "FIDE Standard",
-        rules: [
-          "Official Round-Robin Team Tournament conducted under FIDE regulations using Swiss-Manager software (Standard Chess).",
-          "Each batch may register a maximum of one Boys' Team and one Girls' Team.",
-          "Each team consists of 8 members: 6 playing members and 2 reserve players.",
-          "Ranking criteria order: 1. Match Points, 2. Game Points, 3. Sonneborn-Berger (SB) Points.",
-          "Time control: 60 minutes per player for the entire game with zero increment.",
-          "Clocks started at the scheduled start time. Loss on time applies, unless opponent cannot checkmate by legal moves (drawn).",
-          "Drop sheet and playing-team list (with fixed board order) must be submitted to Chief Arbiter at least 10 minutes before match start.",
-          "Submitted board order must be strictly followed throughout the match."
-        ]
-      },
-      "carrom_men": {
-        title: "Carrom Rules & Regulations (Men's)",
-        badge: "League Format",
-        rules: [
-          "League tournament: Maximum 1 team per batch from the same batch.",
-          "Minimum 5 players: 3 for singles and 2 for doubles. The singles players cannot play in the doubles match.",
-          "Game duration: Decided by 30 minutes or 25 points, whichever comes first.",
-          "Points calculation announced before match starts. International carrom rules followed."
-        ]
-      },
-      "carrom_women": {
-        title: "Carrom Rules & Regulations (Women's)",
-        badge: "League Format",
-        rules: [
-          "League tournament: Maximum 1 team per batch from the same batch.",
-          "Minimum 3 players: Only 1 player is permitted to participate in both singles and doubles.",
-          "Game duration: Decided by 15 minutes (highest points within time limit wins).",
-          "Points calculation announced before match starts. International carrom rules followed."
+          "Squad should consist of 15 players (11 players per side).",
+          "League matches 7 overs per side (Final: 10 overs).",
+          "Only 2 bowlers can bowl 2 overs (in 7-over matches); 4 bowlers in final.",
+          "Powerplay: First 2 overs (max 3 fielders outside 30-yard circle). Compulsory long bottoms.",
+          "No LBW. Shoulder height no ball considered."
         ]
       },
       "basketball": {
@@ -681,26 +576,38 @@
         badge: "FIBA Standard",
         rules: [
           "Squad: Maximum 9 players, minimum 5 players.",
-          "Duration: Two halves of 7 minutes each with a 2-minute halftime break.",
-          "Clock runs during play; stops on fouls, free throws, timeouts, or far out-of-bounds balls. Clock restarts on inbound touch.",
-          "NO shot clock used.",
-          "One 30-second timeout allowed per team per half.",
-          "Team fouls: Two free throws awarded on the 5th team foul for remainder of half. Individual fouls not tracked, but warnings issued for repeated fouls.",
-          "No jewellery or dangerous accessories permitted (bands, rings, chains, earrings).",
-          "Substitutes must report to scorekeeper and be recognized by official before entering. Further FIBA rules apply."
+          "Two halves of 7 minutes each (2 min halftime).",
+          "Clock runs during play; stops on fouls, timeouts, free throws. NO shot clock used.",
+          "No jewellery or dangerous accessories permitted."
         ]
       },
-      "athletics": {
-        title: "Athletics Rules & Regulations",
-        badge: "Track & Field",
+      "football": {
+        title: "Football Rules & Regulations",
+        badge: "Match Rules",
         rules: [
-          "A batch can represent only 2 members for an individual event.",
-          "Each athlete may participate in a maximum of three (3) individual events.",
-          "Participation in relay events is permitted in addition to the three individual events.",
-          "A batch can represent only one team (4 members) for relay races.",
-          "Boys must wear suitable athletic kits; long bottoms are NOT allowed.",
-          "Every participant or team must be present on time. Being late by 5 minutes from call time results in disqualification.",
-          "All events conducted according to international rules; judge's decision is final."
+          "Two 20-minute halves with a 5-minute break.",
+          "Min 7 players to start match (including 1 goalkeeper).",
+          "Unlimited rolling substitutions permitted.",
+          "Wearing boots is not compulsory."
+        ]
+      },
+      "elle": {
+        title: "Elle Rules & Regulations",
+        badge: "Federation Rules",
+        rules: [
+          "Squad: 20 players; 16 playing members.",
+          "At least 4 girls must participate in each team.",
+          "25 balls allocated per team; 5 balls must be faced by girls.",
+          "No long bottoms for boys."
+        ]
+      },
+      "marathon": {
+        title: "Marathon Rules & Regulations",
+        badge: "Team Event",
+        rules: [
+          "Max 20 participants per batch. Medical checkup mandatory.",
+          "Present 30 mins prior to start. Strictly follow the route.",
+          "Points: 1st finisher gets 75 pts, 2nd gets 74, descending to 1."
         ]
       },
       "netball": {
@@ -708,8 +615,84 @@
         badge: "Women's League",
         rules: [
           "Restricted exclusively to WOMEN teams.",
-          "Squad consists of 12 players (7 on court, 5 substitutes).",
-          "Standard international INF rules and university tournament discipline guidelines apply."
+          "Squad consists of 12 players (7 on court, 5 substitutes)."
+        ]
+      },
+      "athletics": {
+        title: "Athletics Rules & Regulations",
+        badge: "Track & Field",
+        rules: [
+          "A batch can enter up to 2 athletes per individual event.",
+          "Each athlete may participate in max 3 individual events + relays.",
+          "Boys must wear athletic kit; long bottoms are NOT allowed."
+        ]
+      },
+
+      // Gaming Night
+      "valorant": {
+        title: "Valorant Rules & Regulations",
+        badge: "Unrated-Tournament Mode",
+        bg: "val.jpeg",
+        rules: [
+          "Mode: Unrated-tournament mode. One team per batch[cite: 4].",
+          "Team size: 5 main players + 1 substitute player[cite: 4].",
+          "Each player can register and play for only one team[cite: 4].",
+          "Substitute must be registered prior to start; must inform organizers before match[cite: 4].",
+          "No unregistered or suspended players allowed[cite: 4]."
+        ]
+      },
+      "cod4": {
+        title: "Call of Duty 4: Modern Warfare Rules",
+        badge: "Promodlive 2.20 EU",
+        bg: "cod.jpeg",
+        rules: [
+          "Max 2 teams per batch. Squad: 5 main players + up to 2 substitutes per team[cite: 4].",
+          "Played on Promodlive2.20 EU (promod_mode lan knockout mr12)[cite: 5].",
+          "First team to reach 13 rounds wins. Bomb timer: 45s, Plant/Defuse: 7s[cite: 5].",
+          "Classes per 5-player team: Max 1 Sniper, 1 Demolition, 2 SMG, 5 Assault[cite: 5].",
+          "Map pool: mp_backlot, mp_crash, mp_crossfire, mp_strike. Lower seed starts veto[cite: 5].",
+          "A team can start shorthanded with 4 players. Missing more than 1 results in forfeit[cite: 5]."
+        ]
+      },
+      "mkx": {
+        title: "Mortal Kombat X Rules & Regulations",
+        badge: "Individual / Batch Rep",
+        bg: "mk.jpeg",
+        rules: [
+          "Maximum of 4 players can register from a batch[cite: 6].",
+          "Tournament bracket (single/double elimination) announced by organizers[cite: 6].",
+          "Playing side determined by assigned referee or coin toss / Rock, Paper, Scissors[cite: 6]."
+        ]
+      },
+      "aoe3": {
+        title: "Age of Empires 3 Rules & Regulations",
+        badge: "The Asian Dynasties",
+        bg: "aoe.jpeg",
+        rules: [
+          "Each team must consist of 2 players. Max 2 teams per batch[cite: 6].",
+          "Matches played on Age of Empires III: The Asian Dynasties[cite: 6].",
+          "Each player can register for only one team[cite: 6].",
+          "Map pool: Great Plains, Gold River, Hispaniola, New England, Saguenay, Silk Road[cite: 6]."
+        ]
+      },
+      "nfsmw": {
+        title: "Need for Speed: Most Wanted Rules",
+        badge: "LAN Racing",
+        bg: "nfs.jpeg",
+        rules: [
+          "Maximum 4 players allowed per batch[cite: 6].",
+          "Maps announced prior to the game[cite: 6].",
+          "Single or double elimination bracket decided by organizers[cite: 6]."
+        ]
+      },
+      "blur": {
+        title: "Blur Rules & Regulations",
+        badge: "Powered-up Racing",
+        bg: "blur.jpeg",
+        rules: [
+          "Maximum 4 players allowed per batch.",
+          "Only Class A and Class B vehicles will be available.",
+          "Map pool: SanFran Sausalito (3 Laps), LA River (3 Laps), LA Docks (3 Laps), Hollywood Hills (2 Laps), Brighton Coastal (3 Laps), Barcelona Gracia (3 Laps), Amboy Route 66 (2 Laps)."
         ]
       }
     };
@@ -720,22 +703,130 @@
       "longjump", "discuss_throw", "high_jump", "javelin_throw"
     ];
 
-    function getRuleKeyForSport(sportKey, category) {
-      if (!sportKey) return null;
-      if (ATHLETICS_KEYS.includes(sportKey)) return "athletics";
-      if (sportKey === "badminton") {
-        return category === "WOMEN" ? "badminton_women" : "badminton_men";
-      }
-      if (sportKey === "carrom") {
-        return category === "WOMEN" ? "carrom_women" : "carrom_men";
-      }
-      return RULES_REGULATIONS_DATA[sportKey] ? sportKey : null;
-    }
-
     /******************************************************************
-     * 2. EVENT & CATEGORY CONSTRAINTS ENGINE
+     * 2. EVENT SCHEMAS & CONFIGURATIONS
      ******************************************************************/
-    const EVENT_LIMITS = {
+    const SPORTS_OPTIONS = `
+      <option value="">-- Choose Sport / Event --</option>
+      <option value="cricket">Cricket</option>
+      <option value="volleyball">Volleyball</option>
+      <option value="basketball">Basketball</option>
+      <option value="football">Football</option>
+      <option value="netball">Netball</option>
+      <option value="elle">Elle (Mix)</option>
+      <option value="marathon">Marathon</option>
+      <optgroup label="Athletics Events">
+        <option value="100m">100m</option>
+        <option value="200m">200m</option>
+        <option value="400m">400m</option>
+        <option value="800m">800m</option>
+        <option value="1500m">1500m</option>
+        <option value="4x100">4x100m Relay</option>
+        <option value="4x400">4x400m Relay</option>
+        <option value="100m_hurdles">Mix Relay</option>
+        <option value="shotput">Shot Put</option>
+        <option value="longjump">Long Jump</option>
+        <option value="discuss_throw">Discuss Throw</option>
+        <option value="high_jump">High Jump</option>
+        <option value="javelin_throw">Javelin Throw</option>
+      </optgroup>
+    `;
+
+    const GAMING_OPTIONS = `
+      <option value="">-- Choose Game --</option>
+      <option value="valorant">Valorant</option>
+      <option value="cod4">Call of Duty 4</option>
+      <option value="mkx">Mortal Kombat X</option>
+      <option value="aoe3">Age of Empires 3</option>
+      <option value="nfsmw">Need For Speed Most Wanted</option>
+      <option value="blur">Blur</option>
+    `;
+
+    const GAMING_SCHEMAS = {
+      "valorant": {
+        totalSlots: 6,
+        hasTeam1: true,
+        team1Label: "Valorant Team Name",
+        hasTeam2: false,
+        slots: [
+          { rank: 1, label: "Player 01", nameKey: "VAL_NAME_1", enumKey: "VAL_E_1", role: "Main" },
+          { rank: 2, label: "Player 02", nameKey: "VAL_NAME_2", enumKey: "VAL_E_2", role: "Main" },
+          { rank: 3, label: "Player 03", nameKey: "VAL_NAME_3", enumKey: "VAL_E_3", role: "Main" },
+          { rank: 4, label: "Player 04", nameKey: "VAL_NAME_4", enumKey: "VAL_E_4", role: "Main" },
+          { rank: 5, label: "Player 05", nameKey: "VAL_NAME_5", enumKey: "VAL_E_5", role: "Main" },
+          { rank: 6, label: "Substitute 01", nameKey: "VAL_SUB_NAME_1", enumKey: " VAL_S_E_1", role: "Substitute" }
+        ]
+      },
+      "cod4": {
+        totalSlots: 12,
+        hasTeam1: true,
+        team1Label: "COD4 Team 1 Name",
+        hasTeam2: true,
+        team2Label: "COD4 Team 2 Name",
+        slots: [
+          { rank: 1, label: "T1 Player 01", nameKey: "COD _NAME_1", enumKey: "COD _E_1", role: "Team 1" },
+          { rank: 2, label: "T1 Player 02", nameKey: "COD _NAME_2", enumKey: "COD _E_2", role: "Team 1" },
+          { rank: 3, label: "T1 Player 03", nameKey: "COD_NAME_3", enumKey: "COD _E_3", role: "Team 1" },
+          { rank: 4, label: "T1 Player 04", nameKey: "COD _NAME_4", enumKey: "COD _E_4", role: "Team 1" },
+          { rank: 5, label: "T1 Player 05", nameKey: "COD _NAME_5", enumKey: "COD _E_5", role: "Team 1" },
+          { rank: 6, label: "T1 Substitute", nameKey: "COD _SUB_NAME_1", enumKey: "COD _S_E_1", role: "Substitute" },
+          { rank: 7, label: "T2 Player 01", nameKey: "COD _NAME_6", enumKey: "COD _E_6", role: "Team 2" },
+          { rank: 8, label: "T2 Player 02", nameKey: "COD _NAME_7", enumKey: "COD _E_7", role: "Team 2" },
+          { rank: 9, label: "T2 Player 03", nameKey: "COD_NAME_8", enumKey: "COD _E_8", role: "Team 2" },
+          { rank: 10, label: "T2 Player 04", nameKey: "COD _NAME_9", enumKey: "COD _E_9", role: "Team 2" },
+          { rank: 11, label: "T2 Player 05", nameKey: "COD _NAME_10", enumKey: "COD _E_10", role: "Team 2" },
+          { rank: 12, label: "T2 Substitute", nameKey: "COD _SUB_NAME_2", enumKey: "COD _S_E_2", role: "Substitute" }
+        ]
+      },
+      "mkx": {
+        totalSlots: 4,
+        hasTeam1: false,
+        hasTeam2: false,
+        slots: [
+          { rank: 1, label: "Fighter 01", nameKey: "MK_NAME_1", enumKey: "MK_E_1", role: "Player" },
+          { rank: 2, label: "Fighter 02", nameKey: "MK_NAME_2", enumKey: "MK_E_2", role: "Player" },
+          { rank: 3, label: "Fighter 03", nameKey: "MK_NAME_3", enumKey: "MK_E_3", role: "Player" },
+          { rank: 4, label: "Fighter 04", nameKey: "MK_NAME_4", enumKey: "MK_E_4", role: "Player" }
+        ]
+      },
+      "nfsmw": {
+        totalSlots: 4,
+        hasTeam1: false,
+        hasTeam2: false,
+        slots: [
+          { rank: 1, label: "Racer 01", nameKey: "NFS_NAME_1", enumKey: "NFS_E_1", role: "Driver" },
+          { rank: 2, label: "Racer 02", nameKey: "NFS_NAME_2", enumKey: "NFS_E_2", role: "Driver" },
+          { rank: 3, label: "Racer 03", nameKey: "NFS_NAME_3", enumKey: "NFS_E_3", role: "Driver" },
+          { rank: 4, label: "Racer 04", nameKey: "NFS_NAME_4", enumKey: "NFS_E_4", role: "Driver" }
+        ]
+      },
+      "aoe3": {
+        totalSlots: 4,
+        hasTeam1: true,
+        team1Label: "AoE3 Team 1 Name",
+        hasTeam2: true,
+        team2Label: "AoE3 Team 2 Name",
+        slots: [
+          { rank: 1, label: "T1 Player 01", nameKey: "AOE_NAME_1", enumKey: "AOE_E_1", role: "Team 1" },
+          { rank: 2, label: "T1 Player 02", nameKey: "AOE_NAME_2", enumKey: "AOE_E_2", role: "Team 1" },
+          { rank: 3, label: "T2 Player 01", nameKey: "AOE_NAME_3", enumKey: "AOE_E_3", role: "Team 2" },
+          { rank: 4, label: "T2 Player 02", nameKey: "AOE_NAME_4", enumKey: "AOE_E_4", role: "Team 2" }
+        ]
+      },
+      "blur": {
+        totalSlots: 4,
+        hasTeam1: false,
+        hasTeam2: false,
+        slots: [
+          { rank: 1, label: "Racer 01", nameKey: "BLUR_NAME_1", enumKey: "BLUR _E_1", role: "Driver" },
+          { rank: 2, label: "Racer 02", nameKey: "BLUR _NAME_2", enumKey: "BLUR _E_2", role: "Driver" },
+          { rank: 3, label: "Racer 03", nameKey: "BLUR _NAME_3", enumKey: "BLUR _E_3", role: "Driver" },
+          { rank: 4, label: "Racer 04", nameKey: "BLUR _NAME_4", enumKey: "BLUR _E_4", role: "Driver" }
+        ]
+      }
+    };
+
+    const SPORTS_EVENT_LIMITS = {
       "cricket": 15, "volleyball": 10, "basketball": 9, "football": 15,
       "netball": 12, "elle": 20, "marathon": 20,
       "100m": 2, "200m": 2, "400m": 2, "800m": 2, "1500m": 2,
@@ -743,11 +834,131 @@
       "longjump": 2, "discuss_throw": 2, "high_jump": 2, "javelin_throw": 2
     };
 
+    /******************************************************************
+     * 3. DOM ELEMENTS & DYNAMIC LOGO / SECTION SWITCHING
+     ******************************************************************/
     const sportSelect = document.getElementById("sportSelect");
     const categorySelect = document.getElementById("categorySelect");
+    const categoryContainer = document.getElementById("categoryContainer");
+    const eventSelectLabel = document.getElementById("eventSelectLabel");
+    const switchSportsBtn = document.getElementById("switchSportsBtn");
+    const switchGamingBtn = document.getElementById("switchGamingBtn");
+    const portalBgContainer = document.getElementById("portalBgContainer");
 
-    // Dynamic category updater based on selected sport
+    const rulesCheckbox = document.getElementById("rulesCheckbox");
+    const rosterLockOverlay = document.getElementById("rosterLockOverlay");
+    const lockStatusIndicator = document.getElementById("lockStatusIndicator");
+    const syncBtn = document.getElementById("syncBtn");
+    const finalizeBtn = document.getElementById("finalizeBtn");
+    const finalizeBtnText = document.getElementById("finalizeBtnText");
+
+    const generalRulesTitle = document.getElementById("generalRulesTitle");
+    const generalRulesList = document.getElementById("generalRulesList");
+    const activeRulesNotice = document.getElementById("activeRulesNotice");
+    const activeRulesSportName = document.getElementById("activeRulesSportName");
+    const activeRulesBadge = document.getElementById("activeRulesBadge");
+    const activeRulesList = document.getElementById("activeRulesList");
+
+    const playersContainer = document.getElementById("playersContainer");
+    const roleHeaderCol = document.getElementById("roleHeaderCol");
+    const captainHeaderCol = document.getElementById("captainHeaderCol");
+    const rosterTitle = document.getElementById("rosterTitle");
+
+    const gamingTeamNameInputs = document.getElementById("gamingTeamNameInputs");
+    const team1NameLabel = document.getElementById("team1NameLabel");
+    const gamingTeam1Name = document.getElementById("gaming_team1_name");
+    const team2NameWrapper = document.getElementById("team2NameWrapper");
+    const team2NameLabel = document.getElementById("team2NameLabel");
+    const gamingTeam2Name = document.getElementById("gaming_team2_name");
+
+    const manualButtonLabel = document.getElementById("manualButtonLabel");
+    const modalPdfTitle = document.getElementById("modalPdfTitle");
+    const pdfIframe = document.getElementById("pdfIframe");
+
+    // Dynamic Realm Logo Elements
+    const realmBannerLogo = document.getElementById("realmBannerLogo");
+    const rosterSubIcon = document.getElementById("rosterSubIcon");
+    const tabFavicon = document.getElementById("tabFavicon");
+    const appleFavicon = document.getElementById("appleFavicon");
+
+    function updateRealmLogos(logoFile) {
+      if (realmBannerLogo) realmBannerLogo.src = logoFile;
+      if (rosterSubIcon) rosterSubIcon.src = logoFile;
+      if (tabFavicon) tabFavicon.href = logoFile;
+      if (appleFavicon) appleFavicon.href = logoFile;
+    }
+
+    function setDynamicBackground(bgFile) {
+      if (!bgFile) {
+        portalBgContainer.style.backgroundImage = "url('bg.jpg')";
+      } else {
+        portalBgContainer.style.backgroundImage = `url('${bgFile}')`;
+      }
+    }
+
+    function switchSection(section) {
+      currentSection = section;
+      rulesCheckbox.checked = false;
+      setRosterLockState(false);
+      activeRulesNotice.classList.add("hidden");
+      gamingTeamNameInputs.classList.add("hidden");
+
+      if (section === "sports") {
+        updateRealmLogos("logotf.png");
+
+        switchSportsBtn.className = "w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-gradient-to-r from-amber-600/80 to-amber-700/90 text-white shadow-[0_0_20px_rgba(245,158,11,0.3)]";
+        switchGamingBtn.className = "w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-black/50 text-slate-400 hover:text-slate-200 hover:bg-stone-900/80";
+
+        eventSelectLabel.innerText = "The Sport / Event";
+        categoryContainer.classList.remove("hidden");
+        sportSelect.innerHTML = SPORTS_OPTIONS;
+        finalizeBtnText.innerText = "Finalize & Download Event Card (.docx)";
+        countdownTitle.innerText = "Submission Deadline: Nov 13, 11:59 PM";
+        countdownSub.innerText = "Track & Field roster closes promptly when time expires";
+        deadlineNoticeText.innerHTML = 'The official submission deadline for sports team cards was <strong class="text-slate-200">November 13th, 11:59 PM</strong>. Submission rosters are now sealed.';
+
+        generalRulesTitle.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> General Sports Rules & Regulations`;
+        generalRulesList.innerHTML = GENERAL_SPORTS_RULES.map(r => `<li>${r}</li>`).join("");
+
+        manualButtonLabel.innerText = "Citadel Manual";
+        modalPdfTitle.innerText = "Citadel Manual - Sports Scroll";
+        pdfIframe.src = "manual.pdf";
+
+        setDynamicBackground("bg.jpg");
+        adjustCategoriesForSport("");
+        updatePlayerSlots(0);
+      } else {
+        updateRealmLogos("logogn.png");
+
+        switchGamingBtn.className = "w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-gradient-to-r from-amber-600/80 to-amber-700/90 text-white shadow-[0_0_20px_rgba(245,158,11,0.3)]";
+        switchSportsBtn.className = "w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-black/50 text-slate-400 hover:text-slate-200 hover:bg-stone-900/80";
+
+        eventSelectLabel.innerText = "Gaming Title";
+        categoryContainer.classList.add("hidden");
+        sportSelect.innerHTML = GAMING_OPTIONS;
+        finalizeBtnText.innerText = "Finalize & Download Gaming Card (.docx)";
+        countdownTitle.innerText = "Submission Deadline: Nov 14, 11:59 PM";
+        countdownSub.innerText = "Gaming night squad rosters close promptly on Nov 14";
+        deadlineNoticeText.innerHTML = 'The official submission deadline for gaming night was <strong class="text-slate-200">November 14th, 11:59 PM</strong>. Registrations are sealed[cite: 3].';
+
+        generalRulesTitle.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> General Gaming Night Regulations`;
+        generalRulesList.innerHTML = GENERAL_GAMING_RULES.map(r => `<li>${r}</li>`).join("");
+
+        manualButtonLabel.innerText = "Gaming Rules";
+        modalPdfTitle.innerText = "Gaming Night Regulations Scroll";
+        pdfIframe.src = "GamingNight.pdf";
+
+        setDynamicBackground("val.jpeg");
+        updateGamingSlots("");
+      }
+      enforceDeadlineStatus();
+    }
+
+    switchSportsBtn.addEventListener("click", () => switchSection("sports"));
+    switchGamingBtn.addEventListener("click", () => switchSection("gaming"));
+
     function adjustCategoriesForSport(sport) {
+      if (currentSection !== "sports") return;
       const currentVal = categorySelect.value;
       categorySelect.innerHTML = "";
 
@@ -758,7 +969,6 @@
       } else if (sport === "elle") {
         categorySelect.innerHTML = `<option value="MIX">MIX (Both in one team)</option>`;
       } else {
-        // Cricket, Volleyball, Athletics
         categorySelect.innerHTML = `
           <option value="MEN">MEN</option>
           <option value="WOMEN">WOMEN</option>
@@ -769,21 +979,8 @@
     }
 
     /******************************************************************
-     * 3. ROSTER UNLOCK & UI TOGGLING
+     * 4. UI BUILDERS (SPORTS & GAMING)
      ******************************************************************/
-    const rulesCheckbox = document.getElementById("rulesCheckbox");
-    const rosterLockOverlay = document.getElementById("rosterLockOverlay");
-    const lockStatusIndicator = document.getElementById("lockStatusIndicator");
-    const syncBtn = document.getElementById("syncBtn");
-    const finalizeBtn = document.getElementById("finalizeBtn");
-    const activeRulesNotice = document.getElementById("activeRulesNotice");
-    const activeRulesSportName = document.getElementById("activeRulesSportName");
-    const activeRulesBadge = document.getElementById("activeRulesBadge");
-    const activeRulesList = document.getElementById("activeRulesList");
-    const playersContainer = document.getElementById("playersContainer");
-    const roleHeaderCol = document.getElementById("roleHeaderCol");
-    const rosterTitle = document.getElementById("rosterTitle");
-
     function setRosterLockState(isUnlocked) {
       if (enforceDeadlineStatus() && !isAdmin) return;
 
@@ -808,6 +1005,9 @@
 
     function updatePlayerSlots(limit) {
       playersContainer.innerHTML = "";
+      roleHeaderCol.classList.add("hidden");
+      captainHeaderCol.classList.remove("hidden");
+
       if (limit <= 0) {
         rosterTitle.innerText = "Squad Roster, Roles & Captain Designation";
         return;
@@ -857,22 +1057,65 @@
       }
     }
 
-    function clearUIInputs(limit) {
-      for (let i = 1; i <= limit; i++) {
-        const nEl = document.getElementById(`player_${i}_name`);
-        const eEl = document.getElementById(`player_${i}_enum`);
-        const rEl = document.getElementById(`player_${i}_role`);
-        const cEl = document.getElementById(`player_${i}_captain`);
-        if (nEl) nEl.value = "";
-        if (eEl) eEl.value = "";
-        if (rEl) rEl.value = "General";
-        if (cEl) cEl.checked = false;
+    function updateGamingSlots(gameKey) {
+      playersContainer.innerHTML = "";
+      roleHeaderCol.classList.remove("hidden");
+      captainHeaderCol.classList.add("hidden");
+
+      if (!gameKey || !GAMING_SCHEMAS[gameKey]) {
+        rosterTitle.innerText = "Squad Roster (Choose Game Title Above)";
+        gamingTeamNameInputs.classList.add("hidden");
+        return;
       }
+
+      const schema = GAMING_SCHEMAS[gameKey];
+      rosterTitle.innerText = `${RULES_REGULATIONS_DATA[gameKey].title} Squad Enrollment (${schema.totalSlots} Slots)`;
+
+      if (schema.hasTeam1) {
+        gamingTeamNameInputs.classList.remove("hidden");
+        team1NameLabel.innerText = schema.team1Label;
+        gamingTeam1Name.value = "";
+        if (schema.hasTeam2) {
+          team2NameWrapper.classList.remove("hidden");
+          team2NameLabel.innerText = schema.team2Label;
+          gamingTeam2Name.value = "";
+        } else {
+          team2NameWrapper.classList.add("hidden");
+        }
+      } else {
+        gamingTeamNameInputs.classList.add("hidden");
+      }
+
+      schema.slots.forEach((slot) => {
+        const row = document.createElement("div");
+        row.className = "player-row grid grid-cols-12 px-4 py-2.5 items-center hover:bg-stone-900/40 transition-colors gap-3";
+        row.dataset.index = slot.rank;
+
+        row.innerHTML = `
+          <div class="col-span-1 text-center font-cinzel font-bold text-slate-400 text-sm">${String(slot.rank).padStart(2, "0")}</div>
+          <div class="col-span-5 px-2">
+            <input type="text" id="gaming_player_${slot.rank}_name" placeholder="${slot.label} Full Name"
+              class="w-full bg-[#08070b]/90 border border-slate-800 focus:border-amber-400 rounded-xl px-3.5 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-400 font-light" />
+          </div>
+          <div class="col-span-3 px-2">
+            <input type="text" id="gaming_player_${slot.rank}_enum" placeholder="e.g. 2023/E/..."
+              class="w-full bg-[#08070b]/90 border border-slate-800 focus:border-amber-400 rounded-xl px-3.5 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-400 font-mono uppercase" />
+          </div>
+          <div class="col-span-3 px-2 text-center">
+            <span class="inline-block px-3 py-1 bg-stone-900/90 border border-slate-800 rounded-lg text-xs font-cinzel ${slot.role === 'Substitute' ? 'text-amber-400 border-amber-600/40' : 'text-slate-300'}">
+              ${slot.role}
+            </span>
+          </div>
+        `;
+        playersContainer.appendChild(row);
+      });
     }
 
-    function displaySelectedSportRules(sport) {
-      let ruleKey = sport;
-      if (ATHLETICS_KEYS.includes(sport)) ruleKey = "athletics";
+    function displaySelectedSportRules(key) {
+      let ruleKey = key;
+      if (currentSection === "sports" && ATHLETICS_KEYS.includes(key)) {
+        ruleKey = "athletics";
+      }
 
       if (!ruleKey || !RULES_REGULATIONS_DATA[ruleKey]) {
         activeRulesNotice.classList.add("hidden");
@@ -882,236 +1125,302 @@
       const item = RULES_REGULATIONS_DATA[ruleKey];
       activeRulesSportName.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500"></span> ${item.title}`;
       activeRulesBadge.innerText = item.badge;
-      activeRulesList.innerHTML = item.rules.map(r => `<li class="leading-relaxed">${r}</li>`).join('');
+      activeRulesList.innerHTML = item.rules.map(r => `<li class="leading-relaxed">${r}</li>`).join("");
       activeRulesNotice.classList.remove("hidden");
+
+      if (currentSection === "gaming" && item.bg) {
+        setDynamicBackground(item.bg);
+      }
     }
 
     /******************************************************************
-     * 4. DATA FETCH & GAS INTEGRATION
+     * 5. DATA FETCH & APPS SCRIPT INTEGRATION
      ******************************************************************/
-    const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkFJsbdHQFZDAiFYWXyCIUvGbmbt0PxGqSGjm_FCEFvjSIC11CUEFyrhlcK30pzJ9fBg/exec";
     const loadingOverlay = document.getElementById("loadingOverlay");
 
     function triggerDataFetch() {
-      const sport = sportSelect.value;
-      const category = categorySelect.value;
-
+      const selectedKey = sportSelect.value;
       rulesCheckbox.checked = false;
       setRosterLockState(false);
+      displaySelectedSportRules(selectedKey);
 
-      displaySelectedSportRules(sport);
+      if (currentSection === "sports") {
+        const category = categorySelect.value;
+        const limit = SPORTS_EVENT_LIMITS[selectedKey] || 0;
+        updatePlayerSlots(limit);
 
-      const limit = EVENT_LIMITS[sport] || 0;
-      updatePlayerSlots(limit);
-      clearUIInputs(limit);
+        if (!selectedKey || !authenticatedBatch) return;
+        loadingOverlay.classList.remove("hidden");
 
-      if (!sport || !authenticatedBatch) return;
+        const callbackName = "jsonp_sports_" + Math.round(100000 * Math.random());
+        window[callbackName] = function(data) {
+          delete window[callbackName];
+          if (script.parentNode) document.body.removeChild(script);
+          loadingOverlay.classList.add("hidden");
 
-      loadingOverlay.classList.remove("hidden");
+          if (data && data.players) {
+            data.players.forEach(p => {
+              const idx = p.rank;
+              if (idx <= limit) {
+                const n = document.getElementById(`player_${idx}_name`);
+                const e = document.getElementById(`player_${idx}_enum`);
+                const r = document.getElementById(`player_${idx}_role`);
+                const c = document.getElementById(`player_${idx}_captain`);
+                if (n) n.value = p.name || "";
+                if (e) e.value = p.enum || "";
+                if (r) r.value = p.role || "General";
+                if (c && p.isCaptain) c.checked = true;
+              }
+            });
+          }
+        };
 
-      const callbackName = "jsonp_sync_" + Math.round(100000 * Math.random());
-      window[callbackName] = function(data) {
-        delete window[callbackName];
-        if (script.parentNode) document.body.removeChild(script);
-        loadingOverlay.classList.add("hidden");
+        const script = document.createElement("script");
+        script.src = `${SPORTS_APPS_SCRIPT_URL}?sport=${encodeURIComponent(selectedKey)}&category=${encodeURIComponent(category)}&batch=${encodeURIComponent(authenticatedBatch)}&callback=${callbackName}`;
+        script.onerror = () => { loadingOverlay.classList.add("hidden"); };
+        document.body.appendChild(script);
 
-        if (data.players && data.players.length > 0) {
-          data.players.forEach((p) => {
-            const idx = p.rank;
-            if (idx <= limit) {
-              const nameInput = document.getElementById(`player_${idx}_name`);
-              const enumInput = document.getElementById(`player_${idx}_enum`);
-              const roleEl = document.getElementById(`player_${idx}_role`);
-              const captainEl = document.getElementById(`player_${idx}_captain`);
+      } else {
+        updateGamingSlots(selectedKey);
+        if (!selectedKey || !authenticatedBatch) return;
 
-              if (nameInput) nameInput.value = p.name || "";
-              if (enumInput) enumInput.value = p.enum || "";
-              if (roleEl) roleEl.value = p.role || "General";
-              if (captainEl && p.isCaptain) captainEl.checked = true;
+        loadingOverlay.classList.remove("hidden");
+        const callbackName = "jsonp_gaming_" + Math.round(100000 * Math.random());
+        window[callbackName] = function(data) {
+          delete window[callbackName];
+          if (script.parentNode) document.body.removeChild(script);
+          loadingOverlay.classList.add("hidden");
+
+          if (data) {
+            if (data.team1Name && gamingTeam1Name) gamingTeam1Name.value = data.team1Name;
+            if (data.team2Name && gamingTeam2Name) gamingTeam2Name.value = data.team2Name;
+
+            if (data.players && data.players.length > 0) {
+              data.players.forEach(p => {
+                const n = document.getElementById(`gaming_player_${p.rank}_name`);
+                const e = document.getElementById(`gaming_player_${p.rank}_enum`);
+                if (n) n.value = p.name || "";
+                if (e) e.value = p.enum || "";
+              });
             }
-          });
-        }
-      };
+          }
+        };
 
-      const script = document.createElement("script");
-      script.src = `${GOOGLE_APPS_SCRIPT_URL}?sport=${encodeURIComponent(sport)}&category=${encodeURIComponent(category)}&batch=${encodeURIComponent(authenticatedBatch)}&callback=${callbackName}`;
-      script.onerror = () => {
-        loadingOverlay.classList.add("hidden");
-        console.warn("Data retrieval network timeout.");
-      };
-      document.body.appendChild(script);
+        const script = document.createElement("script");
+        script.src = `${GAMING_APPS_SCRIPT_URL}?game=${encodeURIComponent(selectedKey)}&batch=${encodeURIComponent(authenticatedBatch)}&callback=${callbackName}`;
+        script.onerror = () => { loadingOverlay.classList.add("hidden"); };
+        document.body.appendChild(script);
+      }
     }
 
     sportSelect.addEventListener("change", () => {
-      adjustCategoriesForSport(sportSelect.value);
+      if (currentSection === "sports") {
+        adjustCategoriesForSport(sportSelect.value);
+      }
       triggerDataFetch();
     });
 
     categorySelect.addEventListener("change", triggerDataFetch);
 
-    function gatherPayloadPlayers(limit) {
-      const playersList = [];
-      for (let i = 1; i <= limit; i++) {
-        const nameVal = document.getElementById(`player_${i}_name`).value.trim();
-        const enumVal = document.getElementById(`player_${i}_enum`).value.trim();
-        const roleEl = document.getElementById(`player_${i}_role`);
-        const roleVal = roleEl ? roleEl.value : "General";
-        const isCap = document.getElementById(`player_${i}_captain`).checked;
-
-        if (nameVal || enumVal) {
-          playersList.push({
-            rank: i,
-            name: nameVal,
-            enum: enumVal,
-            role: roleVal,
-            isCaptain: isCap
-          });
-        }
-      }
-      return playersList;
-    }
-
     /******************************************************************
-     * 5. SYNC & DOWNLOAD CARD
+     * 6. SYNC SHEET & DOWNLOAD WORD CARD (.DOCX)
      ******************************************************************/
-    document.getElementById("syncBtn").addEventListener("click", async () => {
+    syncBtn.addEventListener("click", async () => {
       if (enforceDeadlineStatus() && !isAdmin) {
         alert("The submission deadline has expired. Portal is closed.");
         return;
       }
-
       if (!rulesCheckbox.checked) {
         alert("Please confirm the tournament rules agreement checkbox first.");
         return;
       }
 
-      const eventName = sportSelect.value;
-      const category = categorySelect.value;
-      if (!eventName) {
-        alert("Please select a sport/event first.");
-        return;
-      }
-
-      const limit = EVENT_LIMITS[eventName] || 20;
-      const playersList = gatherPayloadPlayers(limit);
-      if (playersList.length === 0) {
-        alert("Please enter at least one player before syncing.");
+      const selectedEvent = sportSelect.value;
+      if (!selectedEvent) {
+        alert("Please select an event/game first.");
         return;
       }
 
       loadingOverlay.classList.remove("hidden");
 
-      try {
-        await fetch(GOOGLE_APPS_SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            batch: authenticatedBatch,
-            category: category,
-            sport: eventName,
-            players: playersList
-          })
+      if (currentSection === "sports") {
+        const category = categorySelect.value;
+        const limit = SPORTS_EVENT_LIMITS[selectedEvent] || 20;
+        const playersList = [];
+
+        for (let i = 1; i <= limit; i++) {
+          const n = document.getElementById(`player_${i}_name`)?.value.trim() || "";
+          const e = document.getElementById(`player_${i}_enum`)?.value.trim() || "";
+          const r = document.getElementById(`player_${i}_role`)?.value || "General";
+          const c = document.getElementById(`player_${i}_captain`)?.checked || false;
+          if (n || e) playersList.push({ rank: i, name: n, enum: e, role: r, isCaptain: c });
+        }
+
+        if (playersList.length === 0) {
+          loadingOverlay.classList.add("hidden");
+          alert("Please enter at least one player before syncing.");
+          return;
+        }
+
+        try {
+          await fetch(SPORTS_APPS_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              batch: authenticatedBatch,
+              category: category,
+              sport: selectedEvent,
+              players: playersList
+            })
+          });
+          loadingOverlay.classList.add("hidden");
+          alert(`Successfully synced ${authenticatedBatch} (${category} - ${selectedEvent}) to Sports Sheet!`);
+        } catch (err) {
+          loadingOverlay.classList.add("hidden");
+          alert("Sync Error: " + err.message);
+        }
+
+      } else {
+        const schema = GAMING_SCHEMAS[selectedEvent];
+        const playersList = [];
+
+        schema.slots.forEach(slot => {
+          const n = document.getElementById(`gaming_player_${slot.rank}_name`)?.value.trim() || "";
+          const e = document.getElementById(`gaming_player_${slot.rank}_enum`)?.value.trim() || "";
+          if (n || e) playersList.push({ rank: slot.rank, name: n, enum: e, role: slot.role });
         });
-        loadingOverlay.classList.add("hidden");
-        alert(`Successfully synced current roster for batch ${authenticatedBatch} (${category} - ${eventName})!`);
-      } catch (err) {
-        loadingOverlay.classList.add("hidden");
-        console.error(err);
-        alert("Sync Error: " + err.message);
+
+        if (playersList.length === 0) {
+          loadingOverlay.classList.add("hidden");
+          alert("Please enter at least one participant before syncing.");
+          return;
+        }
+
+        try {
+          await fetch(GAMING_APPS_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              batch: authenticatedBatch,
+              game: selectedEvent,
+              team1Name: gamingTeam1Name ? gamingTeam1Name.value.trim() : "",
+              team2Name: gamingTeam2Name ? gamingTeam2Name.value.trim() : "",
+              players: playersList
+            })
+          });
+          loadingOverlay.classList.add("hidden");
+          alert(`Successfully synced Gaming Night roster for ${authenticatedBatch} (${selectedEvent})!`);
+        } catch (err) {
+          loadingOverlay.classList.add("hidden");
+          alert("Sync Error: " + err.message);
+        }
       }
     });
 
-    document.getElementById("finalizeBtn").addEventListener("click", async () => {
+    finalizeBtn.addEventListener("click", async () => {
       if (enforceDeadlineStatus() && !isAdmin) {
         alert("The submission deadline has expired. Portal is closed.");
         return;
       }
-
       if (!rulesCheckbox.checked) {
         alert("Please confirm the tournament rules agreement checkbox first.");
         return;
       }
 
-      const eventName = sportSelect.value;
-      const category = categorySelect.value;
-      if (!eventName) {
-        alert("Please select a sport/event first.");
-        return;
-      }
-
-      const limit = EVENT_LIMITS[eventName] || 20;
-      const activePlayers = gatherPayloadPlayers(limit);
-      if (activePlayers.length === 0) {
-        alert("Please add at least one player to finalize the team card.");
+      const selectedEvent = sportSelect.value;
+      if (!selectedEvent) {
+        alert("Please select an event/game first.");
         return;
       }
 
       loadingOverlay.classList.remove("hidden");
-      const today = new Date().toLocaleDateString("en-GB");
 
-      let captainName = "Not Designated";
-      for (let i = 1; i <= limit; i++) {
-        const capRadio = document.getElementById(`player_${i}_captain`);
-        if (capRadio && capRadio.checked) {
-          captainName = document.getElementById(`player_${i}_name`).value.trim() || "Not Designated";
-          break;
+      if (currentSection === "sports") {
+        const category = categorySelect.value;
+        const limit = SPORTS_EVENT_LIMITS[selectedEvent] || 20;
+        let captainName = "Not Designated";
+
+        for (let i = 1; i <= limit; i++) {
+          const capRadio = document.getElementById(`player_${i}_captain`);
+          if (capRadio && capRadio.checked) {
+            captainName = document.getElementById(`player_${i}_name`).value.trim() || "Not Designated";
+            break;
+          }
+        }
+
+        const payload = {
+          batch: authenticatedBatch,
+          gender: category,
+          event: selectedEvent,
+          captain: captainName,
+          date_submitted: new Date().toLocaleDateString("en-GB")
+        };
+
+        for (let i = 1; i <= limit; i++) {
+          payload[`player_${i}_name`] = document.getElementById(`player_${i}_name`)?.value.trim() || "";
+          payload[`player_${i}_enum`] = document.getElementById(`player_${i}_enum`)?.value.trim() || "";
+        }
+
+        try {
+          const res = await fetch(`Team_Cards/${selectedEvent}.docx`);
+          if (!res.ok) throw new Error(`Could not find 'Team_Cards/${selectedEvent}.docx'`);
+          const arrayBuffer = await res.arrayBuffer();
+          const zip = new PizZip(arrayBuffer);
+          const doc = new window.docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
+          doc.render(payload);
+          const blob = doc.getZip().generate({
+            type: "blob",
+            mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          });
+          saveAs(blob, `${authenticatedBatch}_${category}_${selectedEvent}_TeamCard.docx`);
+        } catch (e) {
+          alert("Sports Template Error: " + e.message);
+        }
+
+      } else {
+        const schema = GAMING_SCHEMAS[selectedEvent];
+        const payload = {
+          BATCH: authenticatedBatch,
+          VAL_TEAM_NAME: gamingTeam1Name?.value.trim() || "",
+          COD_TEAM1_NAME: gamingTeam1Name?.value.trim() || "",
+          COD_TEAM2_NAME: gamingTeam2Name?.value.trim() || "",
+          AOE_TEAM1_NAME: gamingTeam1Name?.value.trim() || "",
+          AOE_TEAM2_NAME: gamingTeam2Name?.value.trim() || ""
+        };
+
+        schema.slots.forEach(slot => {
+          const nameVal = document.getElementById(`gaming_player_${slot.rank}_name`)?.value.trim() || "";
+          const enumVal = document.getElementById(`gaming_player_${slot.rank}_enum`)?.value.trim() || "";
+          payload[slot.nameKey] = nameVal;
+          payload[slot.enumKey] = enumVal;
+        });
+
+        try {
+          const res = await fetch(`EWEEK26_GN_TEAMCARDS.docx`);
+          if (!res.ok) throw new Error("Could not find 'EWEEK26_GN_TEAMCARDS.docx' in the project directory.");
+          const arrayBuffer = await res.arrayBuffer();
+          const zip = new PizZip(arrayBuffer);
+          const doc = new window.docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
+          
+          doc.render(payload);
+          const blob = doc.getZip().generate({
+            type: "blob",
+            mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          });
+          saveAs(blob, `${authenticatedBatch}_GamingNight_${selectedEvent.toUpperCase()}_TeamCard.docx`);
+        } catch (e) {
+          console.error(e);
+          alert("Gaming Card Generation Error: " + e.message);
         }
       }
-
-      const payload = {
-        batch: authenticatedBatch,
-        gender: category,
-        event: eventName,
-        captain: captainName,
-        date_submitted: today
-      };
-
-      for (let i = 1; i <= limit; i++) {
-        payload[`player_${i}_name`] = document.getElementById(`player_${i}_name`).value.trim();
-        payload[`player_${i}_enum`] = document.getElementById(`player_${i}_enum`).value.trim();
-      }
-
-      try {
-        const response = await fetch(`Team_Cards/${eventName}.docx`);
-        if (!response.ok) throw new Error(`Could not find 'Team_Cards/${eventName}.docx' in project directory.`);
-        const arrayBuffer = await response.arrayBuffer();
-
-        const zip = new PizZip(arrayBuffer);
-        const doc = new window.docxtemplater(zip, { paragraphLoop: true, linebreaks: true });
-        doc.render(payload);
-
-        const filledBlob = doc.getZip().generate({
-          type: "blob",
-          mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        });
-
-        saveAs(filledBlob, `${authenticatedBatch}_${category}_${eventName}_TeamCard.docx`);
-
-      } catch (err) {
-        console.error(err);
-        alert("Template Generation Error: " + err.message);
-      }
-
-      try {
-        await fetch(GOOGLE_APPS_SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            batch: authenticatedBatch,
-            category: category,
-            sport: eventName,
-            players: activePlayers
-          })
-        });
-      } catch(e) { console.warn("Background sync error", e); }
 
       loadingOverlay.classList.add("hidden");
     });
 
     /******************************************************************
-     * 6. AUTHENTICATION & MODALS
+     * 7. AUTHENTICATION & LOGIN LOGIC
      ******************************************************************/
     const BATCH_ACCOUNTS = {
       "rep_e22": { pass: "K9#mQ2", batch: "E22" },
@@ -1134,7 +1443,6 @@
     const logoutBtn = document.getElementById("logoutBtn");
     const bgVideo = document.getElementById("bgVideo");
     const loginBgContainer = document.getElementById("loginBgContainer");
-    const portalBgContainer = document.getElementById("portalBgContainer");
     const bgAudio = document.getElementById("bgAudio");
     const audioBtn = document.getElementById("audioToggleBtn");
     const audioStatusText = document.getElementById("audioStatusText");
@@ -1206,13 +1514,7 @@
           `;
         }
 
-        enforceDeadlineStatus();
-        sportSelect.value = "";
-        adjustCategoriesForSport("");
-        activeRulesNotice.classList.add("hidden");
-        rulesCheckbox.checked = false;
-        setRosterLockState(false);
-        updatePlayerSlots(0);
+        switchSection("sports");
       } else {
         loginError.classList.remove("hidden");
       }
@@ -1245,11 +1547,10 @@
     pdfModal.addEventListener("click", (e) => { if (e.target === pdfModal) pdfModal.classList.add("hidden"); });
 
     /******************************************************************
-     * 7. CANVAS PARTICLES
+     * 8. CANVAS PARTICLES
      ******************************************************************/
     const canvas = document.getElementById("emberCanvas");
     const ctx = canvas.getContext("2d");
-
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
