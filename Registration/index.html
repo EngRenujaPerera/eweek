@@ -163,7 +163,7 @@
         <h2 class="text-xl sm:text-2xl font-bold font-cinzel text-rose-300 uppercase tracking-widest">Portal Has Closed</h2>
         <p class="text-xs font-cinzel text-amber-400 tracking-wider">Registration Deadline Reached</p>
         <p class="text-xs text-slate-400 font-light leading-relaxed pt-2">
-          The official submission deadline for team cards was <strong class="text-slate-200">November 10th, 11:59 PM</strong>. Submission rosters are now sealed in the Citadel archives.
+          The official submission deadline for team cards was <strong class="text-slate-200">November 13th, 11:59 PM</strong>. Submission rosters are now sealed in the Citadel archives.
         </p>
       </div>
       <div class="p-3 bg-stone-950/80 rounded-xl border border-slate-800 text-[11px] font-cinzel text-slate-500 tracking-widest uppercase">
@@ -336,31 +336,17 @@
 
           <div>
             <label class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-2">
-              Category
-            </label>
-            <select id="categorySelect" class="w-full bg-[#0d0c11] border border-slate-800 text-slate-200 rounded-xl p-3 text-sm font-cinzel focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all cursor-pointer">
-              <option value="MEN">MEN</option>
-              <option value="WOMEN">WOMEN</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-2">
               The Sport / Event
             </label>
             <select id="sportSelect" class="w-full bg-[#0d0c11] border border-slate-800 text-slate-200 rounded-xl p-3 text-sm font-cinzel focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all cursor-pointer">
               <option value="">-- Choose Event --</option>
               <option value="cricket">Cricket</option>
-              <option value="football">Football</option>
-              <option value="basketball">Basketball</option>
               <option value="volleyball">Volleyball</option>
+              <option value="basketball">Basketball</option>
+              <option value="football">Football</option>
               <option value="netball">Netball</option>
-              <option value="elle">Elle</option>
-              <option value="badminton">Badminton</option>
-              <option value="table_tennis">Table Tennis</option>
-              <option value="carrom">Carrom</option>
+              <option value="elle">Elle (Mix)</option>
               <option value="marathon">Marathon</option>
-              <option value="chess">Chess</option>
               <optgroup label="Athletics Events">
                 <option value="100m">100m</option>
                 <option value="200m">200m</option>
@@ -378,29 +364,61 @@
               </optgroup>
             </select>
           </div>
+
+          <div>
+            <label class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-2">
+              Category / Realm
+            </label>
+            <select id="categorySelect" class="w-full bg-[#0d0c11] border border-slate-800 text-slate-200 rounded-xl p-3 text-sm font-cinzel focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all cursor-pointer">
+              <option value="MEN">MEN</option>
+              <option value="WOMEN">WOMEN</option>
+            </select>
+          </div>
         </div>
 
         <!-- Sport Specific Rules Display -->
-        <div id="activeRulesNotice" class="hidden bg-stone-950/90 border border-amber-600/40 rounded-2xl p-5 shadow-lg space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
-            <h4 id="activeRulesSportName" class="text-xs font-cinzel font-bold text-amber-300 uppercase tracking-widest flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-              Event Regulations
-            </h4>
-            <span id="activeRulesBadge" class="text-[10px] font-cinzel text-amber-400 bg-amber-950/60 border border-amber-700/60 px-2 py-0.5 rounded-full"></span>
+        <div id="activeRulesNotice" class="hidden bg-stone-950/90 border border-amber-600/40 rounded-2xl p-5 shadow-lg space-y-4">
+          <!-- General Rules Section -->
+          <div class="space-y-2 border-b border-slate-800/80 pb-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-cinzel font-bold text-amber-300 uppercase tracking-widest flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                General Sports Rules & Regulations (Mandatory For All Events)
+              </h4>
+              <span class="text-[10px] font-cinzel text-amber-400 bg-amber-950/60 border border-amber-700/60 px-2 py-0.5 rounded-full">General Protocol</span>
+            </div>
+            <ul class="space-y-1.5 list-disc list-inside text-xs text-slate-300 font-light">
+              <li>For all team events the teams must present before 10 min of the event time[cite: 5].</li>
+              <li>The judge / umpire decision will be considered as final[cite: 5].</li>
+              <li>If anyone or team argues with judge or umpire and also with another team, definitely disqualified[cite: 5].</li>
+              <li>Discipline must be strictly followed[cite: 5].</li>
+              <li>If the team or any participant is late for an event for more than 10 minutes, the team or the participants will be disqualified unless informed in advance with valid reason[cite: 5].</li>
+              <li>Each event will start immediately after the end of the previous event due to the tight schedule[cite: 5]. However, it will be informed at least 10 minutes before the event begins[cite: 5].</li>
+            </ul>
           </div>
-          <ul id="activeRulesList" class="space-y-1.5 list-disc list-inside text-xs text-slate-300 font-light">
-            <!-- Rules dynamically inserted -->
-          </ul>
+
+          <!-- Specific Event Rules Section -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <h4 id="activeRulesSportName" class="text-xs font-cinzel font-bold text-amber-300 uppercase tracking-widest flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                Event Regulations
+              </h4>
+              <span id="activeRulesBadge" class="text-[10px] font-cinzel text-amber-400 bg-amber-950/60 border border-amber-700/60 px-2 py-0.5 rounded-full"></span>
+            </div>
+            <ul id="activeRulesList" class="space-y-1.5 list-disc list-inside text-xs text-slate-300 font-light">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
         </div>
 
-        <!-- 1 Unified Rules Acknowledgment & Unlock Checkbox -->
+        <!-- Unified Rules Checkbox -->
         <div id="rulesConsentSection" class="p-4 bg-gradient-to-r from-stone-950 via-amber-950/20 to-stone-950 rounded-2xl border border-amber-500/40 shadow-inner">
           <label class="flex items-start sm:items-center space-x-3 cursor-pointer select-none">
             <input type="checkbox" id="rulesCheckbox" class="w-5 h-5 mt-0.5 sm:mt-0 rounded bg-[#0d0c11] border-slate-700 text-amber-500 focus:ring-amber-500 accent-amber-500 cursor-pointer" />
             <div class="text-xs font-cinzel">
               <span class="text-slate-200 font-semibold tracking-wide">
-                I confirm that I have reviewed and agree to abide by all the tournament rules and event regulations.
+                I confirm that I have reviewed and agree to abide by all tournament general rules and event regulations.
               </span>
               <p class="text-[10px] text-amber-400 font-light tracking-wider mt-0.5">
                 (Tick this box to unlock squad roster entries)
@@ -439,7 +457,7 @@
             </div>
 
             <div id="playersContainer" class="divide-y divide-slate-900/80">
-              <!-- Rendered via JS -->
+              <!-- Dynamically populated via JS -->
             </div>
           </div>
         </div>
@@ -465,9 +483,8 @@
 
   <script>
     /******************************************************************
-     * 0. DEADLINE COUNTDOWN CONTROLLER (Nov 10, 11:59:59 PM)
+     * 0. DEADLINE COUNTDOWN CONTROLLER (Nov 13, 11:59:59 PM)
      ******************************************************************/
-    // Month index 10 = November
     const DEADLINE_TIMESTAMP = new Date(2026, 10, 13, 23, 59, 59).getTime();
 
     const cdDays = document.getElementById("cdDays");
@@ -496,7 +513,6 @@
         return true;
       }
 
-      // Robust unit breakdown
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((distance / (1000 * 60)) % 60);
@@ -514,125 +530,184 @@
     enforceDeadlineStatus();
 
     /******************************************************************
-     * 1. RULES & REGULATIONS DATA SOURCE
+     * 1. COMPLETE RULES & REGULATIONS DATA SOURCE (E-WEEK 2024 ARCHIVES)
      ******************************************************************/
     const RULES_REGULATIONS_DATA = {
-      "general": {
-        title: "General Sports Rules",
-        badge: "General Discipline",
-        rules: [
-          "For all events, teams must present themselves at least 10 minutes prior to scheduled start time.",
-          "The umpire / referee / judge decision is final.",
-          "Any team or individual arguing with game officials is subject to immediate disqualification.",
-          "Discipline must be strictly upheld at all times."
-        ]
-      },
-      "athletics": {
-        title: "Athletics Rules",
-        badge: "Track & Field",
-        rules: [
-          "A batch can represent a maximum of 2 members for an individual event.",
-          "Each athlete may participate in a maximum of three individual events plus relay events.",
-          "A batch can represent only one team (4 members) for relay races.",
-          "Boys must wear suitable athletic kits (bottoms not permitted for track events).",
-          "Athletes late by 5 minutes from call time will forfeit their event."
-        ]
-      },
       "volleyball": {
-        title: "Volleyball Rules",
-        badge: "League Format",
+        title: "Volleyball Rules & Regulations",
+        badge: "League Tournament",
         rules: [
-          "League tournament format. The draw will be arranged prior to match start.",
-          "Each match consists of 3 sets of 25 points each (subject to schedule adjustments).",
-          "Two (2) time outs are permitted per team during any given set."
+          "This is a league Tournament.",
+          "The draw will be arranged before the start of the match.",
+          "Each game will consist of three (3) sets of 25 points each. (Depending on the schedule of the day, maybe it will be increased to (5) sets.)",
+          "Two (2) time outs will be permitted per team during any given set.",
+          "Further International volleyball rules will be followed."
         ]
       },
       "table_tennis": {
-        title: "Table Tennis Rules",
-        badge: "Team Event",
+        title: "Table Tennis Rules & Regulations",
+        badge: "Men's and Women's",
         rules: [
-          "3 players per team: 2 singles and 1 doubles player (partnering with one of the singles players).",
-          "Each singles game consists of best-of-3 sets (11 points each, 2-point clearance).",
-          "Doubles game consists of best-of-3 sets (15 points each)."
+          "There should be 3 players in a team - 2 singles and one person to play the doubles along with one of the singles players.",
+          "Each single game will consist of 3 sets of 11 points in each. In the case of 10-10 situation the game will continue till one player gets a 2-point clearance. (One player gets one serve each).",
+          "A double game will consist of 3 sets of 15 points and similar rule will apply for 14-14 situation.",
+          "In the event where a team comprises less than the minimum no of players required at the time of play, (i.e. 4 members) then, that particular team will have to concede a walkover.",
+          "In the case of the finals, 4 singles games (including reverse singles) and one doubles game will be played.",
+          "Further International table tennis rules will be followed."
         ]
       },
       "marathon": {
-        title: "Marathon Rules",
+        title: "Marathon Rules & Regulations",
         badge: "Team Event",
         rules: [
-          "Maximum 20 participants can represent each batch.",
-          "All participants must attend and pass the mandatory pre-race medical checkup.",
-          "Participants must report 30 minutes prior to start; external pacing or vehicle assistance is disqualified.",
-          "Points system: 1st place earns 75 points, reducing down to 1 point. Midway runners receive 1 point."
+          "This is an event conducted as a team. Maximum 20 participants can represent each batch.",
+          "Participants should attend and pass medical checkup.",
+          "Participants dress should be in a good manner.",
+          "All participants are required to be present 30 minutes prior to the start of the marathon.",
+          "Participants cannot get help from any others who do not take part in the event and also from any vehicles during the event. If found, you will be disqualified.",
+          "The event map should be followed strictly.",
+          "If a participant disturbs another who takes part in the event, he will lose his points.",
+          "Points system: First finisher will get 75 points; second finisher will get 74; points reduce from 75 to 1.",
+          "If anyone leaves the event midway and finished the first half (from University junction up to Kilinochchi police station), that person receives 1 point.",
+          "Points calculated will be considered only in deciding the rank obtained by a particular batch for the event (not raw overall E-Week points).",
+          "If anyone needs emergency medical attention, the organizing committee will take care of you."
         ]
       },
       "football": {
-        title: "Football Rules",
+        title: "Football Rules & Regulations",
         badge: "Match Rules",
         rules: [
-          "Match duration: Two 20-minute halves with a 5-minute halftime break.",
-          "Each team must field a minimum of 7 players to begin (including 1 goalkeeper).",
-          "Rolling substitutions are permitted throughout the match with official notification.",
-          "Outfield players must wear matching colored jerseys. Football boots are optional."
+          "Match Duration: Two 20-minute halves with a 5-minute break in between.",
+          "Team Composition: Each team must have a minimum of 7 players to start the match (including 1 goalkeeper).",
+          "The goalkeeper is the only player allowed to handle the ball within the 18-yard box.",
+          "Substitutions: Substitutions can be made at any time during the match, with no limit on the number of substitutions.",
+          "Fouls & Discipline: Yellow cards issued for minor fouls. Red cards issued for serious fouls or unsporting behavior (player sent off cannot be replaced).",
+          "Jersey: Outfield players must wear the same color jersey; only the goalkeeper may wear a different-colored jersey.",
+          "Footwear: Wearing boots is not compulsory.",
+          "Further international football rules will be followed."
         ]
       },
-      "badminton": {
-        title: "Badminton Rules",
-        badge: "Team Tie",
+      "badminton_men": {
+        title: "Badminton Rules & Regulations (Men's)",
+        badge: "Men's Tie",
         rules: [
-          "Men: Minimum 6 players (3 singles, 3 doubles). Only one singles player may also play doubles.",
-          "Women: Minimum 4 players (2 singles, 2 doubles; singles players cannot play doubles).",
-          "Matches played as best-of-3 sets (21 points each, standard deuce up to 25 points).",
-          "Official tournament shuttlecock: Yonex Mavis 600."
+          "Minimum 6 players nominated: 3 for singles and 3 for doubles. Only ONE player who has played singles may play again in doubles.",
+          "Order of matches in a tie: 1st Singles, 2nd Singles, 3rd Singles, 1st Doubles, 2nd Doubles.",
+          "If a team comprises less than the minimum required players at match time (i.e., 4 members), that team concedes a walkover.",
+          "Each singles & doubles game consists of 3 sets of 21 points each. At 20-20, game continues until 2-point clearance up to 25 points.",
+          "Official shuttlecock: Yonex Mavis 600.",
+          "Finals: Singles match consists of three 21-point sets with standard tie-break.",
+          "Further International badminton rules will be followed."
+        ]
+      },
+      "badminton_women": {
+        title: "Badminton Rules & Regulations (Women's)",
+        badge: "Women's Tie",
+        rules: [
+          "Minimum 4 players nominated: 2 for singles and 2 for doubles. The two singles players CANNOT play in the doubles match of the same tie.",
+          "Order of matches in a tie: 1st Singles, 2nd Singles, 1st Doubles.",
+          "If a team comprises less than 4 members at match time, that team concedes a walkover.",
+          "Each singles & doubles game consists of 3 sets of 21 points each. At 20-20, game continues until 2-point clearance up to 25 points.",
+          "Official shuttlecock: Yonex Mavis 600.",
+          "Finals: Singles match consists of three 21-point sets with standard tie-break.",
+          "Further International badminton rules will be followed."
         ]
       },
       "elle": {
-        title: "Elle Rules",
+        title: "Elle Rules & Regulations",
         badge: "Federation Rules",
         rules: [
-          "Squad consists of 20 players; 16 players fielded per side.",
-          "At least 4 girls must be included in the playing 16.",
-          "25 balls allocated per team; 5 balls must be faced by female players.",
-          "Boys must not wear long bottoms."
+          "The team squad should consist of 20 players; each team fields 16 players.",
+          "At least 4 girls must participate in each team including the 16 playing members.",
+          "25 balls allocated per team; 5 balls must be faced by girls.",
+          "If the match is a tie, 5 additional balls are awarded to play.",
+          "Proper rules must be explained at the beginning of the match to the captains.",
+          "Players must wear proper attire (no long bottoms for boys).",
+          "Further National Elle federation rules will be followed."
         ]
       },
       "cricket": {
-        title: "Cricket Rules",
+        title: "Cricket Rules & Regulations",
         badge: "Soft Ball League",
         rules: [
-          "Squad consists of 15 players (11 players per side).",
-          "League format: 7 overs per side (Final: 10 overs). Maximum 2 overs per bowler (4 bowlers in final).",
-          "Powerplay: First 2 overs (maximum 3 fielders outside 30-yard circle; 5 allowed after powerplay).",
-          "No LBW. Long bottoms are compulsory for all players.",
-          "Tied matches decided via Super Over (6 balls, 2 wickets)."
+          "Team squad should consist of 15 players (11 players per side).",
+          "All league matches consist of 7 overs per side (Final consists of 10 overs per side).",
+          "Only 2 bowlers are allowed to bowl 2 overs (in 7-over matches); in the final, 4 bowlers can bowl 2 overs.",
+          "Powerplay: First 2 overs (batting powerplay: max 3 fielders outside 30-yard circle; after powerplay, max 5 fielders outside).",
+          "Top team from league qualifies directly for final. 2nd & 3rd places play in playoff for final spot.",
+          "Winning team earns 2 points. Tied matches decided by Super Over (6 balls, 2 wickets). Net Run Rate considered on tied points.",
+          "Compulsory for all players to wear long bottoms.",
+          "No LBW. Shoulder height no ball and rain interruptions will be considered. National soft ball federation rules apply."
         ]
       },
       "chess": {
-        title: "Chess Rules",
+        title: "Chess Rules & Regulations",
         badge: "FIDE Standard",
         rules: [
-          "Round-robin team tournament using Swiss-Manager software under FIDE standard rules.",
-          "Squad: 6 playing members + 2 reserves. Fixed board order must be submitted 10 mins prior.",
-          "Time control: 60 minutes per player with zero increment."
+          "Official Round-Robin Team Tournament conducted under FIDE regulations using Swiss-Manager software (Standard Chess).",
+          "Each batch may register a maximum of one Boys' Team and one Girls' Team.",
+          "Each team consists of 8 members: 6 playing members and 2 reserve players.",
+          "Ranking criteria order: 1. Match Points, 2. Game Points, 3. Sonneborn-Berger (SB) Points.",
+          "Time control: 60 minutes per player for the entire game with zero increment.",
+          "Clocks started at the scheduled start time. Loss on time applies, unless opponent cannot checkmate by legal moves (drawn).",
+          "Drop sheet and playing-team list (with fixed board order) must be submitted to Chief Arbiter at least 10 minutes before match start.",
+          "Submitted board order must be strictly followed throughout the match."
         ]
       },
-      "carrom": {
-        title: "Carrom Rules",
+      "carrom_men": {
+        title: "Carrom Rules & Regulations (Men's)",
         badge: "League Format",
         rules: [
-          "Men: Minimum 5 players (3 singles, 2 doubles). Singles players cannot play doubles.",
-          "Women: Minimum 3 players (1 player can play both singles and doubles).",
-          "Men's matches: 30 minutes or 25 points. Women's matches: 15 minutes."
+          "League tournament: Maximum 1 team per batch from the same batch.",
+          "Minimum 5 players: 3 for singles and 2 for doubles. The singles players cannot play in the doubles match.",
+          "Game duration: Decided by 30 minutes or 25 points, whichever comes first.",
+          "Points calculation announced before match starts. International carrom rules followed."
+        ]
+      },
+      "carrom_women": {
+        title: "Carrom Rules & Regulations (Women's)",
+        badge: "League Format",
+        rules: [
+          "League tournament: Maximum 1 team per batch from the same batch.",
+          "Minimum 3 players: Only 1 player is permitted to participate in both singles and doubles.",
+          "Game duration: Decided by 15 minutes (highest points within time limit wins).",
+          "Points calculation announced before match starts. International carrom rules followed."
         ]
       },
       "basketball": {
-        title: "Basketball Rules",
+        title: "Basketball Rules & Regulations",
         badge: "FIBA Standard",
         rules: [
-          "Maximum 9 players, minimum 5 players on court.",
-          "Duration: Two 7-minute halves with a 2-minute break.",
-          "Clock stops for fouls, free throws, and timeouts (1 timeout per team per half).",
-          "No jewellery or metallic accessories permitted on court."
+          "Squad: Maximum 9 players, minimum 5 players.",
+          "Duration: Two halves of 7 minutes each with a 2-minute halftime break.",
+          "Clock runs during play; stops on fouls, free throws, timeouts, or far out-of-bounds balls. Clock restarts on inbound touch.",
+          "NO shot clock used.",
+          "One 30-second timeout allowed per team per half.",
+          "Team fouls: Two free throws awarded on the 5th team foul for remainder of half. Individual fouls not tracked, but warnings issued for repeated fouls.",
+          "No jewellery or dangerous accessories permitted (bands, rings, chains, earrings).",
+          "Substitutes must report to scorekeeper and be recognized by official before entering. Further FIBA rules apply."
+        ]
+      },
+      "athletics": {
+        title: "Athletics Rules & Regulations",
+        badge: "Track & Field",
+        rules: [
+          "A batch can represent only 2 members for an individual event.",
+          "Each athlete may participate in a maximum of three (3) individual events.",
+          "Participation in relay events is permitted in addition to the three individual events.",
+          "A batch can represent only one team (4 members) for relay races.",
+          "Boys must wear suitable athletic kits; long bottoms are NOT allowed.",
+          "Every participant or team must be present on time. Being late by 5 minutes from call time results in disqualification.",
+          "All events conducted according to international rules; judge's decision is final."
+        ]
+      },
+      "netball": {
+        title: "Netball Rules & Regulations",
+        badge: "Women's League",
+        rules: [
+          "Restricted exclusively to WOMEN teams.",
+          "Squad consists of 12 players (7 on court, 5 substitutes).",
+          "Standard international INF rules and university tournament discipline guidelines apply."
         ]
       }
     };
@@ -643,14 +718,56 @@
       "longjump", "discuss_throw", "high_jump", "javelin_throw"
     ];
 
-    function getRuleKeyForSport(sportKey) {
+    function getRuleKeyForSport(sportKey, category) {
       if (!sportKey) return null;
       if (ATHLETICS_KEYS.includes(sportKey)) return "athletics";
-      return RULES_REGULATIONS_DATA[sportKey] ? sportKey : "general";
+      if (sportKey === "badminton") {
+        return category === "WOMEN" ? "badminton_women" : "badminton_men";
+      }
+      if (sportKey === "carrom") {
+        return category === "WOMEN" ? "carrom_women" : "carrom_men";
+      }
+      return RULES_REGULATIONS_DATA[sportKey] ? sportKey : null;
     }
 
     /******************************************************************
-     * 2. ROSTER UNLOCK VIA SINGLE CHECKBOX
+     * 2. EVENT & CATEGORY CONSTRAINTS ENGINE
+     ******************************************************************/
+    const EVENT_LIMITS = {
+      "cricket": 15, "volleyball": 10, "basketball": 9, "football": 15,
+      "netball": 12, "elle": 20, "marathon": 20,
+      "100m": 2, "200m": 2, "400m": 2, "800m": 2, "1500m": 2,
+      "4x100": 4, "4x400": 4, "100m_hurdles": 4, "shotput": 2,
+      "longjump": 2, "discuss_throw": 2, "high_jump": 2, "javelin_throw": 2
+    };
+
+    const sportSelect = document.getElementById("sportSelect");
+    const categorySelect = document.getElementById("categorySelect");
+
+    // Dynamic category updater based on selected sport
+    function adjustCategoriesForSport(sport) {
+      const currentVal = categorySelect.value;
+      categorySelect.innerHTML = "";
+
+      if (sport === "basketball" || sport === "football" || sport === "marathon") {
+        categorySelect.innerHTML = `<option value="MEN">MEN ONLY</option>`;
+      } else if (sport === "netball") {
+        categorySelect.innerHTML = `<option value="WOMEN">WOMEN ONLY</option>`;
+      } else if (sport === "elle") {
+        categorySelect.innerHTML = `<option value="MIX">MIX (Both in one team)</option>`;
+      } else {
+        // Cricket, Volleyball, Athletics
+        categorySelect.innerHTML = `
+          <option value="MEN">MEN</option>
+          <option value="WOMEN">WOMEN</option>
+        `;
+        if (currentVal === "WOMEN") categorySelect.value = "WOMEN";
+        else categorySelect.value = "MEN";
+      }
+    }
+
+    /******************************************************************
+     * 3. ROSTER UNLOCK & UI TOGGLING
      ******************************************************************/
     const rulesCheckbox = document.getElementById("rulesCheckbox");
     const rosterLockOverlay = document.getElementById("rosterLockOverlay");
@@ -661,6 +778,9 @@
     const activeRulesSportName = document.getElementById("activeRulesSportName");
     const activeRulesBadge = document.getElementById("activeRulesBadge");
     const activeRulesList = document.getElementById("activeRulesList");
+    const playersContainer = document.getElementById("playersContainer");
+    const roleHeaderCol = document.getElementById("roleHeaderCol");
+    const rosterTitle = document.getElementById("rosterTitle");
 
     function setRosterLockState(isUnlocked) {
       if (enforceDeadlineStatus() && !isAdmin) return;
@@ -683,176 +803,6 @@
     rulesCheckbox.addEventListener("change", (e) => {
       setRosterLockState(e.target.checked);
     });
-
-    /******************************************************************
-     * 3. PDF INSTRUCTION MANUAL MODAL CONTROLS
-     ******************************************************************/
-    const pdfModal = document.getElementById("pdfModal");
-    const openLoginPdfBtn = document.getElementById("openLoginPdfBtn");
-    const openPortalPdfBtn = document.getElementById("openPortalPdfBtn");
-    const closePdfModal = document.getElementById("closePdfModal");
-
-    function showPdfModal() { pdfModal.classList.remove("hidden"); }
-    function hidePdfModal() { pdfModal.classList.add("hidden"); }
-
-    if (openLoginPdfBtn) openLoginPdfBtn.addEventListener("click", showPdfModal);
-    if (openPortalPdfBtn) openPortalPdfBtn.addEventListener("click", showPdfModal);
-    if (closePdfModal) closePdfModal.addEventListener("click", hidePdfModal);
-    pdfModal.addEventListener("click", (e) => { if (e.target === pdfModal) hidePdfModal(); });
-
-    /******************************************************************
-     * 4. AUDIO ENGINE (`track.mp3`)
-     ******************************************************************/
-    const bgAudio = document.getElementById("bgAudio");
-    const audioBtn = document.getElementById("audioToggleBtn");
-    const audioStatusText = document.getElementById("audioStatusText");
-    const audioIndicatorDot = document.getElementById("audioIndicatorDot");
-    const bgVideo = document.getElementById("bgVideo");
-    const loginBgContainer = document.getElementById("loginBgContainer");
-    const portalBgContainer = document.getElementById("portalBgContainer");
-    const loadingOverlay = document.getElementById("loadingOverlay");
-
-    function setAudioUIPlaying() {
-      audioStatusText.innerText = "Soundtrack: On";
-      audioIndicatorDot.className = "inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse";
-      audioBtn.classList.add("border-slate-400", "text-slate-200", "shadow-[0_0_15px_rgba(148,163,184,0.3)]");
-    }
-
-    function setAudioUIPaused() {
-      audioStatusText.innerText = "Soundtrack: Off";
-      audioIndicatorDot.className = "inline-block w-2 h-2 rounded-full bg-rose-500";
-      audioBtn.classList.remove("border-slate-400", "text-slate-200", "shadow-[0_0_15px_rgba(148,163,184,0.3)]");
-    }
-
-    function playAudio() {
-      bgAudio.play().then(() => setAudioUIPlaying()).catch(err => console.warn(err));
-    }
-
-    function pauseAudio() {
-      bgAudio.pause();
-      setAudioUIPaused();
-    }
-
-    audioBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      bgAudio.paused ? playAudio() : pauseAudio();
-    });
-
-    /******************************************************************
-     * 5. AUTHENTICATION & ADMIN ROLES
-     ******************************************************************/
-    const BATCH_ACCOUNTS = {
-      "rep_e22": { pass: "K9#mQ2", batch: "E22" },
-      "rep_e23": { pass: "xR4$vL", batch: "E23" },
-      "rep_e24": { pass: "T7!wP8", batch: "E24" },
-      "rep_e25": { pass: "zN5&bK", batch: "E25" },
-      "admin":   { pass: "ewik26@admin", isAdmin: true }
-    };
-
-    let authenticatedBatch = null;
-    let isAdmin = false;
-
-    const loginScreen = document.getElementById("loginScreen");
-    const portalScreen = document.getElementById("portalScreen");
-    const loginForm = document.getElementById("loginForm");
-    const loginError = document.getElementById("loginError");
-    const batchInputWrapper = document.getElementById("batchInputWrapper");
-    const batchRealmStatus = document.getElementById("batchRealmStatus");
-    const repBadge = document.getElementById("repBadge");
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const user = document.getElementById("usernameInput").value.trim().toLowerCase();
-      const pass = document.getElementById("passwordInput").value.trim();
-
-      if (BATCH_ACCOUNTS[user] && BATCH_ACCOUNTS[user].pass === pass) {
-        loginError.classList.add("hidden");
-        loginScreen.classList.add("hidden");
-        portalScreen.classList.remove("hidden");
-
-        bgVideo.pause();
-        loginBgContainer.classList.add("hidden");
-        portalBgContainer.classList.remove("hidden");
-        playAudio();
-
-        if (BATCH_ACCOUNTS[user].isAdmin) {
-          isAdmin = true;
-          deadlineClosedModal.classList.add("hidden");
-          repBadge.innerText = "Authorized: Master Admin";
-          batchRealmStatus.innerText = "(admin mode - select batch)";
-
-          batchInputWrapper.innerHTML = `
-            <select id="batchSelect" class="w-full bg-[#0d0c11] border border-slate-800 text-slate-200 rounded-xl p-3 text-sm font-cinzel focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all cursor-pointer">
-              <option value="E22">E22</option>
-              <option value="E23" selected>E23</option>
-              <option value="E24">E24</option>
-              <option value="E25">E25</option>
-            </select>
-          `;
-          authenticatedBatch = "E23";
-
-          document.getElementById("batchSelect").addEventListener("change", (ev) => {
-            authenticatedBatch = ev.target.value;
-            triggerDataFetch();
-          });
-        } else {
-          isAdmin = false;
-          authenticatedBatch = BATCH_ACCOUNTS[user].batch;
-          repBadge.innerText = `Authorized: Representative ${authenticatedBatch}`;
-          batchRealmStatus.innerText = "(locked)";
-
-          batchInputWrapper.innerHTML = `
-            <input type="text" id="batchSelect" value="${authenticatedBatch}" readonly class="w-full bg-[#0d0c11] border border-slate-500/40 text-slate-200 font-bold rounded-xl p-3 text-sm font-cinzel cursor-not-allowed focus:outline-none" />
-          `;
-        }
-
-        enforceDeadlineStatus();
-        sportSelect.value = "";
-        activeRulesNotice.classList.add("hidden");
-        rulesCheckbox.checked = false;
-        setRosterLockState(false);
-        updatePlayerSlots(0);
-      } else {
-        loginError.classList.remove("hidden");
-      }
-    });
-
-    logoutBtn.addEventListener("click", () => {
-      authenticatedBatch = null;
-      isAdmin = false;
-      pauseAudio();
-      document.getElementById("loginForm").reset();
-      rulesCheckbox.checked = false;
-      setRosterLockState(false);
-      updatePlayerSlots(0);
-      portalScreen.classList.add("hidden");
-
-      portalBgContainer.classList.add("hidden");
-      loginBgContainer.classList.remove("hidden");
-      bgVideo.play().catch(e => console.warn(e));
-      loginScreen.classList.remove("hidden");
-    });
-
-    /******************************************************************
-     * 6. EVENT CONFIGURATION & DYNAMIC SLOTS
-     ******************************************************************/
-    const EVENT_LIMITS = {
-      "cricket": 15, "football": 15, "basketball": 10, "volleyball": 10,
-      "netball": 12, "elle": 20, "badminton": 6, "table_tennis": 10,
-      "carrom": 10, "marathon": 20, "chess": 10, "100m": 5, "200m": 5,
-      "400m": 5, "800m": 5, "1500m": 5, "4x100": 4, "4x400": 4,
-      "100m_hurdles": 4, "shotput": 5, "longjump": 5, "discuss_throw": 5,
-      "high_jump": 5, "javelin_throw": 5
-    };
-
-    const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkFJsbdHQFZDAiFYWXyCIUvGbmbt0PxGqSGjm_FCEFvjSIC11CUEFyrhlcK30pzJ9fBg/exec";
-
-    const playersContainer = document.getElementById("playersContainer");
-    const roleHeaderCol = document.getElementById("roleHeaderCol");
-    const rosterTitle = document.getElementById("rosterTitle");
-    const sportSelect = document.getElementById("sportSelect");
-    const categorySelect = document.getElementById("categorySelect");
 
     function updatePlayerSlots(limit) {
       playersContainer.innerHTML = "";
@@ -919,37 +869,30 @@
     }
 
     function displaySelectedSportRules(sport) {
-      const ruleKey = getRuleKeyForSport(sport);
+      let ruleKey = sport;
+      if (ATHLETICS_KEYS.includes(sport)) ruleKey = "athletics";
+
       if (!ruleKey || !RULES_REGULATIONS_DATA[ruleKey]) {
         activeRulesNotice.classList.add("hidden");
         return;
       }
 
       const item = RULES_REGULATIONS_DATA[ruleKey];
-      activeRulesSportName.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> ${item.title}`;
+      activeRulesSportName.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500"></span> ${item.title}`;
       activeRulesBadge.innerText = item.badge;
       activeRulesList.innerHTML = item.rules.map(r => `<li class="leading-relaxed">${r}</li>`).join('');
       activeRulesNotice.classList.remove("hidden");
     }
 
+    /******************************************************************
+     * 4. DATA FETCH & GAS INTEGRATION
+     ******************************************************************/
+    const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkFJsbdHQFZDAiFYWXyCIUvGbmbt0PxGqSGjm_FCEFvjSIC11CUEFyrhlcK30pzJ9fBg/exec";
+    const loadingOverlay = document.getElementById("loadingOverlay");
+
     function triggerDataFetch() {
       const sport = sportSelect.value;
       const category = categorySelect.value;
-
-      if (sport === "basketball" && category !== "MEN") {
-        alert("Basketball is restricted to MEN only.");
-        sportSelect.value = "";
-        updatePlayerSlots(0);
-        activeRulesNotice.classList.add("hidden");
-        return;
-      }
-      if (sport === "netball" && category !== "WOMEN") {
-        alert("Netball is restricted to WOMEN only.");
-        sportSelect.value = "";
-        updatePlayerSlots(0);
-        activeRulesNotice.classList.add("hidden");
-        return;
-      }
 
       rulesCheckbox.checked = false;
       setRosterLockState(false);
@@ -997,7 +940,11 @@
       document.body.appendChild(script);
     }
 
-    sportSelect.addEventListener("change", triggerDataFetch);
+    sportSelect.addEventListener("change", () => {
+      adjustCategoriesForSport(sportSelect.value);
+      triggerDataFetch();
+    });
+
     categorySelect.addEventListener("change", triggerDataFetch);
 
     function gatherPayloadPlayers(limit) {
@@ -1023,7 +970,7 @@
     }
 
     /******************************************************************
-     * 7. SYNC TO GOOGLE SHEET
+     * 5. SYNC & DOWNLOAD CARD
      ******************************************************************/
     document.getElementById("syncBtn").addEventListener("click", async () => {
       if (enforceDeadlineStatus() && !isAdmin) {
@@ -1073,9 +1020,6 @@
       }
     });
 
-    /******************************************************************
-     * 8. FINALIZE TEAM & DIRECTLY DOWNLOAD WORD CARD (.docx)
-     ******************************************************************/
     document.getElementById("finalizeBtn").addEventListener("click", async () => {
       if (enforceDeadlineStatus() && !isAdmin) {
         alert("The submission deadline has expired. Portal is closed.");
@@ -1165,7 +1109,141 @@
     });
 
     /******************************************************************
-     * 9. REALISTIC EMBERS CANVAS PARTICLE ENGINE
+     * 6. AUTHENTICATION & MODALS
+     ******************************************************************/
+    const BATCH_ACCOUNTS = {
+      "rep_e22": { pass: "K9#mQ2", batch: "E22" },
+      "rep_e23": { pass: "xR4$vL", batch: "E23" },
+      "rep_e24": { pass: "T7!wP8", batch: "E24" },
+      "rep_e25": { pass: "zN5&bK", batch: "E25" },
+      "admin":   { pass: "ewik26@admin", isAdmin: true }
+    };
+
+    let authenticatedBatch = null;
+    let isAdmin = false;
+
+    const loginScreen = document.getElementById("loginScreen");
+    const portalScreen = document.getElementById("portalScreen");
+    const loginForm = document.getElementById("loginForm");
+    const loginError = document.getElementById("loginError");
+    const batchInputWrapper = document.getElementById("batchInputWrapper");
+    const batchRealmStatus = document.getElementById("batchRealmStatus");
+    const repBadge = document.getElementById("repBadge");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const bgVideo = document.getElementById("bgVideo");
+    const loginBgContainer = document.getElementById("loginBgContainer");
+    const portalBgContainer = document.getElementById("portalBgContainer");
+    const bgAudio = document.getElementById("bgAudio");
+    const audioBtn = document.getElementById("audioToggleBtn");
+    const audioStatusText = document.getElementById("audioStatusText");
+    const audioIndicatorDot = document.getElementById("audioIndicatorDot");
+
+    function playAudio() {
+      bgAudio.play().then(() => {
+        audioStatusText.innerText = "Soundtrack: On";
+        audioIndicatorDot.className = "inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse";
+        audioBtn.classList.add("border-slate-400", "text-slate-200", "shadow-[0_0_15px_rgba(148,163,184,0.3)]");
+      }).catch(err => console.warn(err));
+    }
+
+    function pauseAudio() {
+      bgAudio.pause();
+      audioStatusText.innerText = "Soundtrack: Off";
+      audioIndicatorDot.className = "inline-block w-2 h-2 rounded-full bg-rose-500";
+      audioBtn.classList.remove("border-slate-400", "text-slate-200", "shadow-[0_0_15px_rgba(148,163,184,0.3)]");
+    }
+
+    audioBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      bgAudio.paused ? playAudio() : pauseAudio();
+    });
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const user = document.getElementById("usernameInput").value.trim().toLowerCase();
+      const pass = document.getElementById("passwordInput").value.trim();
+
+      if (BATCH_ACCOUNTS[user] && BATCH_ACCOUNTS[user].pass === pass) {
+        loginError.classList.add("hidden");
+        loginScreen.classList.add("hidden");
+        portalScreen.classList.remove("hidden");
+
+        bgVideo.pause();
+        loginBgContainer.classList.add("hidden");
+        portalBgContainer.classList.remove("hidden");
+        playAudio();
+
+        if (BATCH_ACCOUNTS[user].isAdmin) {
+          isAdmin = true;
+          deadlineClosedModal.classList.add("hidden");
+          repBadge.innerText = "Authorized: Master Admin";
+          batchRealmStatus.innerText = "(admin mode - select batch)";
+
+          batchInputWrapper.innerHTML = `
+            <select id="batchSelect" class="w-full bg-[#0d0c11] border border-slate-800 text-slate-200 rounded-xl p-3 text-sm font-cinzel focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all cursor-pointer">
+              <option value="E22">E22</option>
+              <option value="E23" selected>E23</option>
+              <option value="E24">E24</option>
+              <option value="E25">E25</option>
+            </select>
+          `;
+          authenticatedBatch = "E23";
+
+          document.getElementById("batchSelect").addEventListener("change", (ev) => {
+            authenticatedBatch = ev.target.value;
+            triggerDataFetch();
+          });
+        } else {
+          isAdmin = false;
+          authenticatedBatch = BATCH_ACCOUNTS[user].batch;
+          repBadge.innerText = `Authorized: Representative ${authenticatedBatch}`;
+          batchRealmStatus.innerText = "(locked)";
+
+          batchInputWrapper.innerHTML = `
+            <input type="text" id="batchSelect" value="${authenticatedBatch}" readonly class="w-full bg-[#0d0c11] border border-slate-500/40 text-slate-200 font-bold rounded-xl p-3 text-sm font-cinzel cursor-not-allowed focus:outline-none" />
+          `;
+        }
+
+        enforceDeadlineStatus();
+        sportSelect.value = "";
+        adjustCategoriesForSport("");
+        activeRulesNotice.classList.add("hidden");
+        rulesCheckbox.checked = false;
+        setRosterLockState(false);
+        updatePlayerSlots(0);
+      } else {
+        loginError.classList.remove("hidden");
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      authenticatedBatch = null;
+      isAdmin = false;
+      pauseAudio();
+      document.getElementById("loginForm").reset();
+      rulesCheckbox.checked = false;
+      setRosterLockState(false);
+      updatePlayerSlots(0);
+      portalScreen.classList.add("hidden");
+
+      portalBgContainer.classList.add("hidden");
+      loginBgContainer.classList.remove("hidden");
+      bgVideo.play().catch(e => console.warn(e));
+      loginScreen.classList.remove("hidden");
+    });
+
+    const pdfModal = document.getElementById("pdfModal");
+    const openLoginPdfBtn = document.getElementById("openLoginPdfBtn");
+    const openPortalPdfBtn = document.getElementById("openPortalPdfBtn");
+    const closePdfModal = document.getElementById("closePdfModal");
+
+    if (openLoginPdfBtn) openLoginPdfBtn.addEventListener("click", () => pdfModal.classList.remove("hidden"));
+    if (openPortalPdfBtn) openPortalPdfBtn.addEventListener("click", () => pdfModal.classList.remove("hidden"));
+    if (closePdfModal) closePdfModal.addEventListener("click", () => pdfModal.classList.add("hidden"));
+    pdfModal.addEventListener("click", (e) => { if (e.target === pdfModal) pdfModal.classList.add("hidden"); });
+
+    /******************************************************************
+     * 7. CANVAS PARTICLES
      ******************************************************************/
     const canvas = document.getElementById("emberCanvas");
     const ctx = canvas.getContext("2d");
