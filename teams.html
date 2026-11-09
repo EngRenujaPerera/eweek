@@ -162,7 +162,7 @@
       transform: translateY(-2px);
     }
 
-    /* Initial State Showcase */
+    /* Initial / Empty State Showcase */
     .initial-placeholder {
       padding: 70px 20px;
       text-align: center;
@@ -332,14 +332,6 @@
       margin-left: 8px;
     }
 
-    .no-athletes-msg {
-      font-style: italic;
-      color: var(--color-stone-light);
-      font-size: 0.85rem;
-      text-align: center;
-      padding: 20px 0;
-    }
-
     .loading-spinner {
       text-align: center;
       padding: 50px 20px;
@@ -480,32 +472,35 @@
 
   <script>
     const SPORTS_CONFIG = [
+      // Ball Games & Main Events
       { id: "cricket", name: "Cricket", categories: ["MEN", "WOMEN"] },
-      { id: "football", name: "Football", categories: ["MEN", "WOMEN"] },
       { id: "volleyball", name: "Volleyball", categories: ["MEN", "WOMEN"] },
-      { id: "elle", name: "Elle", categories: ["MEN", "WOMEN"] },
+      { id: "basketball", name: "Basketball", categories: ["MEN"] },
+      { id: "football", name: "Football", categories: ["MEN"] },
+      { id: "netball", name: "Netball", categories: ["WOMEN"] },
+      { id: "elle", name: "Elle", categories: ["MIX"] },
+      { id: "marathon", name: "Marathon", categories: ["MEN"] },
+
+      // Racket & Board Sports
       { id: "badminton", name: "Badminton", categories: ["MEN", "WOMEN"] },
-      { id: "tabletennis", name: "Table Tennis", categories: ["MEN", "WOMEN"] },
+      { id: "table_tennis", name: "Table Tennis", categories: ["MEN", "WOMEN"] },
       { id: "carrom", name: "Carrom", categories: ["MEN", "WOMEN"] },
       { id: "chess", name: "Chess", categories: ["MEN", "WOMEN"] },
-      { id: "basketball", name: "Basketball", categories: ["MEN"] },
-      { id: "netball", name: "Netball", categories: ["WOMEN"] },
-      { id: "debate", name: "Debate", categories: ["MEN"], hideBadge: true },
-      { id: "espeaker", name: "E Speaker", categories: ["MEN"], hideBadge: true },
-      { id: "100m", name: "100m Athletics", categories: ["MEN"], hideBadge: true },
-      { id: "200m", name: "200m Athletics", categories: ["MEN"], hideBadge: true },
-      { id: "400m", name: "400m Athletics", categories: ["MEN"], hideBadge: true },
-      { id: "800m", name: "800m Athletics", categories: ["MEN"], hideBadge: true },
-      { id: "1500m", name: "1500m Athletics", categories: ["MEN"], hideBadge: true },
-      { id: "marathon", name: "Marathon", categories: ["MEN"], hideBadge: true },
-      { id: "100m_hurdles", name: "Mix Relay", categories: ["MEN"], hideBadge: true },
-      { id: "4x100", name: "4x100m Relay", categories: ["MEN"], hideBadge: true },
-      { id: "4x400", name: "4x400m Relay", categories: ["MEN"], hideBadge: true },
-      { id: "high_jump", name: "High Jump", categories: ["MEN"], hideBadge: true },
-      { id: "longjump", name: "Long Jump", categories: ["MEN"], hideBadge: true },
-      { id: "shotput", name: "Shot Put", categories: ["MEN"], hideBadge: true },
-      { id: "discuss_throw", name: "Discuss Throw", categories: ["MEN"], hideBadge: true },
-      { id: "javelin_throw", name: "Javelin Throw", categories: ["MEN"], hideBadge: true }
+
+      // Athletics (Track & Field)
+      { id: "100m", name: "100m", categories: ["MEN", "WOMEN"] },
+      { id: "200m", name: "200m", categories: ["MEN", "WOMEN"] },
+      { id: "400m", name: "400m", categories: ["MEN", "WOMEN"] },
+      { id: "800m", name: "800m", categories: ["MEN", "WOMEN"] },
+      { id: "1500m", name: "1500m", categories: ["MEN", "WOMEN"] },
+      { id: "4x100", name: "4x100m Relay", categories: ["MEN", "WOMEN"] },
+      { id: "4x400", name: "4x400m Relay", categories: ["MEN", "WOMEN"] },
+      { id: "100m_hurdles", name: "Mix Relay", categories: ["MEN", "WOMEN"] },
+      { id: "shotput", name: "Shot Put", categories: ["MEN", "WOMEN"] },
+      { id: "longjump", name: "Long Jump", categories: ["MEN", "WOMEN"] },
+      { id: "discuss_throw", name: "Discuss Throw", categories: ["MEN", "WOMEN"] },
+      { id: "high_jump", name: "High Jump", categories: ["MEN", "WOMEN"] },
+      { id: "javelin_throw", name: "Javelin Throw", categories: ["MEN", "WOMEN"] }
     ];
 
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkFJsbdHQFZDAiFYWXyCIUvGbmbt0PxGqSGjm_FCEFvjSIC11CUEFyrhlcK30pzJ9fBg/exec";
@@ -596,47 +591,71 @@
         });
       });
 
+      // Populate events from Sheets response
       Object.keys(batchRosters).forEach(sheetKey => {
         const players = batchRosters[sheetKey];
+        if (!Array.isArray(players) || players.length === 0) return;
+
         const parts = sheetKey.split('_');
         if (parts.length >= 2) {
           const cat = parts[0].toUpperCase();
           const sportId = parts.slice(1).join('_').toLowerCase();
-          const mapKey = `${sportId}_${cat}`;
-          if (eventMap[mapKey]) {
-            eventMap[mapKey].players = players.map(p => ({
-              name: (p.name || p.FullName || p['Full Name'] || '').toUpperCase(),
-              isCaptain: p.isCaptain === true || String(p.isCaptain).toUpperCase() === 'TRUE'
-            }));
+
+          // Normalization check: handles both 'tabletennis' and 'table_tennis'
+          let matchedKey = `${sportId}_${cat}`;
+          if (!eventMap[matchedKey] && sportId === 'tabletennis') {
+            matchedKey = `table_tennis_${cat}`;
+          }
+
+          if (eventMap[matchedKey]) {
+            const validPlayers = players
+              .filter(p => (p.name || p.FullName || p['Full Name'] || '').trim().length > 0)
+              .map(p => ({
+                name: (p.name || p.FullName || p['Full Name'] || '').toUpperCase().trim(),
+                isCaptain: p.isCaptain === true || String(p.isCaptain).toUpperCase() === 'TRUE'
+              }));
+
+            if (validPlayers.length > 0) {
+              eventMap[matchedKey].players = validPlayers;
+            }
           }
         }
       });
+
+      // Filter: ONLY display events that actually have registered players
+      const populatedEvents = Object.keys(eventMap)
+        .filter(key => eventMap[key].players.length > 0)
+        .map(key => eventMap[key]);
 
       let html = `
         <div class="batch-spotlight-container" id="spotlightBox">
           <img src="${logoSrc}" alt="${batch} Logo" class="spotlight-emblem" onerror="this.style.display='none';" />
           <h2 class="spotlight-title">${batch} SQUAD ROSTERS</h2>
         </div>
-        <div class="events-grid">
       `;
 
-      let delay = 0.05;
-      Object.keys(eventMap).forEach(key => {
-        const ev = eventMap[key];
-        delay += 0.025;
-
+      if (populatedEvents.length === 0) {
         html += `
-          <div class="event-card" style="animation-delay: ${delay}s;">
-            <div class="event-card-header">
-              <h3 class="event-card-title">${ev.sportName}</h3>
-              ${!ev.hideBadge ? `<span class="event-category-badge">${ev.category}</span>` : ''}
-            </div>
-            <ul class="athletes-list">
+          <div class="initial-placeholder">
+            <h3>NO ROSTERS SUBMITTED YET</h3>
+            <p>No finalized team cards or participant entries found for batch ${batch}.</p>
+          </div>
         `;
+      } else {
+        html += `<div class="events-grid">`;
+        let delay = 0.05;
 
-        if (ev.players.length === 0) {
-          html += `<li class="no-athletes-msg">No team roster submitted yet.</li>`;
-        } else {
+        populatedEvents.forEach(ev => {
+          delay += 0.025;
+          html += `
+            <div class="event-card" style="animation-delay: ${delay}s;">
+              <div class="event-card-header">
+                <h3 class="event-card-title">${ev.sportName}</h3>
+                ${!ev.hideBadge ? `<span class="event-category-badge">${ev.category}</span>` : ''}
+              </div>
+              <ul class="athletes-list">
+          `;
+
           ev.players.forEach(p => {
             html += `
               <li class="athlete-item">
@@ -645,15 +664,16 @@
               </li>
             `;
           });
-        }
 
-        html += `
-            </ul>
-          </div>
-        `;
-      });
+          html += `
+              </ul>
+            </div>
+          `;
+        });
 
-      html += `</div>`;
+        html += `</div>`;
+      }
+
       mount.innerHTML = html;
 
       setTimeout(() => {
