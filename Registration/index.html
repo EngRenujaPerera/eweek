@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E-Week 2026 | Team Registration & Team Card</title>
-  <!-- Tab Favicon (Dynamic based on realm) -->
+  <!-- Tab Favicon (Static logo.png) -->
   <link id="tabFavicon" rel="icon" type="image/png" href="logo.png" />
   <link id="appleFavicon" rel="apple-touch-icon" href="logo.png" />
   <!-- Tailwind CSS -->
@@ -309,7 +309,7 @@
       </div>
     </div>
 
-    <!-- Header with Static Emblem Logo -->
+    <!-- Header with Dynamic Realm Logo -->
     <header class="text-center py-4 px-4 space-y-3">
       <div class="inline-block relative">
         <div class="w-28 h-28 sm:w-36 sm:h-36 mx-auto rounded-full overflow-hidden sigil-glow bg-black flex items-center justify-center transform transition-transform duration-500 hover:scale-105">
@@ -875,15 +875,20 @@
     const modalPdfTitle = document.getElementById("modalPdfTitle");
     const pdfIframe = document.getElementById("pdfIframe");
 
-    // Dynamic Realm Banner & Favicon Elements
+    // Dynamic Realm Banner & Persistent Logos
     const realmBannerLogo = document.getElementById("realmBannerLogo");
+    const rosterSubIcon = document.getElementById("rosterSubIcon");
     const tabFavicon = document.getElementById("tabFavicon");
     const appleFavicon = document.getElementById("appleFavicon");
 
-    function updateRealmLogos(logoFile) {
-      if (realmBannerLogo) realmBannerLogo.src = logoFile;
-      if (tabFavicon) tabFavicon.href = logoFile;
-      if (appleFavicon) appleFavicon.href = logoFile;
+    function updateRealmLogos(bannerLogoFile) {
+      // Keeps the realm-specific banner dynamic
+      if (realmBannerLogo) realmBannerLogo.src = bannerLogoFile;
+
+      // Retain logo.png persistently for roster header icon & tab favicons
+      if (rosterSubIcon) rosterSubIcon.src = "logo.png";
+      if (tabFavicon) tabFavicon.href = "logo.png";
+      if (appleFavicon) appleFavicon.href = "logo.png";
     }
 
     function setDynamicBackground(bgFile) {
