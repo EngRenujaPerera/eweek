@@ -14,10 +14,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- PizZip, Docxtemplater & FileSaver for modifying existing Poetry_Sub.docx -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.6/pizzip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.49.1/docxtemplater.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <!-- Libraries for Word Document Processing & In-Memory Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
 
   <style>
     :root {
@@ -112,7 +111,7 @@
     }
     .step-connector { width: 30px; height: 1px; background: rgba(197, 160, 89, 0.3); }
 
-    /* Cards */
+    /* Panel Card */
     .glass-card {
       background: linear-gradient(160deg, rgba(20, 25, 36, 0.95) 0%, rgba(10, 13, 19, 0.98) 100%);
       border: 1px solid rgba(197, 160, 89, 0.3);
@@ -122,6 +121,7 @@
       margin-bottom: 30px;
     }
 
+    /* Rules & Topics */
     .rules-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
     .rules-list li {
       position: relative;
@@ -168,6 +168,7 @@
     .topic-col li { font-size: 0.85rem; color: var(--color-stone-light); padding-left: 14px; position: relative; }
     .topic-col li::before { content: '•'; position: absolute; left: 0; color: var(--color-gold); }
 
+    /* Checkbox */
     .agree-container {
       display: flex;
       align-items: flex-start;
@@ -188,6 +189,7 @@
     }
     .agree-label { font-size: 0.88rem; color: var(--color-silver-bright); user-select: none; cursor: pointer; }
 
+    /* Buttons */
     .btn-gold {
       display: inline-flex;
       align-items: center;
@@ -233,6 +235,7 @@
       color: var(--color-gold-light);
     }
 
+    /* Form Styles */
     .form-group { margin-bottom: 20px; }
     .form-label { display: block; font-size: 0.88rem; font-weight: 500; color: var(--color-silver-pure); margin-bottom: 8px; }
     .required-star { color: #f87171; margin-left: 2px; }
@@ -329,8 +332,54 @@
       font-size: 0.95rem;
       color: var(--color-silver-mid);
       max-width: 580px;
-      margin: 0 auto 24px;
+      margin: 0 auto 20px;
       line-height: 1.6;
+    }
+
+    /* Prominent Download Banner */
+    .download-card-box {
+      background: linear-gradient(135deg, rgba(197, 160, 89, 0.15) 0%, rgba(20, 25, 36, 0.9) 100%);
+      border: 2px solid var(--color-gold);
+      border-radius: 8px;
+      padding: 22px 18px;
+      max-width: 560px;
+      margin: 0 auto 26px;
+      text-align: center;
+      box-shadow: 0 0 24px rgba(197, 160, 89, 0.2);
+    }
+    .download-filename {
+      color: var(--color-gold-light);
+      font-family: monospace;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: block;
+      word-break: break-all;
+    }
+    .btn-download-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #c5a059 0%, #f7dfa3 100%);
+      color: #0c0e14;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.88rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      box-shadow: 0 4px 18px rgba(197, 160, 89, 0.45);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    .btn-download-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(197, 160, 89, 0.7);
+      filter: brightness(1.08);
     }
 
     .submission-box {
@@ -338,11 +387,11 @@
       border: 1px dashed var(--color-gold);
       border-radius: 6px;
       padding: 18px;
-      max-width: 500px;
+      max-width: 560px;
       margin: 0 auto 25px;
       text-align: center;
     }
-    .submission-box p { font-size: 0.88rem; color: var(--color-silver-bright); margin-bottom: 10px; }
+    .submission-box p { font-size: 0.88rem; color: var(--color-silver-bright); margin-bottom: 8px; }
     .sub-link-url {
       color: var(--color-gold-light);
       word-break: break-all;
@@ -355,7 +404,7 @@
       border: 1px solid rgba(197, 160, 89, 0.25);
       border-radius: 6px;
       padding: 18px;
-      max-width: 500px;
+      max-width: 560px;
       margin: 0 auto 28px;
       text-align: left;
     }
@@ -393,6 +442,7 @@
       .form-nav-row { flex-direction: column-reverse; }
       .btn-secondary { width: 100%; text-align: center; }
       .success-card { padding: 25px 12px; }
+      .btn-download-primary { width: 100%; }
       .success-actions { flex-direction: column; width: 100%; }
       .success-actions .btn-gold { width: 100%; }
     }
@@ -400,6 +450,7 @@
 </head>
 <body>
 
+  <!-- Navigation -->
   <header class="site-header">
     <div class="container nav-wrapper">
       <a href="https://www.eweek.lk" class="brand-identity">
@@ -599,8 +650,16 @@
         You have successfully registered to the <span>Poetry Competition</span>!
       </h2>
       <p class="success-message">
-        Your registration has been confirmed. Your customized submission document has been downloaded. Write your poem in the document and submit it via the official portal link below.
+        Your registration details have been officially logged. Your personalized submission template is ready below.
       </p>
+
+      <!-- Prominent Download Box (immune to browser popup blocking) -->
+      <div class="download-card-box">
+        <span class="download-filename" id="downloadFilenameDisplay">poetry_sub.docx</span>
+        <a id="directDownloadAnchor" href="#" class="btn-download-primary" download="">
+          &#11015; Download Word Document (.docx)
+        </a>
+      </div>
 
       <!-- Submission Link Box -->
       <div class="submission-box">
@@ -634,9 +693,6 @@
       </div>
 
       <div class="success-actions">
-        <button type="button" id="reDownloadBtn" class="btn-gold" style="width: auto; min-width: 220px;" onclick="triggerManualDocxDownload()">
-          Download Word Doc Again
-        </button>
         <a href="https://www.eweek.lk/aesthetic.html" class="btn-gold btn-secondary" style="width: auto; min-width: 180px;">
           Other Competitions
         </a>
@@ -661,11 +717,7 @@
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxtoiMPivlMICcTQB4g4cHhXWIyQlqfH1JgnKYgPQFLXcb24WbC-xCeFapKC70cwOeo/exec";
-    
-    // Official Submission Link
     const SUBMISSION_LINK = "https://forms.gle/QY38sim3uQ38F92j7";
-
-    let latestParticipantData = null;
 
     const topicsByMedium = {
       Sinhala: [
@@ -743,73 +795,184 @@
       goToStage(1);
     }
 
-    // Fetches Poetry_Sub.docx, substitutes placeholders, and downloads as {reg_no}_{category}_poetry.docx
-    async function downloadUpdatedPoetryDocx(info) {
-      try {
-        const response = await fetch('Poetry_Sub.docx');
-        if (!response.ok) {
-          throw new Error('Could not load Poetry_Sub.docx template file.');
-        }
+    // In-Memory Clean DOCX Engine: generates a 100% compliant Word Document
+    async function createInMemoryDocxBlob(info) {
+      const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, WidthType, BorderStyle } = docx;
 
-        const arrayBuffer = await response.arrayBuffer();
-        const zip = new PizZip(arrayBuffer);
+      const cellBorder = { style: BorderStyle.SINGLE, size: 1, color: "806000" };
 
-        // Replace placeholders across document XML files (handling split XML text tags)
-        const placeholderMap = {
-          '{contest_name}': info.name || '',
-          '{contest_reg_no}': info.regNo || '',
-          '{contest_batch}': info.batch || '',
-          '{contest_no}': info.contact || '',
-          '{medium}': info.medium || '',
-          '{category}': info.category || '',
-          '{topic}': info.topic || '',
-          '{sub_link}': SUBMISSION_LINK
-        };
+      const createRow = (label, val) => new TableRow({
+        children: [
+          new TableCell({
+            width: { size: 32, type: WidthType.PERCENTAGE },
+            shading: { fill: "FDFBF7" },
+            borders: { top: cellBorder, bottom: cellBorder, left: cellBorder, right: cellBorder },
+            children: [new Paragraph({ children: [new TextRun({ text: label, bold: true, font: "Times New Roman", size: 24, color: "806000" })] })]
+          }),
+          new TableCell({
+            width: { size: 68, type: WidthType.PERCENTAGE },
+            borders: { top: cellBorder, bottom: cellBorder, left: cellBorder, right: cellBorder },
+            children: [new Paragraph({ children: [new TextRun({ text: val || "-", bold: true, font: "Times New Roman", size: 24, color: "111827" })] })]
+          })
+        ]
+      });
 
-        const targetFiles = ['word/document.xml', 'word/header1.xml', 'word/footer1.xml'];
-        
-        targetFiles.forEach(fileName => {
-          if (zip.file(fileName)) {
-            let content = zip.file(fileName).asText();
-            
-            // Clean XML tags inside placeholder braces if Word split them
-            content = content.replace(/\{([^{}]*?<w:[^>]+>[^{}]*?)\}/g, (match) => {
-              return '{' + match.replace(/<[^>]+>/g, '') + '}';
-            });
+      const doc = new Document({
+        sections: [{
+          children: [
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              spacing: { after: 120 },
+              children: [new TextRun({ text: "EWEEK 2026", bold: true, size: 38, font: "Georgia", color: "806000" })]
+            }),
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              spacing: { after: 200 },
+              children: [new TextRun({ text: "AESTHETIC REALM - POETRY", bold: true, size: 26, font: "Georgia", color: "8F6E2B" })]
+            }),
+            new Table({
+              width: { size: 100, type: WidthType.PERCENTAGE },
+              rows: [
+                createRow("Contest Name", info.name),
+                createRow("Registration Number", info.regNo),
+                createRow("Batch", info.batch),
+                createRow("Contact Number", info.contact),
+                createRow("Medium", info.medium),
+                createRow("Category", info.category),
+                createRow("Topic", info.topic),
+                createRow("Submission Link", SUBMISSION_LINK)
+              ]
+            }),
+            new Paragraph({ spacing: { before: 260 } }),
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              spacing: { before: 200, after: 100 },
+              children: [new TextRun({ text: `[Topic: ${info.topic || 'Untitled'}]`, bold: true, size: 24, font: "Georgia", color: "806000" })]
+            }),
+            new Paragraph({
+              alignment: AlignmentType.CENTER,
+              spacing: { before: 100 },
+              children: [new TextRun({ text: "[Type your poem lines here]", italics: true, size: 20, font: "Times New Roman", color: "6B7280" })]
+            })
+          ]
+        }]
+      });
 
-            // Replace all placeholders
-            Object.keys(placeholderMap).forEach(key => {
-              content = content.split(key).join(placeholderMap[key]);
-            });
-
-            // Replace topic placeholder paragraph if present
-            if (info.topic) {
-              content = content.replace('[Insert the Topic]', info.topic);
-            }
-
-            zip.file(fileName, content);
-          }
-        });
-
-        const outBlob = zip.generate({
-          type: 'blob',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        });
-
-        // Naming format: {reg_no}_{category}_poetry.docx
-        const safeReg = (info.regNo || 'entry').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const safeCat = (info.category || 'poem').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const filename = `${safeReg}_${safeCat}_poetry.docx`;
-
-        saveAs(outBlob, filename);
-      } catch (err) {
-        console.error("Error generating Docx:", err);
-      }
+      return await Packer.toBlob(doc);
     }
 
-    function triggerManualDocxDownload() {
-      if (latestParticipantData) {
-        downloadUpdatedPoetryDocx(latestParticipantData);
+    // Resolves and populates the Word Document
+    async function prepareAndTriggerDocx(info) {
+      const cleanReg = (info.regNo || 'entry').replace(/[\/\\:?*"<>|\s]/g, '_');
+      const cleanCat = (info.category || 'poetry').replace(/[\/\\:?*"<>|\s]/g, '_');
+      const filename = `${cleanReg}_${cleanCat}_poetry.docx`;
+
+      document.getElementById('downloadFilenameDisplay').textContent = filename;
+
+      let finalBlob = null;
+
+      // 1. Try to load Poetry_Sub template across multiple relative paths
+      const potentialUrls = ['Poetry_Sub.docx', './Poetry_Sub.docx', 'Poetry_Sub', './Poetry_Sub', '../Poetry_Sub.docx'];
+      let arrayBuffer = null;
+
+      for (const url of potentialUrls) {
+        try {
+          const resp = await fetch(url);
+          if (resp.ok) {
+            const buf = await resp.arrayBuffer();
+            // Validate that returned response is a zip archive (starts with PK)
+            const header = new Uint8Array(buf).slice(0, 2);
+            if (header[0] === 0x50 && header[1] === 0x4B) {
+              arrayBuffer = buf;
+              break;
+            }
+          }
+        } catch (e) {
+          // Continue attempting remaining paths
+        }
+      }
+
+      if (arrayBuffer && window.JSZip) {
+        try {
+          const zip = await JSZip.loadAsync(arrayBuffer);
+          const subRowXml = `
+            <w:tr w:rsidR="006278EE" w:rsidRPr="000F474C">
+              <w:trPr><w:trHeight w:val="1028"/></w:trPr>
+              <w:tc>
+                <w:tcPr><w:tcW w:w="3544" w:type="dxa"/><w:vAlign w:val="center"/></w:tcPr>
+                <w:p><w:pPr><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:b/><w:bCs/><w:color w:val="806000" w:themeColor="accent4" w:themeShade="80"/><w:sz w:val="32"/><w:szCs w:val="32"/></w:rPr></w:pPr>
+                <w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:b/><w:bCs/><w:color w:val="806000" w:themeColor="accent4" w:themeShade="80"/><w:sz w:val="32"/><w:szCs w:val="32"/></w:rPr><w:t>Submission Link</w:t></w:r></w:p>
+              </w:tc>
+              <w:tc>
+                <w:tcPr><w:tcW w:w="6789" w:type="dxa"/><w:gridSpan w:val="2"/><w:vAlign w:val="center"/></w:tcPr>
+                <w:p><w:pPr><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:b/><w:bCs/><w:color w:val="806000" w:themeColor="accent4" w:themeShade="80"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr>
+                <w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:b/><w:bCs/><w:color w:val="806000" w:themeColor="accent4" w:themeShade="80"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr><w:t>${SUBMISSION_LINK}</w:t></w:r></w:p>
+              </w:tc>
+            </w:tr>
+          `;
+
+          const xmlFiles = ['word/document.xml', 'word/header1.xml', 'word/footer1.xml'];
+
+          for (const f of xmlFiles) {
+            const zFile = zip.file(f);
+            if (zFile) {
+              let xml = await zFile.async('string');
+
+              // Remove Word run splits inside brackets like {<w:t>contest_name</w:t>}
+              xml = xml.replace(/\{([^{}]*?<w:[^>]+>[^{}]*?)\}/g, (match) => '{' + match.replace(/<[^>]+>/g, '') + '}');
+
+              // Replace placeholders
+              xml = xml.split('{contest_name}').join(info.name || '');
+              xml = xml.split('{contest_reg_no}').join(info.regNo || '');
+              xml = xml.split('{contest_batch}').join(info.batch || '');
+              xml = xml.split('{contest_no}').join(info.contact || '');
+              xml = xml.split('{medium}').join(info.medium || '');
+              xml = xml.split('{category}').join(info.category || '');
+              xml = xml.split('{topic}').join(info.topic || '');
+              xml = xml.split('{sub_link}').join(SUBMISSION_LINK);
+
+              if (info.topic) {
+                xml = xml.replace('[Insert the Topic]', info.topic);
+              }
+
+              if (f === 'word/document.xml' && !xml.includes(SUBMISSION_LINK)) {
+                xml = xml.replace('</w:tbl>', subRowXml + '</w:tbl>');
+              }
+
+              zip.file(f, xml);
+            }
+          }
+
+          finalBlob = await zip.generateAsync({
+            type: 'blob',
+            mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          });
+        } catch (zipErr) {
+          console.warn("Failed modifying template with JSZip, falling back to in-memory builder:", zipErr);
+        }
+      }
+
+      // 2. If template was not accessible on server or error occurred, build in-memory DOCX
+      if (!finalBlob) {
+        finalBlob = await createInMemoryDocxBlob(info);
+      }
+
+      // Bind Blob URL directly to the visible download anchor
+      const blobUrl = window.URL.createObjectURL(finalBlob);
+      const dlBtn = document.getElementById('directDownloadAnchor');
+      dlBtn.href = blobUrl;
+      dlBtn.download = filename;
+
+      // Trigger automatic download attempt
+      try {
+        const tempLink = document.createElement('a');
+        tempLink.href = blobUrl;
+        tempLink.download = filename;
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        setTimeout(() => document.body.removeChild(tempLink), 1500);
+      } catch (clickErr) {
+        console.warn("Automatic trigger prevented by browser; user can click the highlighted download button.", clickErr);
       }
     }
 
@@ -842,8 +1005,6 @@
         const result = await response.json();
 
         if (result.status === 'success') {
-          latestParticipantData = data;
-
           // Populate success summary
           document.getElementById('sumName').textContent = data.name || '-';
           document.getElementById('sumReg').textContent = data.regNo || '-';
@@ -856,13 +1017,13 @@
           subAnchor.href = SUBMISSION_LINK;
           subAnchor.textContent = SUBMISSION_LINK;
 
-          // Transition UI
+          // Transition UI to Success Card
           document.getElementById('stage2').style.display = 'none';
           document.getElementById('stepsNav').style.display = 'none';
           document.getElementById('successSection').style.display = 'block';
 
-          // Trigger automatic modified Poetry_Sub.docx download renamed as {reg_no}_{category}_poetry.docx
-          await downloadUpdatedPoetryDocx(data);
+          // Prepare Word document and bind to download button
+          await prepareAndTriggerDocx(data);
 
           window.scrollTo({ top: 120, behavior: 'smooth' });
         } else {
