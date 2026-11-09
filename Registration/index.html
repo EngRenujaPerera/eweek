@@ -548,7 +548,7 @@
     ];
 
     const RULES_REGULATIONS_DATA = {
-      // Sports
+      // Sports & Indoor Games
       "volleyball": {
         title: "Volleyball Rules & Regulations",
         badge: "League Tournament",
@@ -589,6 +589,49 @@
           "Min 7 players to start match (including 1 goalkeeper).",
           "Unlimited rolling substitutions permitted.",
           "Wearing boots is not compulsory."
+        ]
+      },
+      "badminton": {
+        title: "Badminton Regulations",
+        badge: "BWF Standard",
+        rules: [
+          "Men's & Women's categories conducted separately.",
+          "Squad consists of up to 6 players per team.",
+          "Each match tie consists of Singles and Doubles rubbers.",
+          "Standard BWF 21-point rally scoring system will be followed.",
+          "Players must wear non-marking shoes on court."
+        ]
+      },
+      "table_tennis": {
+        title: "Table Tennis Regulations",
+        badge: "ITTF Standard",
+        rules: [
+          "Men's & Women's categories conducted separately.",
+          "Squad consists of up to 5 players per batch.",
+          "Ties are played as Singles and Doubles matches.",
+          "Standard 11-point sets; best of 3 or 5 sets per match.",
+          "Standard ITTF service laws and rubber regulations apply."
+        ]
+      },
+      "carrom": {
+        title: "Carrom Championship Rules",
+        badge: "ICF / SLCA Standard",
+        rules: [
+          "Men's & Women's categories conducted separately.",
+          "Squad consists of up to 6 players per team.",
+          "Ties consist of Singles and Doubles boards.",
+          "Standard ICF / Sri Lanka Carrom Association rules strictly apply.",
+          "Standard white/black coin scores and queen covering rules apply."
+        ]
+      },
+      "chess": {
+        title: "Chess Tournament Rules",
+        badge: "FIDE Rapid / Standard",
+        rules: [
+          "Men's & Women's batch teams (up to 6 players: 4 main boards + reserves).",
+          "Board orders must be submitted to the arbiter prior to each round.",
+          "Standard FIDE rapid time control; touch-move rule strictly observed.",
+          "Mobile phones and smart watches strictly prohibited at playing hall."
         ]
       },
       "elle": {
@@ -714,6 +757,10 @@
       <option value="football">Football</option>
       <option value="netball">Netball</option>
       <option value="elle">Elle (Mix)</option>
+      <option value="badminton">Badminton</option>
+      <option value="table_tennis">Table Tennis</option>
+      <option value="carrom">Carrom</option>
+      <option value="chess">Chess</option>
       <option value="marathon">Marathon</option>
       <optgroup label="Athletics Events">
         <option value="100m">100m</option>
@@ -828,6 +875,7 @@
 
     const SPORTS_EVENT_LIMITS = {
       "cricket": 15, "volleyball": 10, "basketball": 9, "football": 15,
+      "badminton": 6, "table_tennis": 5, "carrom": 6, "chess": 6,
       "netball": 12, "elle": 20, "marathon": 20,
       "100m": 2, "200m": 2, "400m": 2, "800m": 2, "1500m": 2,
       "4x100": 4, "4x400": 4, "100m_hurdles": 4, "shotput": 2,
@@ -882,10 +930,9 @@
     const appleFavicon = document.getElementById("appleFavicon");
 
     function updateRealmLogos(bannerLogoFile) {
-      // Keeps the realm-specific banner dynamic
       if (realmBannerLogo) realmBannerLogo.src = bannerLogoFile;
 
-      // Retain logo.png persistently for roster header icon & tab favicons
+      // Keep logo.png persistently for roster header icon & tab favicons
       if (rosterSubIcon) rosterSubIcon.src = "logo.png";
       if (tabFavicon) tabFavicon.href = "logo.png";
       if (appleFavicon) appleFavicon.href = "logo.png";
