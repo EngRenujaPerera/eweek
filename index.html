@@ -785,7 +785,7 @@
         </div>
       </a>
 
-      <!-- Desktop Navigation (Original Untouched) -->
+      <!-- Desktop Navigation -->
       <nav aria-label="Primary Navigation">
         <ul class="desktop-nav-menu">
           <li><a href="index.html#hero" class="nav-item-link active">Home</a></li>
@@ -806,7 +806,7 @@
     </div>
   </header>
 
-  <!-- Mobile Menu Overlay (Original Untouched) -->
+  <!-- Mobile Menu Overlay -->
   <div class="mobile-menu-overlay" id="mobileMenu" aria-hidden="true">
     <ul class="mobile-nav-list">
       <li><a href="index.html#hero" class="mobile-nav-link active">Home</a></li>
@@ -1035,6 +1035,7 @@
     }
 
     let globalNewsStore = [];
+    let displayedNewsStore = [];
     let newsSliderInterval = null;
 
     let batchData = [
@@ -1095,25 +1096,37 @@
       });
     }
 
+    function isNewsFeedItem(story) {
+      if (!story) return false;
+      const cat = String(story.category || story.Category || story.type || '').trim().toUpperCase();
+      // Strictly exclude any announcement
+      if (cat.includes('ANNOUNCEMENT')) return false;
+      // Allow only Live Updates or Tournament Alert
+      return cat.includes('LIVE UPDATE') || cat.includes('LIVE UPDATES') || cat.includes('TOURNAMENT ALERT') || cat.includes('TOURNAMENT ALERTS') || cat.includes('TOURNAMENT');
+    }
+
     async function fetchFeaturedNews() {
       const cbName = 'news_cb_' + Math.round(Math.random() * 1000000);
       window[cbName] = function(res) {
         delete window[cbName];
         if (scriptElem && scriptElem.parentNode) document.body.removeChild(scriptElem);
 
-        const newsList = (res && res.news) ? res.news : [];
-        globalNewsStore = newsList;
+        const allNews = (res && res.news) ? res.news : [];
+        globalNewsStore = allNews;
         const container = document.getElementById('topStoriesContainer');
 
-        if (newsList.length === 0) {
-          container.innerHTML = `<div style="text-align: center; color: var(--color-stone-light); padding: 40px; width: 100%;">No top stories published yet.</div>`;
+        // Strictly filter out any announcements and keep only Live Updates / Tournament Alerts
+        displayedNewsStore = allNews.filter(isNewsFeedItem);
+
+        if (displayedNewsStore.length === 0) {
+          container.innerHTML = `<div style="text-align: center; color: var(--color-stone-light); padding: 40px; width: 100%;">No live updates or tournament alerts published yet.</div>`;
           return;
         }
 
-        const reversedNews = [...newsList].reverse();
+        const reversedNews = [...displayedNewsStore].reverse();
 
         container.innerHTML = reversedNews.map((story, revIdx) => {
-          const actualIdx = newsList.length - 1 - revIdx;
+          const actualIdx = displayedNewsStore.length - 1 - revIdx;
           const formattedImg = formatDriveImageUrl(story.imageUrl);
           const timeStr = story.timestamp ? new Date(story.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "";
 
@@ -1123,7 +1136,7 @@
               
               <div class="cnc-frosted-overlay">
                 <div class="cnc-meta">
-                  <span class="news-badge-tag">${story.category || "DISPATCH"}</span>
+                  <span class="news-badge-tag">${story.category || "LIVE UPDATE"}</span>
                   <span class="news-time-stamp">${timeStr}</span>
                 </div>
                 <h3 class="cnc-title">${story.title}</h3>
@@ -1179,7 +1192,7 @@
     }
 
     function openNewsModal(index) {
-      const story = globalNewsStore[index];
+      const story = displayedNewsStore[index];
       if (!story) return;
 
       document.getElementById('modalNewsTag').textContent = story.category || "LIVE UPDATE";
@@ -1206,9 +1219,9 @@
     }
 
     function initNewsModalListeners() {
-      document.getElementById('newsModalCloseBtn').addEventListener('click', closeNewsModal);
+      document.getElementById('newsModalCloseBtn')?.addEventListener('click', closeNewsModal);
       const backdrop = document.getElementById('newsModalBackdrop');
-      backdrop.addEventListener('click', (e) => {
+      backdrop?.addEventListener('click', (e) => {
         if (e.target === backdrop) closeNewsModal();
       });
       document.addEventListener('keydown', (e) => {
