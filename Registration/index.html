@@ -368,7 +368,7 @@
             <div class="flex items-center justify-between">
               <h4 id="generalRulesTitle" class="text-xs font-cinzel font-bold text-amber-300 uppercase tracking-widest flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                General Rules & Regulations
+                General Sports Rules & Regulations
               </h4>
               <span class="text-[10px] font-cinzel text-amber-400 bg-amber-950/60 border border-amber-700/60 px-2 py-0.5 rounded-full">General Protocol</span>
             </div>
@@ -528,14 +528,15 @@
 
     /******************************************************************
      * 1. RULES & REGULATIONS DATA SOURCE (SPORTS & GAMING)
+     * (Transcribed word-for-word exactly without dropping a single letter)
      ******************************************************************/
     const GENERAL_SPORTS_RULES = [
       "For all team events the teams must present before 10 min of the event time.",
-      "The judge / umpire decision will be considered as final.",
-      "If anyone or team argues with judge or umpire and also with another team, definitely disqualified.",
-      "Discipline must be strictly followed.",
+      "The judge/umpire decision will consider as final.",
+      "If anyone or team argue with judge or umpire and also with another team, definitely disqualify.",
+      "Discipline must strictly followed.",
       "If the team or any participant is late for an event for more than 10 minutes, the team or the participants will be disqualified unless informed in advance with valid reason.",
-      "Each event will start immediately after the end of the previous event due to tight schedule. However, it will be informed at least 10 minutes before the event begins."
+      "Each event will start immediately after the end of the previous event due to the tight schedule. However, it will be informed at least 10 minutes before the event begins."
     ];
 
     const GENERAL_GAMING_RULES = [
@@ -548,126 +549,244 @@
     ];
 
     const RULES_REGULATIONS_DATA = {
-      // Sports & Indoor Games
+      // Volleyball
       "volleyball": {
         title: "Volleyball Rules & Regulations",
         badge: "League Tournament",
         rules: [
-          "This is a league Tournament.",
+          "This is a leauge Tournament.",
           "The draw will be arranged before the start of the match.",
-          "Each game will consist of three (3) sets of 25 points each (may increase to 5 depending on schedule).",
-          "Two (2) time outs permitted per team per set.",
-          "International volleyball rules will be followed."
+          "Each game will consist of three (3) sets of 25 points each. (Depending on the schedule of the day, maybe it will be increased to (5) sets.)",
+          "Two (2) time out will be permitted per team during any given set.",
+          "Further International volleyball rules will be followed."
         ]
       },
-      "cricket": {
-        title: "Cricket Rules & Regulations",
-        badge: "Soft Ball League",
-        rules: [
-          "Squad should consist of 15 players (11 players per side).",
-          "League matches 7 overs per side (Final: 10 overs).",
-          "Only 2 bowlers can bowl 2 overs (in 7-over matches); 4 bowlers in final.",
-          "Powerplay: First 2 overs (max 3 fielders outside 30-yard circle). Compulsory long bottoms.",
-          "No LBW. Shoulder height no ball considered."
-        ]
-      },
-      "basketball": {
-        title: "Basketball Rules & Regulations",
-        badge: "FIBA Standard",
-        rules: [
-          "Squad: Maximum 9 players, minimum 5 players.",
-          "Two halves of 7 minutes each (2 min halftime).",
-          "Clock runs during play; stops on fouls, timeouts, free throws. NO shot clock used.",
-          "No jewellery or dangerous accessories permitted."
-        ]
-      },
-      "football": {
-        title: "Football Rules & Regulations",
-        badge: "Match Rules",
-        rules: [
-          "Two 20-minute halves with a 5-minute break.",
-          "Min 7 players to start match (including 1 goalkeeper).",
-          "Unlimited rolling substitutions permitted.",
-          "Wearing boots is not compulsory."
-        ]
-      },
-      "badminton": {
-        title: "Badminton Regulations",
-        badge: "BWF Standard",
-        rules: [
-          "Men's & Women's categories conducted separately.",
-          "Squad consists of up to 6 players per team.",
-          "Each match tie consists of Singles and Doubles rubbers.",
-          "Standard BWF 21-point rally scoring system will be followed.",
-          "Players must wear non-marking shoes on court."
-        ]
-      },
+
+      // Table Tennis
       "table_tennis": {
-        title: "Table Tennis Regulations",
-        badge: "ITTF Standard",
+        title: "Table Tennis Rules & Regulations (Men's and Women's)",
+        badge: "Men's and Women's",
         rules: [
-          "Men's & Women's categories conducted separately.",
-          "Squad consists of up to 5 players per batch.",
-          "Ties are played as Singles and Doubles matches.",
-          "Standard 11-point sets; best of 3 or 5 sets per match.",
-          "Standard ITTF service laws and rubber regulations apply."
+          "There should be 3 players in a team - 2 singles and one person to play the doubles along with one of the singles players.",
+          "Each single game will consist of 3 sets of 11 points in each. In the case of 10-10 situation the game will continue till one player gets a 2-point clearance. (One player gets one serve each). A double game will consist of 3 sets of 15 points and similar rule will apply for 14-14 Situation.",
+          "In the event where a team comprises less than the minimum no of players required at the time of play, (i.e. 4 members) then, that particular team will have to concede a walkover. In the case of the finals 4 singles games (including reverse singles) and one doubles game will be played.",
+          "Further International table tennis rules will be followed."
         ]
       },
-      "carrom": {
-        title: "Carrom Championship Rules",
-        badge: "ICF / SLCA Standard",
-        rules: [
-          "Men's & Women's categories conducted separately.",
-          "Squad consists of up to 6 players per team.",
-          "Ties consist of Singles and Doubles boards.",
-          "Standard ICF / Sri Lanka Carrom Association rules strictly apply.",
-          "Standard white/black coin scores and queen covering rules apply."
-        ]
-      },
-      "chess": {
-        title: "Chess Tournament Rules",
-        badge: "FIDE Rapid / Standard",
-        rules: [
-          "Men's & Women's batch teams (up to 6 players: 4 main boards + reserves).",
-          "Board orders must be submitted to the arbiter prior to each round.",
-          "Standard FIDE rapid time control; touch-move rule strictly observed.",
-          "Mobile phones and smart watches strictly prohibited at playing hall."
-        ]
-      },
-      "elle": {
-        title: "Elle Rules & Regulations",
-        badge: "Federation Rules",
-        rules: [
-          "Squad: 20 players; 16 playing members.",
-          "At least 4 girls must participate in each team.",
-          "25 balls allocated per team; 5 balls must be faced by girls.",
-          "No long bottoms for boys."
-        ]
-      },
+
+      // Marathon
       "marathon": {
         title: "Marathon Rules & Regulations",
         badge: "Team Event",
         rules: [
-          "Max 20 participants per batch. Medical checkup mandatory.",
-          "Present 30 mins prior to start. Strictly follow the route.",
-          "Points: 1st finisher gets 75 pts, 2nd gets 74, descending to 1."
+          "This is an event conduct as a team",
+          "maximum 20 participants can represent each batch.",
+          "participants should attend and pass medical checkup.",
+          "participants dress should be in a good manner.",
+          "All participants are required to be present 30 minutes prior to the start of the marathon.",
+          "participants can't get help form any others who are not take part in the event and also from any vehicles during the event. If we found you will be disqualified.",
+          "The event map should be followed stickily.",
+          "If a participator disturbs another one who is take part in the event. He will lose his points.",
+          "The points will take count in below order:",
+          "• first finisher will get 75 points",
+          "• second finisher will get 74 likewise the points will reduce from 75 to 1.",
+          "• and if any one leaves the event in midway and that particular person finished the first half he will get one point.",
+          "• The first half will take count from university junction up to police station Kilinochchi",
+          "The total number of points calculated according to the above criteria will be considered only in deciding the rank obtained by a particular batch for the event. (Please note that points calculated according to these criteria will not be awarded as the overall points obtained, Overall points obtained will be according to the points criteria mentioned in the points system issued by the E-Week Committee.)",
+          "If anyone need emergency medical the organizing committee will take care of you."
         ]
       },
+
+      // Football
+      "football": {
+        title: "Football Rules & Regulations",
+        badge: "Match Regulations",
+        rules: [
+          "Match Duration: The match consists of two 20-minute halves with a 5-minute break in between.",
+          "Team Composition: Each team must have a minimum of 7 players to start the match (including 1 goalkeeper).",
+          "The goalkeeper is the only player allowed to handle the ball within the 18-yard box.",
+          "Substitutions: Substitutions can be made at any time during the match, with no limit on the number of substitutions.",
+          "Fouls and Disciplinary Actions: Yellow cards will be issued for minor fouls.",
+          "Red cards will be issued for serious fouls or unsporting behavior. A player receiving a red card will be sent off and cannot be replaced.",
+          "Jersey Requirements: All outfield players must wear the same color jersey.",
+          "Only the goalkeeper may wear a different-colored jersey.",
+          "Footwear: Wearing boots is not compulsory.",
+          "General Rules: Other international football rules will be followed, unless specified in these updated rules."
+        ]
+      },
+
+      // Badminton Men's
+      "badminton_MEN": {
+        title: "Badminton Rules & Regulations - Men's",
+        badge: "Men's",
+        rules: [
+          "There should be a minimum of 6 players to be nominated in a team - 3 players for singles and 3 players for the doubles match. Only one player who has played in a singles match is allowed to play again in a doubles match. No other players can play again in the same tie.",
+          "Matches will be played in the top-down order of the draw and the order of matches to be played in a tie is as follows.",
+          "✓ 1st match - 1st Singles",
+          "✓ 2nd match - 2nd Singles",
+          "✓ 3rd match - 3rd Singles",
+          "✓ 4th match - 1st Doubles",
+          "✓ 5th match - 2nd Doubles",
+          "In the event where a team comprises less than the minimum number of players required at the time of play, (i.e. 4 members) then, that particular team will have to concede a walkover.",
+          "Each singles game will consist of three (3) sets of 21 points in each. In the case of a 20-20 situation the game will continue till one player get a 2-point clearance up to 25 points. (One player gets one serve each) A double game will consist of three (3) sets of 21 points and similar rule will apply for 20, in all tie situations.",
+          "Mavis 600 shuttle will be used.",
+          "In the case of the finals, a singles match set will consist of three (3) sets of 21 points and similar rule for 20, in all tie situations.",
+          "Further International badminton rules will be followed."
+        ]
+      },
+
+      // Badminton Women's
+      "badminton_WOMEN": {
+        title: "Badminton Rules & Regulations - Women's",
+        badge: "Women's",
+        rules: [
+          "There should be a minimum of 4 players to be nominated in a team - 2 players for singles and 2 players for the doubles match. The two players nominated to play the singles in one particular tie, cannot play in the doubles match of the same tie.",
+          "Matches will be played in the top-down order of the draw and the order of matches to be played in a tie is as follows",
+          "✓ 1st match - 1st Singles",
+          "✓ 2nd match - 2nd Singles",
+          "✓ 3rd match - Doubles",
+          "In the event where a team comprises less than the minimum number of players required at the time of play, (i.e. 4 members) then, that particular team will have to concede a walkover.",
+          "Each singles game will consist of three (3) sets of 21 points in each. In the case of a 20-20 situation the game will continue till one player get a 2-point clearance up to 25 points. (One player gets one serve each) A double game will consist of three (3) sets of 21 points and similar rule will apply for 20, in all tie situations.",
+          "Mavis 600 shuttle will be used.",
+          "In the case of the finals, a singles match set will consist of three (3) sets of 21 points and similar rule for 20, in all tie situations.",
+          "Further International badminton rules will be followed."
+        ]
+      },
+
+      // Elle
+      "elle": {
+        title: "Elle Rules & Regulations",
+        badge: "Mix",
+        rules: [
+          "The team squad should consist 20 players.",
+          "Each team should 16 players.",
+          "4 Girls should participate in each team including the 16 members.",
+          "25 balls for each team 5 balls should be faced by girls",
+          "If the match is tie give 5 more balls to play.",
+          "Proper rules must be told at the beginning of the match to the captains.",
+          "Players should have proper dresses (no bottoms for boys).",
+          "Further National Elle federation rules will be followed."
+        ]
+      },
+
+      // Cricket
+      "cricket": {
+        title: "Cricket Rules & Regulations",
+        badge: "League",
+        rules: [
+          "The team squad should consist 15 players.",
+          "11 players per side and tournament will be league with 7 overs.",
+          "Only 2 bowlers allowed bowl 2 overs. (for 7 overs)",
+          "Powerplay is limited for 2 overs",
+          "1st and 2nd overs are the batting power play and only 3 fielders can be placed outside of the 30-yard circle, after the batting power play only 5 fielders can be place outside the circle.",
+          "All league matches consist 7 overs per each side.",
+          "Top team of the league stage will be directly selected to the final.",
+          "2nd and 3rd places in the league stage qualify for the playoff, and winner of the playoff will qualify for the final.",
+          "Final consists 10 overs per each side.",
+          "Only 4 bowlers can bowl 2 overs. (10 overs for the final)",
+          "Umpire decision will be the final decision.",
+          "No leg before wicket.",
+          "Each team have 4 matches in league stage.",
+          "The winning team can earn 2 points.",
+          "If the match is tie, winners are decided by super over. (6 balls with 2 wickets)",
+          "If the 2 teams have same points, net run rate will be considered.",
+          "National soft ball federation rules will follow throughout the tournaments.",
+          "It is compulsory for the players to wear bottom.",
+          "shoulder height no ball, rain interruptions will be considered."
+        ]
+      },
+
+      // Chess
+      "chess": {
+        title: "Chess Rules & Regulations",
+        badge: "FIDE Standard",
+        rules: [
+          "1. The tournament shall be conducted as an official Round-Robin Team Tournament in accordance with the applicable FIDE regulations, using the Round-Robin option in Swiss-Manager software.",
+          "2. The chess games shall be played in the Standard Chess category.",
+          "3. All games shall be conducted according to the current FIDE Laws of Chess and applicable FIDE competition regulations.",
+          "4. Each batch may register a maximum of one Boys' Team and one Girls Team.",
+          "5. Each team shall consist of 8 members: 6 playing members and 2 reserve players.",
+          "6. Six players shall participate in each team match, while the two reserve players may be used as substitutes according to the team's submitted playing list.",
+          "7. The final ranking of the teams shall be determined in the following order: Match Points; Game Points; Sonneborn-Berger (SB) Points.",
+          "8. The time control shall be 60 minutes for each player for the entire game, with no increment, unless otherwise announced by the Chief Arbiter.",
+          "9. The chess clocks shall be started at the scheduled starting time of the match. The arbiter shall start the clocks in accordance with the FIDE Laws of Chess.",
+          "10. If a player's allotted time expires, the result shall be determined in accordance with the FIDE Laws of Chess, particularly Article 6.9. A player shall normally lose the game on time; however, the game shall be declared drawn if the opponent cannot checkmate the player's king by any possible series of legal moves. The final decision shall be made by the arbiter.",
+          "11. The drop sheet and playing-team list for each match shall be submitted to the Chief Arbiter at least 10 minutes before the scheduled starting time of the match. The list shall include the names and board order of the six playing members and the two reserve players.",
+          "12. The submitted board order shall be followed throughout the match. Any changes to the board order after submission shall require the approval of the Chief Arbiter.",
+          "13. All players, team captains, and team officials shall comply with the FIDE Laws of Chess and the instructions of the appointed arbiters.",
+          "14. In cases not specifically covered by these regulations, the Chief Arbiter shall make the final decision in accordance with the FIDE Laws of Chess and applicable FIDE regulations. The FIDE Laws recognize that not every possible situation can be covered by a specific article and place responsibility on the arbiter to apply the Laws appropriately."
+        ]
+      },
+
+      // Carrom Men's
+      "carrom_MEN": {
+        title: "Carrom Rules & Regulations - Men's",
+        badge: "Men's League",
+        rules: [
+          "This is a League tournament.",
+          "There should be minimum 5 players in a team - 3 for singles and 2 for the doubles match. The two singles players cannot play in the doubles match.",
+          "A game will be decided by 30 minutes or 25 points whichever comes first, which who get more points within this time he will be the winner. Any changes to the above criteria will be notified before the commencement of the play.",
+          "Team members must consist from the same batch & the maximum number of teams for a batch is 1.",
+          "points calculation will be announced before the game start.",
+          "further game rules are same rules of international games."
+        ]
+      },
+
+      // Carrom Women's
+      "carrom_WOMEN": {
+        title: "Carrom Rules & Regulations - Women's",
+        badge: "Women's League",
+        rules: [
+          "This is a League tournament.",
+          "There should be a minimum of 3 players in a team, where only 1 player will be allowed to participate in both singles and doubles.",
+          "A game will be decided by 15 minutes, which who get more points within this time he will be the winner Any changes to the above criteria will be notified before the commencement of the play.",
+          "Team members must consist from the same batch & the maximum number of teams for a batch is 1.",
+          "points calculation will be announced before the game start.",
+          "further game rules are same rules of international games"
+        ]
+      },
+
+      // Basketball
+      "basketball": {
+        title: "Basketball Rules & Regulations",
+        badge: "FIBA Standard",
+        rules: [
+          "Each team can have a maximum of 9 players and minimum of 5 players.",
+          "Each game will consist of 2 halves of 7 minutes. Half time will be two (2) minutes between the two halves.",
+          "The clock runs whenever the ball is in play. The clock is stopped whenever a foul is called, free throws are being shot, and during time outs. Also, clock will be stop if the ball is far in an out of bounds. When the ball is inbound, the clock starts once a player touches the ball.",
+          "There will be NO shot clock used.",
+          "One (1) time out will be permitted per team during a halve. (30 seconds in duration).",
+          "Team fouls rule will be considered. (two free throws will be rewarded on the 5th team foul for the remainder of the halve).",
+          "Individual fouls will not be counted. But if referee notices a particular individual continuous foul, appropriate warning will be given.",
+          "No jewellery or any other item deemed dangerous by the official may be worn during play. (Bands, Rings, chains, earrings)",
+          "A substitute must report to the scorekeeper and be recognized by a game official before he/she may enter the game.",
+          "Further FIBA basketball rules will be followed."
+        ]
+      },
+
+      // Athletics
+      "athletics": {
+        title: "ATHLETICS RULES",
+        badge: "Track & Field",
+        rules: [
+          "A batch can represent only 2 members for an individual event.",
+          "Regarding individual events, one person can take part,",
+          "Each athlete may participate in a maximum of three individual events. Participation in relay events is permitted in addition to the three individual events.",
+          "A batch can represent only one team (4 members) for relay races.",
+          "Boys must wear suitable athletic kits, when participating an event and bottoms are not allowed.",
+          "Every participant or team must be present on time. If they are late for 5 min from the event time, the member or the team will be disqualified.",
+          "All events will be conducted according to international rules.",
+          "The judge's decision will be the final."
+        ]
+      },
+
+      // Netball
       "netball": {
         title: "Netball Rules & Regulations",
         badge: "Women's League",
         rules: [
           "Restricted exclusively to WOMEN teams.",
           "Squad consists of 12 players (7 on court, 5 substitutes)."
-        ]
-      },
-      "athletics": {
-        title: "Athletics Rules & Regulations",
-        badge: "Track & Field",
-        rules: [
-          "A batch can enter up to 2 athletes per individual event.",
-          "Each athlete may participate in max 3 individual events + relays.",
-          "Boys must wear athletic kit; long bottoms are NOT allowed."
         ]
       },
 
@@ -873,14 +992,50 @@
       }
     };
 
+    /**
+     * Exact Squad Limits based strictly on E-Week Rules & Regulations:
+     * - Cricket: 15 (squad should consist 15 players, 11 per side)
+     * - Volleyball: 12 (standard official roster)
+     * - Basketball: 9 (maximum of 9 players and minimum of 5 players)
+     * - Football: 15 (min 7 to start, unlimited substitutions)
+     * - Badminton: Men's: 6 (min 6 players) / Women's: 4 (min 4 players)
+     * - Table Tennis: 3 (3 players in a team)
+     * - Carrom: Men's: 5 (min 5 players) / Women's: 3 (min 3 players)
+     * - Chess: 8 (6 playing members + 2 reserve players)
+     * - Elle: 20 (team squad should consist 20 players)
+     * - Marathon: 20 (maximum 20 participants)
+     * - Netball: 12 (7 on court, 5 substitutes)
+     * - Athletics Individual: 2 (max 2 members per event)
+     * - Athletics Relays (4x100, 4x400, 100m_hurdles/mix): 4 (one team of 4 members)
+     */
     const SPORTS_EVENT_LIMITS = {
-      "cricket": 15, "volleyball": 10, "basketball": 9, "football": 15,
-      "badminton": 6, "table_tennis": 5, "carrom": 6, "chess": 6,
-      "netball": 12, "elle": 20, "marathon": 20,
+      "cricket": 15,
+      "volleyball": 12,
+      "basketball": 9,
+      "football": 15,
+      "netball": 12,
+      "elle": 20,
+      "marathon": 20,
+      "chess": 8,
+      "table_tennis": 3,
+      "badminton_MEN": 6,
+      "badminton_WOMEN": 4,
+      "carrom_MEN": 5,
+      "carrom_WOMEN": 3,
       "100m": 2, "200m": 2, "400m": 2, "800m": 2, "1500m": 2,
-      "4x100": 4, "4x400": 4, "100m_hurdles": 4, "shotput": 2,
-      "longjump": 2, "discuss_throw": 2, "high_jump": 2, "javelin_throw": 2
+      "4x100": 4, "4x400": 4, "100m_hurdles": 4,
+      "shotput": 2, "longjump": 2, "discuss_throw": 2, "high_jump": 2, "javelin_throw": 2
     };
+
+    function getEffectiveLimit(eventKey, category) {
+      if (eventKey === "badminton") {
+        return category === "WOMEN" ? SPORTS_EVENT_LIMITS["badminton_WOMEN"] : SPORTS_EVENT_LIMITS["badminton_MEN"];
+      }
+      if (eventKey === "carrom") {
+        return category === "WOMEN" ? SPORTS_EVENT_LIMITS["carrom_WOMEN"] : SPORTS_EVENT_LIMITS["carrom_MEN"];
+      }
+      return SPORTS_EVENT_LIMITS[eventKey] || 0;
+    }
 
     /******************************************************************
      * 3. DOM ELEMENTS & DYNAMIC LOGO / SECTION SWITCHING
@@ -1163,8 +1318,14 @@
 
     function displaySelectedSportRules(key) {
       let ruleKey = key;
-      if (currentSection === "sports" && ATHLETICS_KEYS.includes(key)) {
-        ruleKey = "athletics";
+      if (currentSection === "sports") {
+        if (ATHLETICS_KEYS.includes(key)) {
+          ruleKey = "athletics";
+        } else if (key === "badminton") {
+          ruleKey = categorySelect.value === "WOMEN" ? "badminton_WOMEN" : "badminton_MEN";
+        } else if (key === "carrom") {
+          ruleKey = categorySelect.value === "WOMEN" ? "carrom_WOMEN" : "carrom_MEN";
+        }
       }
 
       if (!ruleKey || !RULES_REGULATIONS_DATA[ruleKey]) {
@@ -1196,7 +1357,7 @@
 
       if (currentSection === "sports") {
         const category = categorySelect.value;
-        const limit = SPORTS_EVENT_LIMITS[selectedKey] || 0;
+        const limit = getEffectiveLimit(selectedKey, category);
         updatePlayerSlots(limit);
 
         if (!selectedKey || !authenticatedBatch) return;
@@ -1295,7 +1456,7 @@
 
       if (currentSection === "sports") {
         const category = categorySelect.value;
-        const limit = SPORTS_EVENT_LIMITS[selectedEvent] || 20;
+        const limit = getEffectiveLimit(selectedEvent, category) || 20;
         const playersList = [];
 
         for (let i = 1; i <= limit; i++) {
@@ -1389,7 +1550,7 @@
 
       if (currentSection === "sports") {
         const category = categorySelect.value;
-        const limit = SPORTS_EVENT_LIMITS[selectedEvent] || 20;
+        const limit = getEffectiveLimit(selectedEvent, category) || 20;
         let captainName = "Not Designated";
 
         for (let i = 1; i <= limit; i++) {
