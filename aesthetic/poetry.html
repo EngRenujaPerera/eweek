@@ -919,7 +919,7 @@
               let xml = await zFile.async('string');
 
               // Remove Word run splits inside brackets like {<w:t>contest_name</w:t>}
-              xml = xml.replace(/\{([^{}]*?<w:[^>]+>[^{}]*?)\}/g, (match) => '{' + match.replace(/<[^>]+>/g, '') + '}');
+              xml = xml.replace(/\{([^{}]*?<w:[^>]+>[^{}]*?)\}/g, (match) =>  match.replace(/<[^>]+>/g, ''));
 
               // Replace placeholders
               xml = xml.split('{contest_name}').join(info.name || '');
