@@ -3,370 +3,1807 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aesthetic Competitions | E-WEEK 2026</title>
-  <meta name="description" content="E-WEEK 2026 - Aesthetic & Cultural Competitions, Faculty of Engineering, University of Jaffna" />
-  
-  <!-- Tab Icon -->
-  <link rel="icon" type="image/png" href="image/logo.png" />
+  <title>E-Week 2026 | Team Registration & Team Card</title>
+  <!-- Tab Favicon (Static logo.png) -->
+  <link id="tabFavicon" rel="icon" type="image/png" href="logo.png" />
+  <link id="appleFavicon" rel="apple-touch-icon" href="logo.png" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Typography -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Docxtemplater & FileSaver -->
+  <script src="https://unpkg.com/pizzip@3.1.6/dist/pizzip.min.js"></script>
+  <script src="https://unpkg.com/docxtemplater@3.45.0/build/docxtemplater.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
   <style>
-    :root {
-      --color-obsidian: #080a0f;
-      --color-charcoal: #0e1117;
-      --color-graphite: #141822;
-      --color-steel-dark: #1b212d;
-      --color-stone: #5d677d;
-      --color-stone-light: #94a3b8;
-
-      --color-silver-pure: #ffffff;
-      --color-silver-bright: #e2e7f0;
-      --color-silver-mid: #cbd5e1;
-
-      --color-gold: #c5a059;
-      --color-gold-light: #e5c98d;
-      --color-gold-deep: #8f6e2b;
-
-      --font-display: 'Cinzel', Georgia, serif;
-      --font-body: 'Inter', sans-serif;
-
-      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; background-color: var(--color-obsidian); color: var(--color-silver-bright); font-family: var(--font-body); }
     body {
-      min-height: 100vh;
-      line-height: 1.6;
-      background-color: var(--color-obsidian);
-      background-image: 
-        radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.08) 0%, transparent 60%),
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 100% 100%, 48px 48px, 48px 48px;
+      font-family: 'Inter', sans-serif;
+      background-color: #030305;
+      color: #e2e8f0;
       overflow-x: hidden;
-      padding-bottom: 60px;
     }
 
-    .container { width: 92%; max-width: 1240px; margin: 0 auto; position: relative; z-index: 10; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
 
-    /* Site Navigation */
-    .site-header {
-      position: sticky; top: 0; width: 100%; z-index: 1000; padding: 12px 0;
-      background: linear-gradient(180deg, rgba(12, 15, 23, 0.98) 0%, rgba(8, 10, 15, 0.95) 100%);
-      border-bottom: 1px solid rgba(197, 160, 89, 0.4);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      backdrop-filter: blur(12px);
-    }
-    .nav-wrapper { display: flex; align-items: center; justify-content: space-between; }
-    .brand-identity { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .brand-logo-img { height: 40px; width: auto; object-fit: contain; filter: drop-shadow(0 0 8px rgba(197,160,89,0.3)); }
-    .brand-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; letter-spacing: 0.18em; color: #fff; display: block; }
-
-    /* Top Banner Section */
-    .hero-section { text-align: center; padding: 35px 0 15px; position: relative; }
-    .hero-banner-wrap {
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 0 12px;
-    }
-    .hero-banner-img {
-      width: 100%;
-      height: auto;
-      max-height: 220px;
-      object-fit: contain;
-      filter: drop-shadow(0 8px 24px rgba(197, 160, 89, 0.25));
-    }
-
-    .gold-divider { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 20px auto 28px; opacity: 0.8; }
-    .gold-divider::before, .gold-divider::after { content: ''; height: 1px; width: 70px; background: linear-gradient(90deg, transparent, var(--color-gold), transparent); }
-    .divider-node { width: 6px; height: 6px; background: var(--color-gold); transform: rotate(45deg); box-shadow: 0 0 8px var(--color-gold); }
-
-    /* Event Cards Grid */
-    .events-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 20px;
-      margin-top: 10px;
-    }
-
-    .event-card {
-      background: linear-gradient(160deg, rgba(20, 25, 36, 0.95) 0%, rgba(10, 13, 19, 0.98) 100%);
-      border: 1px solid rgba(197, 160, 89, 0.3);
-      border-radius: 6px;
-      padding: 24px 20px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: var(--transition-smooth);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    /* Background Layers */
+    .bg-video-container {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
       overflow: hidden;
-    }
-    .event-card::before {
-      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-      background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
-      opacity: 0.6; transition: var(--transition-smooth);
-    }
-    .event-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--color-gold-light);
-      box-shadow: 0 16px 36px rgba(0,0,0,0.8), 0 0 20px rgba(197, 160, 89, 0.18);
-    }
-    .event-card:hover::before { opacity: 1; height: 4px; }
-
-    .card-meta-bar { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 12px; }
-    .category-badge {
-      font-family: var(--font-display); font-size: 0.65rem; font-weight: 700;
-      letter-spacing: 0.12em; color: var(--color-gold-light);
-      background: rgba(197, 160, 89, 0.12); padding: 4px 10px; border-radius: 2px;
-      border: 1px solid rgba(197, 160, 89, 0.3); text-transform: uppercase;
+      background-color: #030305;
     }
 
-    .card-title {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-      letter-spacing: 0.04em;
-      line-height: 1.35;
-    }
-    .card-description {
-      font-size: 0.88rem;
-      color: var(--color-stone-light);
-      line-height: 1.5;
-      margin-bottom: 20px;
-      flex-grow: 1;
+    .bg-video-container video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.65) contrast(1.15);
     }
 
-    .action-btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      width: 100%; padding: 11px 16px;
-      font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none;
-      color: #0c0e14; background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
-      border: 1px solid var(--color-gold-light); border-radius: 3px;
-      transition: var(--transition-smooth); cursor: pointer;
-    }
-    .action-btn:hover {
-      box-shadow: 0 0 16px rgba(197, 160, 89, 0.6);
-      transform: translateY(-2px);
-      filter: brightness(1.1);
+    .bg-video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(3, 3, 5, 0.65) 0%, rgba(3, 3, 5, 0.88) 60%, #030305 100%);
     }
 
-    /* Footer */
-    .site-footer {
-      margin-top: 70px; padding: 40px 16px 20px;
-      border-top: 1px solid rgba(197, 160, 89, 0.25);
-      text-align: center;
+    .portal-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: #030305;
+      transition: background-image 0.5s ease-in-out;
     }
-    .footer-seal { width: 40px; height: 40px; margin: 0 auto 14px; object-fit: contain; }
 
-    /* Mobile Enhancements */
-    @media (max-width: 640px) {
-      .container { width: 92%; }
-      .site-header { padding: 10px 0; }
-      .brand-title { font-size: 0.95rem; letter-spacing: 0.14em; }
-      .brand-logo-img { height: 34px; }
-      .hero-section { padding: 25px 0 10px; }
-      .hero-banner-wrap { max-width: 320px; }
-      .gold-divider { margin: 16px auto 22px; }
-      .gold-divider::before, .gold-divider::after { width: 50px; }
-      .events-grid { grid-template-columns: 1fr; gap: 16px; }
-      .event-card { padding: 20px 16px; }
-      .card-title { font-size: 1.05rem; }
-      .card-description { font-size: 0.85rem; margin-bottom: 16px; }
-      .action-btn { padding: 10px 14px; font-size: 0.7rem; }
-      .site-footer { margin-top: 50px; padding: 30px 12px 18px; }
+    .portal-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(3, 3, 5, 0.75) 0%, rgba(3, 3, 5, 0.92) 80%, #030305 100%);
     }
+
+    #emberCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .valyrian-shield {
+      background: linear-gradient(160deg, rgba(14, 15, 20, 0.92) 0%, rgba(6, 7, 10, 0.98) 100%);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(203, 213, 225, 0.35);
+      box-shadow:
+        0 35px 70px rgba(0, 0, 0, 0.95),
+        0 0 40px rgba(148, 163, 184, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 0 35px rgba(148, 163, 184, 0.04);
+    }
+
+    .sigil-glow {
+      border: 2px solid rgba(203, 213, 225, 0.8);
+      box-shadow: 0 0 35px rgba(148, 163, 184, 0.4), inset 0 0 20px rgba(0, 0, 0, 0.9);
+    }
+
+    .valyrian-nav-bar {
+      background: linear-gradient(90deg, rgba(10, 11, 15, 0.94) 0%, rgba(22, 24, 32, 0.96) 50%, rgba(10, 11, 15, 0.94) 100%);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(203, 213, 225, 0.3);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .valyrian-spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(148, 163, 184, 0.2);
+      border-top: 3px solid rgba(245, 158, 11, 0.9);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    ::-webkit-scrollbar { width: 7px; }
+    ::-webkit-scrollbar-track { background: #050406; }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+      border: 1px solid #475569;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
   </style>
 </head>
-<body>
+<body class="selection:bg-slate-800 selection:text-slate-200">
 
-  <!-- Site Navigation -->
-  <header class="site-header">
-    <div class="container nav-wrapper">
-      <a href="https://www.eweek.lk" class="brand-identity">
-        <img src="image/logo.png" alt="E-WEEK 2026 Logo" class="brand-logo-img" />
-        <div>
-          <span class="brand-title">E-WEEK 2026</span>
-        </div>
-      </a>
-    </div>
-  </header>
+  <!-- Background Video Container (Active ONLY during Login) -->
+  <div id="loginBgContainer" class="bg-video-container">
+    <video id="bgVideo" autoplay muted loop playsinline>
+      <source src="bg.mp4" type="video/mp4">
+    </video>
+    <div class="bg-video-overlay"></div>
+  </div>
 
-  <!-- Hero Banner -->
-  <main class="container">
-    <section class="hero-section">
-      <div class="hero-banner-wrap">
-        <img src="image/realm.png" alt="Aesthetic Events" class="hero-banner-img" />
+  <!-- Static/Dynamic Background Image Container (Active during Portal) -->
+  <div id="portalBgContainer" class="hidden portal-bg">
+    <div class="portal-bg-overlay"></div>
+  </div>
+
+  <!-- Realistic Ember Canvas Particle Engine -->
+  <canvas id="emberCanvas"></canvas>
+
+  <!-- Background Soundtrack -->
+  <audio id="bgAudio" src="track.mp3" loop preload="auto"></audio>
+
+  <!-- Deadline Closed Modal -->
+  <div id="deadlineClosedModal" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
+    <div class="valyrian-shield max-w-lg w-full p-8 rounded-3xl text-center space-y-6 border border-rose-900/60 shadow-[0_0_80px_rgba(225,29,72,0.3)]">
+      <div class="w-20 h-20 mx-auto rounded-full border border-rose-500/70 bg-rose-950/40 flex items-center justify-center text-3xl shadow-[0_0_30px_rgba(225,29,72,0.4)]">
+        ⏳
       </div>
-      <div class="gold-divider"><span class="divider-node"></span></div>
-    </section>
-
-    <!-- Event Cards -->
-    <div class="events-grid">
-
-      <!-- Poetry -->
-      <article class="event-card">
-        <div>
-          <div class="card-meta-bar">
-            <span class="category-badge">Literature</span>
-          </div>
-          <h2 class="card-title">POETRY COMPETITION</h2>
-          <p class="card-description">
-            Submit original thematic poems written in Sinhala, Tamil, or English.
-          </p>
-        </div>
-        <a href="aesthetic/poetry.html" class="action-btn">Guidelines & Register &rarr;</a>
-      </article>
-
-      <!-- Short Film -->
-      <article class="event-card">
-        <div>
-          <div class="card-meta-bar">
-            <span class="category-badge">Cinematics</span>
-          </div>
-          <h2 class="card-title">SHORT FILM COMPETITION</h2>
-          <p class="card-description">
-            Create an authentic ten-minute cinematic video featuring English subtitles.
-          </p>
-        </div>
-        <a href="aesthetic/shortfilm.html" class="action-btn">Guidelines & Register &rarr;</a>
-      </article>
-
-      <!-- Art -->
-      <article class="event-card">
-        <div>
-          <div class="card-meta-bar">
-            <span class="category-badge">Visual Arts</span>
-          </div>
-          <h2 class="card-title">ART COMPETITION</h2>
-          <p class="card-description">
-            Display creative hand-drawn illustrations on standard A3 size paper.
-          </p>
-        </div>
-        <a href="aesthetic/art.html" class="action-btn">Guidelines & Register &rarr;</a>
-      </article>
-
-      <!-- Singing -->
-      <article class="event-card">
-        <div>
-          <div class="card-meta-bar">
-            <span class="category-badge">Music</span>
-          </div>
-          <h2 class="card-title">SINGING COMPETITION</h2>
-          <p class="card-description">
-            Perform live vocal melodies across solo and duet category rounds.
-          </p>
-        </div>
-        <a href="aesthetic/singing.html" class="action-btn">Guidelines & Register &rarr;</a>
-      </article>
-
-      <!-- Dancing -->
-      <article class="event-card">
-        <div>
-          <div class="card-meta-bar">
-            <span class="category-badge">Performing Arts</span>
-          </div>
-          <h2 class="card-title">DANCING COMPETITION</h2>
-          <p class="card-description">
-            Showcase expressive choreography across solo and group live performance rounds.
-          </p>
-        </div>
-        <a href="aesthetic/dancing.html" class="action-btn">Guidelines & Register &rarr;</a>
-      </article>
-
-      <!-- Debate -->
-      <article class="event-card">
-        <div>
-          <div class="card-meta-bar">
-            <span class="category-badge">Debating</span>
-          </div>
-          <h2 class="card-title">DEBATE TOURNAMENT</h2>
-          <p class="card-description">
-            Engage in inter-batch parliamentary rounds testing logic and persuasive arguments.
-          </p>
-        </div>
-        <a href="aesthetic/debate.html" class="action-btn">Guidelines & Register &rarr;</a>
-      </article>
-
-      <!-- Drama -->
-      <article class="event-card">
-        <div>
-          <div class="card-meta-bar">
-            <span class="category-badge">Theatre</span>
-          </div>
-          <h2 class="card-title">DRAMA COMPETITION</h2>
-          <p class="card-description">
-            Present captivating live theatrical acts performed in Sinhala or Tamil.
-          </p>
-        </div>
-        <a href="aesthetic/drama.html" class="action-btn">Guidelines & Register &rarr;</a>
-      </article>
-
-      <!-- E-Speaker -->
-      <article class="event-card">
-        <div>
-          <div class="card-meta-bar">
-            <span class="category-badge">Public Speaking</span>
-          </div>
-          <h2 class="card-title">E-SPEAKER CONTEST</h2>
-          <p class="card-description">
-            Deliver powerful prepared presentations alongside fast-paced impromptu speaking rounds.
-          </p>
-        </div>
-        <a href="aesthetic/espeaker.html" class="action-btn">Guidelines & Register &rarr;</a>
-      </article>
-
-      <!-- Photography - Open Theme -->
-      <article class="event-card">
-        <div>
-          <div class="card-meta-bar">
-            <span class="category-badge">Photography</span>
-          </div>
-          <h2 class="card-title">PHOTOGRAPHY COMPETITION</h2>
-          <p class="card-description">
-            Capture authentic photographic frames covering creative and open themes.
-          </p>
-        </div>
-        <a href="https://forms.gle/SWMp4onBmkp4yMYx7" class="action-btn">Guidelines & Register &rarr;</a>
-      </article>
-
-      <!-- Photography - Faculty Premises -->
-      <article class="event-card">
-        <div>
-          <div class="card-meta-bar">
-            <span class="category-badge">Photography</span>
-          </div>
-          <h2 class="card-title">PHOTOGRAPHY &ndash; FACULTY PREMISES</h2>
-          <p class="card-description">
-            Showcase the architectural grandeur, moments, and scenic beauty of the faculty grounds.
-          </p>
-        </div>
-        <a href="https://forms.gle/3UooYxKHfpfvFUS17" class="action-btn">Guidelines & Register &rarr;</a>
-      </article>
-
+      <div class="space-y-2">
+        <h2 class="text-xl sm:text-2xl font-bold font-cinzel text-rose-300 uppercase tracking-widest">Portal Has Closed</h2>
+        <p class="text-xs font-cinzel text-amber-400 tracking-wider">Registration Deadline Reached</p>
+        <p id="deadlineNoticeText" class="text-xs text-slate-400 font-light leading-relaxed pt-2">
+          The official submission deadline has passed. Submission rosters are now sealed in the Citadel archives.
+        </p>
+      </div>
+      <div class="p-3 bg-stone-950/80 rounded-xl border border-slate-800 text-[11px] font-cinzel text-slate-500 tracking-widest uppercase">
+        Faculty of Engineering • University of Jaffna
+      </div>
     </div>
-  </main>
+  </div>
 
-  <footer class="site-footer">
-    <div class="container">
-      <img src="image/logo.png" alt="E-WEEK 2026 Logo" class="footer-seal" />
-      <p style="font-family: var(--font-display); letter-spacing: 0.15em; color: var(--color-silver-mid); font-size: 0.85rem;">
-        E-WEEK 2026 &bull; FACULTY OF ENGINEERING &bull; UNIVERSITY OF JAFFNA
-      </p>
-      <p style="font-size: 0.75rem; color: var(--color-stone-light); margin-top: 6px;">
-        Organized by the E23 Batch
-      </p>
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center space-y-4">
+    <div class="valyrian-spinner"></div>
+    <div class="text-center space-y-1">
+      <p class="text-xs font-cinzel font-bold text-amber-400 tracking-[0.3em] uppercase">Consulting Citadel Archives</p>
+      <p class="text-[10px] font-cinzel text-slate-400 tracking-wider">Synchronizing realm data...</p>
     </div>
-  </footer>
+  </div>
 
+  <!-- PDF Manual Modal -->
+  <div id="pdfModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6">
+    <div class="valyrian-shield max-w-4xl w-full h-[85vh] rounded-2xl flex flex-col overflow-hidden border border-slate-600/50 shadow-2xl">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-stone-950/80">
+        <div class="flex items-center space-x-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+          <h3 id="modalPdfTitle" class="text-xs sm:text-sm font-cinzel font-bold text-amber-300 tracking-[0.2em] uppercase">Instruction Manual - Citadel Scroll</h3>
+        </div>
+        <button id="closePdfModal" class="bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/60 rounded-full px-3 py-1 text-[11px] font-cinzel tracking-wider uppercase transition-all cursor-pointer">
+          Close Scroll
+        </button>
+      </div>
+      <div class="flex-1 bg-black/50 p-2">
+        <iframe id="pdfIframe" src="manual.pdf" class="w-full h-full rounded-xl border border-slate-800" title="Instruction Manual"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 1. LOGIN SCREEN ================= -->
+  <div id="loginScreen" class="relative z-30 min-h-screen flex items-center justify-center px-4 py-8">
+    <div class="valyrian-shield max-w-md w-full p-6 sm:p-8 rounded-2xl relative">
+      <div class="text-center space-y-2 mb-5">
+        <div class="w-20 h-20 mx-auto rounded-full overflow-hidden sigil-glow bg-black flex items-center justify-center">
+          <img src="logo.png" onerror="this.src='https://lh3.googleusercontent.com/a/ACg8ocKVCZ3dwhUxDnuDbv2TfiSLT54QDnjOOAb-ke-HPQSY0R6qt4o=s360-c-no';" alt="Insignia" class="w-full h-full object-cover" />
+        </div>
+        <h2 class="text-xl font-bold font-cinzel text-slate-200 tracking-wider">LOGIN</h2>
+        <p class="text-[11px] text-slate-400 font-cinzel">Verify credentials (Rep or Admin) to unlock portal</p>
+      </div>
+
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-1">Username</label>
+          <input type="text" id="usernameInput" required class="w-full bg-[#0d0c11] border border-slate-800 focus:border-slate-400 rounded-lg p-2.5 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400 transition-all font-mono" />
+        </div>
+
+        <div>
+          <label class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-1">Passkey</label>
+          <input type="password" id="passwordInput" required class="w-full bg-[#0d0c11] border border-slate-800 focus:border-slate-400 rounded-lg p-2.5 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400 transition-all" />
+        </div>
+
+        <div id="loginError" class="hidden text-xs text-rose-400 font-cinzel bg-rose-950/40 border border-rose-900/60 p-2 rounded-lg text-center">
+          Invalid representative or admin credentials.
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-slate-900 via-slate-800 to-zinc-900 hover:from-slate-800 hover:to-zinc-800 text-slate-100 font-cinzel font-bold tracking-[0.2em] text-xs uppercase py-3 px-6 rounded-xl border border-slate-500/50 shadow-[0_0_20px_rgba(148,163,184,0.2)] transition-all">
+          Authorize Access
+        </button>
+
+        <div class="text-center pt-2">
+          <button type="button" id="openLoginPdfBtn" class="text-[11px] font-cinzel text-slate-400 hover:text-slate-200 underline tracking-wider uppercase cursor-pointer">
+            Citadel Manual (PDF)
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= 2. PORTAL ================= -->
+  <div id="portalScreen" class="hidden relative z-10 max-w-7xl mx-auto py-6 px-4 sm:px-8 space-y-6">
+
+    <!-- Top Navigation -->
+    <nav class="valyrian-nav-bar rounded-2xl px-5 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full border border-amber-500/50 bg-black flex items-center justify-center shadow-[0_0_10px_rgba(245,158,11,0.3)]">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
+        </div>
+        <span id="repBadge" class="text-xs font-cinzel font-bold text-amber-200 tracking-wider uppercase">
+          Authorized: Representative E23
+        </span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <button id="openPortalPdfBtn" type="button" class="bg-black/60 hover:bg-black text-slate-300 border border-slate-700/60 rounded-full px-3.5 py-1.5 text-[11px] font-cinzel tracking-wider flex items-center space-x-1.5 transition-all cursor-pointer">
+          <span id="manualButtonLabel">Manual</span>
+        </button>
+
+        <button id="audioToggleBtn" type="button" class="bg-black/60 hover:bg-black text-slate-300 border border-slate-600/60 rounded-full px-3.5 py-1.5 text-[11px] font-cinzel tracking-wider flex items-center space-x-2 transition-all cursor-pointer">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse" id="audioIndicatorDot"></span>
+          <span id="audioStatusText">Soundtrack: On</span>
+        </button>
+
+        <button id="logoutBtn" class="bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/60 rounded-full px-4 py-1.5 text-[11px] font-cinzel font-bold tracking-widest uppercase transition-all shadow-md cursor-pointer">
+          Sign Out
+        </button>
+      </div>
+    </nav>
+
+    <!-- SECTION SWITCHER: Track & Field vs Gaming Night -->
+    <div class="valyrian-nav-bar p-2 rounded-2xl flex flex-col sm:flex-row items-center justify-center gap-2 border border-slate-700/60">
+      <button id="switchSportsBtn" type="button" class="w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-gradient-to-r from-amber-600/80 to-amber-700/90 text-white shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+        Track, Field & Sports Realm
+      </button>
+      <button id="switchGamingBtn" type="button" class="w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-black/50 text-slate-400 hover:text-slate-200 hover:bg-stone-900/80">
+        Gaming Night Realm
+      </button>
+    </div>
+
+    <!-- Countdown Banner -->
+    <div id="countdownBanner" class="valyrian-nav-bar rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 border border-amber-600/40 bg-gradient-to-r from-stone-950 via-amber-950/30 to-stone-950 shadow-xl">
+      <div class="flex items-center space-x-3 text-center sm:text-left">
+        <span class="text-2xl animate-pulse">⏳</span>
+        <div>
+          <h3 id="countdownTitle" class="text-xs font-cinzel font-bold text-amber-300 tracking-[0.2em] uppercase">Submission Deadline: Nov 13, 11:59 PM</h3>
+          <p id="countdownSub" class="text-[10px] text-slate-400 font-cinzel">Team card submission closes promptly when time expires</p>
+        </div>
+      </div>
+      <div id="countdownBoxes" class="flex items-center space-x-2 text-center font-cinzel">
+        <div class="bg-stone-950/90 border border-amber-600/50 rounded-xl px-3 py-1.5 min-w-[55px]">
+          <span id="cdDays" class="text-base font-bold text-amber-200">00</span>
+          <span class="block text-[9px] text-slate-400 uppercase tracking-widest">Days</span>
+        </div>
+        <span class="text-amber-500 font-bold">:</span>
+        <div class="bg-stone-950/90 border border-amber-600/50 rounded-xl px-3 py-1.5 min-w-[55px]">
+          <span id="cdHours" class="text-base font-bold text-amber-200">00</span>
+          <span class="block text-[9px] text-slate-400 uppercase tracking-widest">Hours</span>
+        </div>
+        <span class="text-amber-500 font-bold">:</span>
+        <div class="bg-stone-950/90 border border-amber-600/50 rounded-xl px-3 py-1.5 min-w-[55px]">
+          <span id="cdMins" class="text-base font-bold text-amber-200">00</span>
+          <span class="block text-[9px] text-slate-400 uppercase tracking-widest">Mins</span>
+        </div>
+        <span class="text-amber-500 font-bold">:</span>
+        <div class="bg-stone-950/90 border border-amber-600/50 rounded-xl px-3 py-1.5 min-w-[55px]">
+          <span id="cdSecs" class="text-base font-bold text-amber-400">00</span>
+          <span class="block text-[9px] text-slate-400 uppercase tracking-widest">Secs</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header with Dynamic Realm Logo -->
+    <header class="text-center py-4 px-4 space-y-3">
+      <div class="inline-block relative">
+        <div class="w-28 h-28 sm:w-36 sm:h-36 mx-auto rounded-full overflow-hidden sigil-glow bg-black flex items-center justify-center transform transition-transform duration-500 hover:scale-105">
+          <img id="portalHeaderLogo" src="logo.png" onerror="this.src='https://lh3.googleusercontent.com/a/ACg8ocKVCZ3dwhUxDnuDbv2TfiSLT54QDnjOOAb-ke-HPQSY0R6qt4o=s360-c-no';" alt="Official Insignia" class="w-full h-full object-cover filter contrast-125" />
+        </div>
+        <p class="text-[11px] uppercase tracking-[0.4em] text-slate-300 font-cinzel font-bold mt-3">
+          Faculty of Engineering • University of Jaffna
+        </p>
+      </div>
+
+      <!-- Realm Specific Banner Logo (logotf.png / logogn.png) -->
+      <div class="relative my-2 flex items-center justify-center">
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-slate-500/15 to-transparent blur-xl pointer-events-none"></div>
+        <img id="realmBannerLogo" src="logotf.png" alt="Realm Insignia" class="relative max-w-[240px] sm:max-w-[300px] md:max-w-[380px] w-full h-auto object-contain filter drop-shadow-[0_10px_25px_rgba(0,0,0,0.95)] transition-all duration-300" />
+      </div>
+    </header>
+
+    <!-- MAIN FORM CONTAINER -->
+    <main class="valyrian-shield rounded-3xl p-6 sm:p-12 relative">
+      <div id="teamCardForm" class="space-y-6">
+
+        <!-- Selector Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 bg-stone-950/70 p-6 rounded-2xl border border-slate-800/80 shadow-inner">
+          <div id="batchContainer">
+            <label class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-2">
+              Batch Realm <span id="batchRealmStatus" class="text-amber-400 lowercase text-[10px]">(locked)</span>
+            </label>
+            <div id="batchInputWrapper">
+              <input type="text" id="batchSelect" readonly class="w-full bg-[#0d0c11] border border-slate-500/40 text-slate-200 font-bold rounded-xl p-3 text-sm font-cinzel cursor-not-allowed focus:outline-none" />
+            </div>
+          </div>
+
+          <div>
+            <label id="eventSelectLabel" class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-2">
+              The Sport / Event
+            </label>
+            <select id="sportSelect" class="w-full bg-[#0d0c11] border border-slate-800 text-slate-200 rounded-xl p-3 text-sm font-cinzel focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all cursor-pointer">
+              <!-- Populated dynamically via JS -->
+            </select>
+          </div>
+
+          <div id="categoryContainer">
+            <label class="block text-[11px] uppercase tracking-widest text-slate-300 font-cinzel font-bold mb-2">
+              Category / Realm
+            </label>
+            <select id="categorySelect" class="w-full bg-[#0d0c11] border border-slate-800 text-slate-200 rounded-xl p-3 text-sm font-cinzel focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all cursor-pointer">
+              <option value="MEN">MEN</option>
+              <option value="WOMEN">WOMEN</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Sport/Game Specific Rules Display -->
+        <div id="activeRulesNotice" class="hidden bg-stone-950/90 border border-amber-600/40 rounded-2xl p-5 shadow-lg space-y-4">
+          <div class="space-y-2 border-b border-slate-800/80 pb-3">
+            <div class="flex items-center justify-between">
+              <h4 id="generalRulesTitle" class="text-xs font-cinzel font-bold text-amber-300 uppercase tracking-widest flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                General Sports Rules & Regulations
+              </h4>
+              <span class="text-[10px] font-cinzel text-amber-400 bg-amber-950/60 border border-amber-700/60 px-2 py-0.5 rounded-full">General Protocol</span>
+            </div>
+            <ul id="generalRulesList" class="space-y-1.5 list-disc list-inside text-xs text-slate-300 font-light"></ul>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <h4 id="activeRulesSportName" class="text-xs font-cinzel font-bold text-amber-300 uppercase tracking-widest flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                Event Regulations
+              </h4>
+              <span id="activeRulesBadge" class="text-[10px] font-cinzel text-amber-400 bg-amber-950/60 border border-amber-700/60 px-2 py-0.5 rounded-full"></span>
+            </div>
+            <ul id="activeRulesList" class="space-y-1.5 list-disc list-inside text-xs text-slate-300 font-light"></ul>
+          </div>
+        </div>
+
+        <!-- Consent Checkbox -->
+        <div id="rulesConsentSection" class="p-4 bg-gradient-to-r from-stone-950 via-amber-950/20 to-stone-950 rounded-2xl border border-amber-500/40 shadow-inner">
+          <label class="flex items-start sm:items-center space-x-3 cursor-pointer select-none">
+            <input type="checkbox" id="rulesCheckbox" class="w-5 h-5 mt-0.5 sm:mt-0 rounded bg-[#0d0c11] border-slate-700 text-amber-500 focus:ring-amber-500 accent-amber-500 cursor-pointer" />
+            <div class="text-xs font-cinzel">
+              <span class="text-slate-200 font-semibold tracking-wide">
+                I confirm that I have reviewed and agree to abide by all tournament general rules and event regulations.
+              </span>
+              <p class="text-[10px] text-amber-400 font-light tracking-wider mt-0.5">
+                (Tick this box to unlock squad roster entries)
+              </p>
+            </div>
+          </label>
+        </div>
+
+        <!-- Team Name Inputs for Gaming Multi-teams -->
+        <div id="gamingTeamNameInputs" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-4 bg-stone-950/80 p-5 rounded-2xl border border-amber-600/30">
+          <div>
+            <label id="team1NameLabel" class="block text-[11px] uppercase tracking-widest text-amber-300 font-cinzel font-bold mb-1">Squad Name (Team 1)</label>
+            <input type="text" id="gaming_team1_name" placeholder="e.g. Dire Wolves" class="w-full bg-[#0d0c11] border border-slate-800 focus:border-amber-400 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none font-cinzel" />
+          </div>
+          <div id="team2NameWrapper" class="hidden">
+            <label id="team2NameLabel" class="block text-[11px] uppercase tracking-widest text-amber-300 font-cinzel font-bold mb-1">Squad Name (Team 2)</label>
+            <input type="text" id="gaming_team2_name" placeholder="e.g. Ironborn" class="w-full bg-[#0d0c11] border border-slate-800 focus:border-amber-400 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none font-cinzel" />
+          </div>
+        </div>
+
+        <!-- Roster Table -->
+        <div class="space-y-3 relative">
+          <div class="flex flex-col sm:flex-row justify-between items-baseline gap-1">
+            <h2 class="text-sm sm:text-base font-bold font-cinzel tracking-wider text-slate-200 flex items-center gap-2">
+              <img id="rosterSubIcon" src="logo.png" onerror="this.src='https://lh3.googleusercontent.com/a/ACg8ocKVCZ3dwhUxDnuDbv2TfiSLT54QDnjOOAb-ke-HPQSY0R6qt4o=s360-c-no';" class="w-5 h-5 rounded-full border border-slate-500/60 inline-block object-cover" alt="icon" />
+              <span id="rosterTitle">Squad Roster & Designation</span>
+            </h2>
+            <span id="lockStatusIndicator" class="text-xs font-cinzel text-amber-400/90 tracking-wider">🔒 Locked: Accept Rules Above</span>
+          </div>
+
+          <div class="relative border border-slate-800 rounded-2xl overflow-hidden bg-black/70 shadow-2xl">
+            <!-- Lock Curtain Banner -->
+            <div id="rosterLockOverlay" class="absolute inset-0 bg-black/75 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center p-6 text-center space-y-2">
+              <div class="w-10 h-10 rounded-full border border-amber-500/60 bg-stone-950 flex items-center justify-center text-lg shadow-[0_0_20px_rgba(245,158,11,0.25)]">
+                🔒
+              </div>
+              <p class="text-xs font-cinzel font-bold text-amber-300 uppercase tracking-widest">Roster Selection Locked</p>
+              <p class="text-xs text-slate-400 font-light max-w-md">Please check the acknowledgment box above to unlock squad editing.</p>
+            </div>
+
+            <!-- Table Header -->
+            <div id="tableHeader" class="grid grid-cols-12 bg-slate-950/90 px-4 py-3 font-cinzel text-xs text-slate-300 font-bold uppercase tracking-widest border-b border-slate-800">
+              <div class="col-span-1 text-center text-slate-500">Slot</div>
+              <div class="col-span-5 px-3">Player Full Name</div>
+              <div class="col-span-3 px-3">Reg. No. (E-No)</div>
+              <div id="roleHeaderCol" class="hidden col-span-3 px-3">Role / Designation</div>
+              <div id="captainHeaderCol" class="col-span-3 px-3 text-center">Captain?</div>
+            </div>
+
+            <div id="playersContainer" class="divide-y divide-slate-900/80">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <button type="button" id="syncBtn" disabled class="w-full bg-slate-900 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed text-slate-200 font-cinzel font-bold tracking-[0.2em] text-xs uppercase py-4 px-4 rounded-xl border border-slate-600/40 shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer">
+            <span>Sync Sheet</span>
+          </button>
+
+          <button type="button" id="finalizeBtn" disabled class="w-full bg-gradient-to-r from-slate-900 via-slate-800 to-zinc-900 hover:from-slate-800 hover:to-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed text-slate-100 font-cinzel font-bold tracking-[0.2em] text-xs uppercase py-4 px-4 rounded-xl border border-slate-400/50 shadow-[0_0_20px_rgba(148,163,184,0.25)] transition-all flex items-center justify-center space-x-2 cursor-pointer">
+            <span id="finalizeBtnText">Finalize & Download Word Card (.docx)</span>
+          </button>
+        </div>
+
+      </div>
+    </main>
+
+    <footer class="text-center text-slate-500 text-[11px] font-cinzel tracking-[0.3em] uppercase py-3">
+      Faculty of Engineering • University of Jaffna • Valar Morghulis
+    </footer>
+  </div>
+
+  <script>
+    /******************************************************************
+     * 0. APPS SCRIPT URLS & DEADLINES
+     ******************************************************************/
+    const SPORTS_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxkFJsbdHQFZDAiFYWXyCIUvGbmbt0PxGqSGjm_FCEFvjSIC11CUEFyrhlcK30pzJ9fBg/exec";
+    const GAMING_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz649lEcMFanP_CSXa5ZrX6ee9yJVQKHZKsegIKNURpA0_CbFbs2S1zodepG0biSXRw/exec";
+
+    const DEADLINE_SPORTS = new Date(2026, 10, 13, 23, 59, 59).getTime(); // Nov 13 11:59 PM
+    const DEADLINE_GAMING = new Date(2026, 10, 14, 23, 59, 59).getTime(); // Nov 14 11:59 PM
+
+    let currentSection = "sports"; // "sports" or "gaming"
+
+    const cdDays = document.getElementById("cdDays");
+    const cdHours = document.getElementById("cdHours");
+    const cdMins = document.getElementById("cdMins");
+    const cdSecs = document.getElementById("cdSecs");
+    const deadlineClosedModal = document.getElementById("deadlineClosedModal");
+    const countdownTitle = document.getElementById("countdownTitle");
+    const countdownSub = document.getElementById("countdownSub");
+    const deadlineNoticeText = document.getElementById("deadlineNoticeText");
+
+    function enforceDeadlineStatus() {
+      const activeDeadline = (currentSection === "gaming") ? DEADLINE_GAMING : DEADLINE_SPORTS;
+      const now = new Date().getTime();
+      const distance = activeDeadline - now;
+
+      if (distance <= 0) {
+        cdDays.innerText = "00";
+        cdHours.innerText = "00";
+        cdMins.innerText = "00";
+        cdSecs.innerText = "00";
+
+        if (!isAdmin) {
+          deadlineClosedModal.classList.remove("hidden");
+          const syncButton = document.getElementById("syncBtn");
+          const finalizeButton = document.getElementById("finalizeBtn");
+          if (syncButton) syncButton.disabled = true;
+          if (finalizeButton) finalizeButton.disabled = true;
+        }
+        return true;
+      }
+
+      deadlineClosedModal.classList.add("hidden");
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      cdDays.innerText = String(days).padStart(2, "0");
+      cdHours.innerText = String(hours).padStart(2, "0");
+      cdMins.innerText = String(minutes).padStart(2, "0");
+      cdSecs.innerText = String(seconds).padStart(2, "0");
+
+      return false;
+    }
+
+    setInterval(enforceDeadlineStatus, 1000);
+
+    /******************************************************************
+     * 1. RULES & REGULATIONS DATA SOURCE (SPORTS & GAMING)
+     ******************************************************************/
+    const GENERAL_SPORTS_RULES = [
+      "For all team events the teams must present before 10 min of the event time.",
+      "The judge/umpire decision will consider as final.",
+      "If anyone or team argue with judge or umpire and also with another team, definitely disqualify.",
+      "Discipline must strictly followed.",
+      "If the team or any participant is late for an event for more than 10 minutes, the team or the participants will be disqualified unless informed in advance with valid reason.",
+      "Each event will start immediately after the end of the previous event due to the tight schedule. However, it will be informed at least 10 minutes before the event begins."
+    ];
+
+    const GENERAL_GAMING_RULES = [
+      "All competitors are expected to know and understand all rules. Not knowing a rule will not be accepted as an excuse.",
+      "At LAN & online tournaments, all players are expected to be present on time.",
+      "Tournament brackets (single/double elimination) are decided by organizers and will be randomized.",
+      "Gaming night organizers have the authority to cancel games if registrations are insufficient or time runs out.",
+      "Team cards must be submitted before 14th November 2026.",
+      "Points: 1st Place = 30 pts, 2nd Place = 20 pts, 3rd Place = 10 pts (Category 1 rules apply)."
+    ];
+
+    const RULES_REGULATIONS_DATA = {
+      // Volleyball
+      "volleyball": {
+        title: "Volleyball Rules & Regulations",
+        badge: "League Tournament",
+        rules: [
+          "This is a leauge Tournament.",
+          "The draw will be arranged before the start of the match.",
+          "Each game will consist of three (3) sets of 25 points each. (Depending on the schedule of the day, maybe it will be increased to (5) sets.)",
+          "Two (2) time out will be permitted per team during any given set.",
+          "Further International volleyball rules will be followed."
+        ]
+      },
+
+      // Table Tennis
+      "table_tennis": {
+        title: "Table Tennis Rules & Regulations (Men's and Women's)",
+        badge: "Men's and Women's",
+        rules: [
+          "There should be 3 players in a team - 2 singles and one person to play the doubles along with one of the singles players.",
+          "Each single game will consist of 3 sets of 11 points in each. In the case of 10-10 situation the game will continue till one player gets a 2-point clearance. (One player gets one serve each). A double game will consist of 3 sets of 15 points and similar rule will apply for 14-14 Situation.",
+          "In the event where a team comprises less than the minimum no of players required at the time of play, (i.e. 4 members) then, that particular team will have to concede a walkover. In the case of the finals 4 singles games (including reverse singles) and one doubles game will be played.",
+          "Further International table tennis rules will be followed."
+        ]
+      },
+
+      // Marathon
+      "marathon": {
+        title: "Marathon Rules & Regulations",
+        badge: "Team Event",
+        rules: [
+          "This is an event conduct as a team",
+          "maximum 20 participants can represent each batch.",
+          "participants should attend and pass medical checkup.",
+          "participants dress should be in a good manner.",
+          "All participants are required to be present 30 minutes prior to the start of the marathon.",
+          "participants can't get help form any others who are not take part in the event and also from any vehicles during the event. If we found you will be disqualified.",
+          "The event map should be followed stickily.",
+          "If a participator disturbs another one who is take part in the event. He will lose his points.",
+          "The points will take count in below order:",
+          "• first finisher will get 75 points",
+          "• second finisher will get 74 likewise the points will reduce from 75 to 1.",
+          "• and if any one leaves the event in midway and that particular person finished the first half he will get one point.",
+          "• The first half will take count from university junction up to police station Kilinochchi",
+          "The total number of points calculated according to the above criteria will be considered only in deciding the rank obtained by a particular batch for the event. (Please note that points calculated according to these criteria will not be awarded as the overall points obtained, Overall points obtained will be according to the points criteria mentioned in the points system issued by the E-Week Committee.)",
+          "If anyone need emergency medical the organizing committee will take care of you."
+        ]
+      },
+
+      // Football
+      "football": {
+        title: "Football Rules & Regulations",
+        badge: "Match Regulations",
+        rules: [
+          "Match Duration: The match consists of two 20-minute halves with a 5-minute break in between.",
+          "Team Composition: Each team must have a minimum of 7 players to start the match (including 1 goalkeeper).",
+          "The goalkeeper is the only player allowed to handle the ball within the 18-yard box.",
+          "Substitutions: Substitutions can be made at any time during the match, with no limit on the number of substitutions.",
+          "Fouls and Disciplinary Actions: Yellow cards will be issued for minor fouls.",
+          "Red cards will be issued for serious fouls or unsporting behavior. A player receiving a red card will be sent off and cannot be replaced.",
+          "Jersey Requirements: All outfield players must wear the same color jersey.",
+          "Only the goalkeeper may wear a different-colored jersey.",
+          "Footwear: Wearing boots is not compulsory.",
+          "General Rules: Other international football rules will be followed, unless specified in these updated rules."
+        ]
+      },
+
+      // Badminton Men's
+      "badminton_MEN": {
+        title: "Badminton Rules & Regulations - Men's",
+        badge: "Men's",
+        rules: [
+          "There should be a minimum of 6 players to be nominated in a team - 3 players for singles and 3 players for the doubles match. Only one player who has played in a singles match is allowed to play again in a doubles match. No other players can play again in the same tie.",
+          "Matches will be played in the top-down order of the draw and the order of matches to be played in a tie is as follows.",
+          "✓ 1st match - 1st Singles",
+          "✓ 2nd match - 2nd Singles",
+          "✓ 3rd match - 3rd Singles",
+          "✓ 4th match - 1st Doubles",
+          "✓ 5th match - 2nd Doubles",
+          "In the event where a team comprises less than the minimum number of players required at the time of play, (i.e. 4 members) then, that particular team will have to concede a walkover.",
+          "Each singles game will consist of three (3) sets of 21 points in each. In the case of a 20-20 situation the game will continue till one player get a 2-point clearance up to 25 points. (One player gets one serve each) A double game will consist of three (3) sets of 21 points and similar rule will apply for 20, in all tie situations.",
+          "Mavis 600 shuttle will be used.",
+          "In the case of the finals, a singles match set will consist of three (3) sets of 21 points and similar rule for 20, in all tie situations.",
+          "Further International badminton rules will be followed."
+        ]
+      },
+
+      // Badminton Women's
+      "badminton_WOMEN": {
+        title: "Badminton Rules & Regulations - Women's",
+        badge: "Women's",
+        rules: [
+          "There should be a minimum of 4 players to be nominated in a team - 2 players for singles and 2 players for the doubles match. The two players nominated to play the singles in one particular tie, cannot play in the doubles match of the same tie.",
+          "Matches will be played in the top-down order of the draw and the order of matches to be played in a tie is as follows",
+          "✓ 1st match - 1st Singles",
+          "✓ 2nd match - 2nd Singles",
+          "✓ 3rd match - Doubles",
+          "In the event where a team comprises less than the minimum number of players required at the time of play, (i.e. 4 members) then, that particular team will have to concede a walkover.",
+          "Each singles game will consist of three (3) sets of 21 points in each. In the case of a 20-20 situation the game will continue till one player get a 2-point clearance up to 25 points. (One player gets one serve each) A double game will consist of three (3) sets of 21 points and similar rule will apply for 20, in all tie situations.",
+          "Mavis 600 shuttle will be used.",
+          "In the case of the finals, a singles match set will consist of three (3) sets of 21 points and similar rule for 20, in all tie situations.",
+          "Further International badminton rules will be followed."
+        ]
+      },
+
+      // Elle
+      "elle": {
+        title: "Elle Rules & Regulations",
+        badge: "Mix",
+        rules: [
+          "The team squad should consist 20 players.",
+          "Each team should 16 players.",
+          "4 Girls should participate in each team including the 16 members.",
+          "25 balls for each team 5 balls should be faced by girls",
+          "If the match is tie give 5 more balls to play.",
+          "Proper rules must be told at the beginning of the match to the captains.",
+          "Players should have proper dresses (no bottoms for boys).",
+          "Further National Elle federation rules will be followed."
+        ]
+      },
+
+      // Cricket
+      "cricket": {
+        title: "Cricket Rules & Regulations",
+        badge: "League",
+        rules: [
+          "The team squad should consist 15 players.",
+          "11 players per side and tournament will be league with 7 overs.",
+          "Only 2 bowlers allowed bowl 2 overs. (for 7 overs)",
+          "Powerplay is limited for 2 overs",
+          "1st and 2nd overs are the batting power play and only 3 fielders can be placed outside of the 30-yard circle, after the batting power play only 5 fielders can be place outside the circle.",
+          "All league matches consist 7 overs per each side.",
+          "Top team of the league stage will be directly selected to the final.",
+          "2nd and 3rd places in the league stage qualify for the playoff, and winner of the playoff will qualify for the final.",
+          "Final consists 10 overs per each side.",
+          "Only 4 bowlers can bowl 2 overs. (10 overs for the final)",
+          "Umpire decision will be the final decision.",
+          "No leg before wicket.",
+          "Each team have 4 matches in league stage.",
+          "The winning team can earn 2 points.",
+          "If the match is tie, winners are decided by super over. (6 balls with 2 wickets)",
+          "If the 2 teams have same points, net run rate will be considered.",
+          "National soft ball federation rules will follow throughout the tournaments.",
+          "It is compulsory for the players to wear bottom.",
+          "shoulder height no ball, rain interruptions will be considered."
+        ]
+      },
+
+      // Chess
+      "chess": {
+        title: "Chess Rules & Regulations",
+        badge: "FIDE Standard",
+        rules: [
+          "1. The tournament shall be conducted as an official Round-Robin Team Tournament in accordance with the applicable FIDE regulations, using the Round-Robin option in Swiss-Manager software.",
+          "2. The chess games shall be played in the Standard Chess category.",
+          "3. All games shall be conducted according to the current FIDE Laws of Chess and applicable FIDE competition regulations.",
+          "4. Each batch may register a maximum of one Boys' Team and one Girls Team.",
+          "5. Each team shall consist of 8 members: 6 playing members and 2 reserve players.",
+          "6. Six players shall participate in each team match, while the two reserve players may be used as substitutes according to the team's submitted playing list.",
+          "7. The final ranking of the teams shall be determined in the following order: Match Points; Game Points; Sonneborn-Berger (SB) Points.",
+          "8. The time control shall be 60 minutes for each player for the entire game, with no increment, unless otherwise announced by the Chief Arbiter.",
+          "9. The chess clocks shall be started at the scheduled starting time of the match. The arbiter shall start the clocks in accordance with the FIDE Laws of Chess.",
+          "10. If a player's allotted time expires, the result shall be determined in accordance with the FIDE Laws of Chess, particularly Article 6.9. A player shall normally lose the game on time; however, the game shall be declared drawn if the opponent cannot checkmate the player's king by any possible series of legal moves. The final decision shall be made by the arbiter.",
+          "11. The drop sheet and playing-team list for each match shall be submitted to the Chief Arbiter at least 10 minutes before the scheduled starting time of the match. The list shall include the names and board order of the six playing members and the two reserve players.",
+          "12. The submitted board order shall be followed throughout the match. Any changes to the board order after submission shall require the approval of the Chief Arbiter.",
+          "13. All players, team captains, and team officials shall comply with the FIDE Laws of Chess and the instructions of the appointed arbiters.",
+          "14. In cases not specifically covered by these regulations, the Chief Arbiter shall make the final decision in accordance with the FIDE Laws of Chess and applicable FIDE regulations. The FIDE Laws recognize that not every possible situation can be covered by a specific article and place responsibility on the arbiter to apply the Laws appropriately."
+        ]
+      },
+
+      // Carrom Men's
+      "carrom_MEN": {
+        title: "Carrom Rules & Regulations - Men's",
+        badge: "Men's League",
+        rules: [
+          "This is a League tournament.",
+          "There should be minimum 5 players in a team - 3 for singles and 2 for the doubles match. The two singles players cannot play in the doubles match.",
+          "A game will be decided by 30 minutes or 25 points whichever comes first, which who get more points within this time he will be the winner. Any changes to the above criteria will be notified before the commencement of the play.",
+          "Team members must consist from the same batch & the maximum number of teams for a batch is 1.",
+          "points calculation will be announced before the game start.",
+          "further game rules are same rules of international games."
+        ]
+      },
+
+      // Carrom Women's
+      "carrom_WOMEN": {
+        title: "Carrom Rules & Regulations - Women's",
+        badge: "Women's League",
+        rules: [
+          "This is a League tournament.",
+          "There should be a minimum of 3 players in a team, where only 1 player will be allowed to participate in both singles and doubles.",
+          "A game will be decided by 15 minutes, which who get more points within this time he will be the winner Any changes to the above criteria will be notified before the commencement of the play.",
+          "Team members must consist from the same batch & the maximum number of teams for a batch is 1.",
+          "points calculation will be announced before the game start.",
+          "further game rules are same rules of international games"
+        ]
+      },
+
+      // Basketball
+      "basketball": {
+        title: "Basketball Rules & Regulations",
+        badge: "FIBA Standard",
+        rules: [
+          "Each team can have a maximum of 9 players and minimum of 5 players.",
+          "Each game will consist of 2 halves of 7 minutes. Half time will be two (2) minutes between the two halves.",
+          "The clock runs whenever the ball is in play. The clock is stopped whenever a foul is called, free throws are being shot, and during time outs. Also, clock will be stop if the ball is far in an out of bounds. When the ball is inbound, the clock starts once a player touches the ball.",
+          "There will be NO shot clock used.",
+          "One (1) time out will be permitted per team during a halve. (30 seconds in duration).",
+          "Team fouls rule will be considered. (two free throws will be rewarded on the 5th team foul for the remainder of the halve).",
+          "Individual fouls will not be counted. But if referee notices a particular individual continuous foul, appropriate warning will be given.",
+          "No jewellery or any other item deemed dangerous by the official may be worn during play. (Bands, Rings, chains, earrings)",
+          "A substitute must report to the scorekeeper and be recognized by a game official before he/she may enter the game.",
+          "Further FIBA basketball rules will be followed."
+        ]
+      },
+
+      // Athletics
+      "athletics": {
+        title: "ATHLETICS RULES",
+        badge: "Track & Field",
+        rules: [
+          "A batch can represent only 2 members for an individual event.",
+          "Regarding individual events, one person can take part,",
+          "Each athlete may participate in a maximum of three individual events. Participation in relay events is permitted in addition to the three individual events.",
+          "A batch can represent only one team (4 members) for relay races.",
+          "Boys must wear suitable athletic kits, when participating an event and bottoms are not allowed.",
+          "Every participant or team must be present on time. If they are late for 5 min from the event time, the member or the team will be disqualified.",
+          "All events will be conducted according to international rules.",
+          "The judge's decision will be the final."
+        ]
+      },
+
+      // Netball
+      "netball": {
+        title: "Netball Rules & Regulations",
+        badge: "Women's League",
+        rules: [
+          "Restricted exclusively to WOMEN teams.",
+          "Squad consists of 12 players (7 on court, 5 substitutes)."
+        ]
+      },
+
+      // Gaming Night
+      "valorant": {
+        title: "Valorant Rules & Regulations",
+        badge: "Unrated-Tournament Mode",
+        bg: "val.jpeg",
+        rules: [
+          "Mode: Unrated-tournament mode. One team per batch.",
+          "Team size: 5 main players + 1 substitute player.",
+          "Each player can register and play for only one team.",
+          "Substitute must be registered prior to start; must inform organizers before match.",
+          "No unregistered or suspended players allowed."
+        ]
+      },
+      "cod4": {
+        title: "Call of Duty 4: Modern Warfare Rules",
+        badge: "Promodlive 2.20 EU",
+        bg: "cod.jpeg",
+        rules: [
+          "Max 2 teams per batch. Squad: 5 main players + up to 2 substitutes per team.",
+          "Played on Promodlive2.20 EU (promod_mode lan knockout mr12).",
+          "First team to reach 13 rounds wins. Bomb timer: 45s, Plant/Defuse: 7s.",
+          "Classes per 5-player team: Max 1 Sniper, 1 Demolition, 2 SMG, 5 Assault.",
+          "Map pool: mp_backlot, mp_crash, mp_crossfire, mp_strike. Lower seed starts veto.",
+          "A team can start shorthanded with 4 players. Missing more than 1 results in forfeit."
+        ]
+      },
+      "mkx": {
+        title: "Mortal Kombat X Rules & Regulations",
+        badge: "Individual / Batch Rep",
+        bg: "mk.jpeg",
+        rules: [
+          "Maximum of 4 players can register from a batch.",
+          "Tournament bracket (single/double elimination) announced by organizers.",
+          "Playing side determined by assigned referee or coin toss / Rock, Paper, Scissors."
+        ]
+      },
+      "aoe3": {
+        title: "Age of Empires 3 Rules & Regulations",
+        badge: "The Asian Dynasties",
+        bg: "aoe.jpeg",
+        rules: [
+          "Each team must consist of 2 players. Max 2 teams per batch.",
+          "Matches played on Age of Empires III: The Asian Dynasties.",
+          "Each player can register for only one team.",
+          "Map pool: Great Plains, Gold River, Hispaniola, New England, Saguenay, Silk Road."
+        ]
+      },
+      "nfsmw": {
+        title: "Need for Speed: Most Wanted Rules",
+        badge: "LAN Racing",
+        bg: "nfs.jpeg",
+        rules: [
+          "Maximum 4 players allowed per batch.",
+          "Maps announced prior to the game.",
+          "Single or double elimination bracket decided by organizers."
+        ]
+      },
+      "blur": {
+        title: "Blur Rules & Regulations",
+        badge: "Powered-up Racing",
+        bg: "blur.jpeg",
+        rules: [
+          "Maximum 4 players allowed per batch.",
+          "Only Class A and Class B vehicles will be available.",
+          "Map pool: SanFran Sausalito (3 Laps), LA River (3 Laps), LA Docks (3 Laps), Hollywood Hills (2 Laps), Brighton Coastal (3 Laps), Barcelona Gracia (3 Laps), Amboy Route 66 (2 Laps)."
+        ]
+      }
+    };
+
+    const ATHLETICS_KEYS = [
+      "100m", "200m", "400m", "800m", "1500m", 
+      "4x100", "4x200", "4x400", "100m_hurdles", "shotput", 
+      "longjump", "discuss_throw", "high_jump", "javelin_throw"
+    ];
+
+    /******************************************************************
+     * 2. EVENT SCHEMAS & CONFIGURATIONS
+     ******************************************************************/
+    const SPORTS_OPTIONS = `
+      <option value="">-- Choose Sport / Event --</option>
+      <option value="cricket">Cricket</option>
+      <option value="volleyball">Volleyball</option>
+      <option value="basketball">Basketball</option>
+      <option value="football">Football</option>
+      <option value="netball">Netball</option>
+      <option value="elle">Elle (Mix)</option>
+      <option value="badminton">Badminton</option>
+      <option value="table_tennis">Table Tennis</option>
+      <option value="carrom">Carrom</option>
+      <option value="chess">Chess</option>
+      <option value="marathon">Marathon</option>
+      <optgroup label="Athletics Events">
+        <option value="100m">100m</option>
+        <option value="200m">200m</option>
+        <option value="400m">400m</option>
+        <option value="800m">800m</option>
+        <option value="1500m">1500m</option>
+        <option value="4x100">4x100m Relay</option>
+        <option value="4x200">4x200m Relay</option>
+        <option value="4x400">4x400m Relay</option>
+        <option value="100m_hurdles">Mix Relay</option>
+        <option value="shotput">Shot Put</option>
+        <option value="longjump">Long Jump</option>
+        <option value="discuss_throw">Discuss Throw</option>
+        <option value="high_jump">High Jump</option>
+        <option value="javelin_throw">Javelin Throw</option>
+      </optgroup>
+    `;
+
+    const GAMING_OPTIONS = `
+      <option value="">-- Choose Game --</option>
+      <option value="valorant">Valorant</option>
+      <option value="cod4">Call of Duty 4</option>
+      <option value="mkx">Mortal Kombat X</option>
+      <option value="aoe3">Age of Empires 3</option>
+      <option value="nfsmw">Need For Speed Most Wanted</option>
+      <option value="blur">Blur</option>
+    `;
+
+    const GAMING_SCHEMAS = {
+      "valorant": {
+        totalSlots: 6,
+        hasTeam1: true,
+        team1Label: "Valorant Team Name",
+        hasTeam2: false,
+        slots: [
+          { rank: 1, label: "Player 01", nameKey: "VAL_NAME_1", enumKey: "VAL_E_1", role: "Main" },
+          { rank: 2, label: "Player 02", nameKey: "VAL_NAME_2", enumKey: "VAL_E_2", role: "Main" },
+          { rank: 3, label: "Player 03", nameKey: "VAL_NAME_3", enumKey: "VAL_E_3", role: "Main" },
+          { rank: 4, label: "Player 04", nameKey: "VAL_NAME_4", enumKey: "VAL_E_4", role: "Main" },
+          { rank: 5, label: "Player 05", nameKey: "VAL_NAME_5", enumKey: "VAL_E_5", role: "Main" },
+          { rank: 6, label: "Substitute 01", nameKey: "VAL_SUB_NAME_1", enumKey: " VAL_S_E_1", role: "Substitute" }
+        ]
+      },
+      "cod4": {
+        totalSlots: 12,
+        hasTeam1: true,
+        team1Label: "COD4 Team 1 Name",
+        hasTeam2: true,
+        team2Label: "COD4 Team 2 Name",
+        slots: [
+          { rank: 1, label: "T1 Player 01", nameKey: "COD _NAME_1", enumKey: "COD _E_1", role: "Team 1" },
+          { rank: 2, label: "T1 Player 02", nameKey: "COD _NAME_2", enumKey: "COD _E_2", role: "Team 1" },
+          { rank: 3, label: "T1 Player 03", nameKey: "COD_NAME_3", enumKey: "COD _E_3", role: "Team 1" },
+          { rank: 4, label: "T1 Player 04", nameKey: "COD _NAME_4", enumKey: "COD _E_4", role: "Team 1" },
+          { rank: 5, label: "T1 Player 05", nameKey: "COD _NAME_5", enumKey: "COD _E_5", role: "Team 1" },
+          { rank: 6, label: "T1 Substitute", nameKey: "COD _SUB_NAME_1", enumKey: "COD _S_E_1", role: "Substitute" },
+          { rank: 7, label: "T2 Player 01", nameKey: "COD _NAME_6", enumKey: "COD _E_6", role: "Team 2" },
+          { rank: 8, label: "T2 Player 02", nameKey: "COD _NAME_7", enumKey: "COD _E_7", role: "Team 2" },
+          { rank: 9, label: "T2 Player 03", nameKey: "COD_NAME_8", enumKey: "COD _E_8", role: "Team 2" },
+          { rank: 10, label: "T2 Player 04", nameKey: "COD _NAME_9", enumKey: "COD _E_9", role: "Team 2" },
+          { rank: 11, label: "T2 Player 05", nameKey: "COD _NAME_10", enumKey: "COD _E_10", role: "Team 2" },
+          { rank: 12, label: "T2 Substitute", nameKey: "COD _SUB_NAME_2", enumKey: "COD _S_E_2", role: "Substitute" }
+        ]
+      },
+      "mkx": {
+        totalSlots: 4,
+        hasTeam1: false,
+        hasTeam2: false,
+        slots: [
+          { rank: 1, label: "Fighter 01", nameKey: "MK_NAME_1", enumKey: "MK_E_1", role: "Player" },
+          { rank: 2, label: "Fighter 02", nameKey: "MK_NAME_2", enumKey: "MK_E_2", role: "Player" },
+          { rank: 3, label: "Fighter 03", nameKey: "MK_NAME_3", enumKey: "MK_E_3", role: "Player" },
+          { rank: 4, label: "Fighter 04", nameKey: "MK_NAME_4", enumKey: "MK_E_4", role: "Player" }
+        ]
+      },
+      "nfsmw": {
+        totalSlots: 4,
+        hasTeam1: false,
+        hasTeam2: false,
+        slots: [
+          { rank: 1, label: "Racer 01", nameKey: "NFS_NAME_1", enumKey: "NFS_E_1", role: "Driver" },
+          { rank: 2, label: "Racer 02", nameKey: "NFS_NAME_2", enumKey: "NFS_E_2", role: "Driver" },
+          { rank: 3, label: "Racer 03", nameKey: "NFS_NAME_3", enumKey: "NFS_E_3", role: "Driver" },
+          { rank: 4, label: "Racer 04", nameKey: "NFS_NAME_4", enumKey: "NFS_E_4", role: "Driver" }
+        ]
+      },
+      "aoe3": {
+        totalSlots: 4,
+        hasTeam1: true,
+        team1Label: "AoE3 Team 1 Name",
+        hasTeam2: true,
+        team2Label: "AoE3 Team 2 Name",
+        slots: [
+          { rank: 1, label: "T1 Player 01", nameKey: "AOE_NAME_1", enumKey: "AOE_E_1", role: "Team 1" },
+          { rank: 2, label: "T1 Player 02", nameKey: "AOE_NAME_2", enumKey: "AOE_E_2", role: "Team 1" },
+          { rank: 3, label: "T2 Player 01", nameKey: "AOE_NAME_3", enumKey: "AOE_E_3", role: "Team 2" },
+          { rank: 4, label: "T2 Player 02", nameKey: "AOE_NAME_4", enumKey: "AOE_E_4", role: "Team 2" }
+        ]
+      },
+      "blur": {
+        totalSlots: 4,
+        hasTeam1: false,
+        hasTeam2: false,
+        slots: [
+          { rank: 1, label: "Racer 01", nameKey: "BLUR_NAME_1", enumKey: "BLUR _E_1", role: "Driver" },
+          { rank: 2, label: "Racer 02", nameKey: "BLUR _NAME_2", enumKey: "BLUR _E_2", role: "Driver" },
+          { rank: 3, label: "Racer 03", nameKey: "BLUR _NAME_3", enumKey: "BLUR _E_3", role: "Driver" },
+          { rank: 4, label: "Racer 04", nameKey: "BLUR _NAME_4", enumKey: "BLUR _E_4", role: "Driver" }
+        ]
+      }
+    };
+
+    const SPORTS_EVENT_LIMITS = {
+      "cricket": 15,
+      "volleyball": 12,
+      "basketball": 9,
+      "football": 15,
+      "netball": 12,
+      "elle": 20,
+      "marathon": 20,
+      "chess": 8,
+      "table_tennis": 3,
+      "badminton_MEN": 6,
+      "badminton_WOMEN": 4,
+      "carrom_MEN": 5,
+      "carrom_WOMEN": 3,
+      "100m": 2, "200m": 2, "400m": 2, "800m": 2, "1500m": 2,
+      "4x100": 4, "4x200": 4, "4x400": 4, "100m_hurdles": 4,
+      "shotput": 2, "longjump": 2, "discuss_throw": 2, "high_jump": 2, "javelin_throw": 2
+    };
+
+    function getEffectiveLimit(eventKey, category) {
+      if (eventKey === "badminton") {
+        return category === "WOMEN" ? SPORTS_EVENT_LIMITS["badminton_WOMEN"] : SPORTS_EVENT_LIMITS["badminton_MEN"];
+      }
+      if (eventKey === "carrom") {
+        return category === "WOMEN" ? SPORTS_EVENT_LIMITS["carrom_WOMEN"] : SPORTS_EVENT_LIMITS["carrom_MEN"];
+      }
+      return SPORTS_EVENT_LIMITS[eventKey] || 0;
+    }
+
+    /******************************************************************
+     * 3. DOM ELEMENTS & DYNAMIC LOGO / SECTION SWITCHING
+     ******************************************************************/
+    const sportSelect = document.getElementById("sportSelect");
+    const categorySelect = document.getElementById("categorySelect");
+    const categoryContainer = document.getElementById("categoryContainer");
+    const eventSelectLabel = document.getElementById("eventSelectLabel");
+    const switchSportsBtn = document.getElementById("switchSportsBtn");
+    const switchGamingBtn = document.getElementById("switchGamingBtn");
+    const portalBgContainer = document.getElementById("portalBgContainer");
+
+    const rulesCheckbox = document.getElementById("rulesCheckbox");
+    const rosterLockOverlay = document.getElementById("rosterLockOverlay");
+    const lockStatusIndicator = document.getElementById("lockStatusIndicator");
+    const syncBtn = document.getElementById("syncBtn");
+    const finalizeBtn = document.getElementById("finalizeBtn");
+    const finalizeBtnText = document.getElementById("finalizeBtnText");
+
+    const generalRulesTitle = document.getElementById("generalRulesTitle");
+    const generalRulesList = document.getElementById("generalRulesList");
+    const activeRulesNotice = document.getElementById("activeRulesNotice");
+    const activeRulesSportName = document.getElementById("activeRulesSportName");
+    const activeRulesBadge = document.getElementById("activeRulesBadge");
+    const activeRulesList = document.getElementById("activeRulesList");
+
+    const playersContainer = document.getElementById("playersContainer");
+    const roleHeaderCol = document.getElementById("roleHeaderCol");
+    const captainHeaderCol = document.getElementById("captainHeaderCol");
+    const rosterTitle = document.getElementById("rosterTitle");
+
+    const gamingTeamNameInputs = document.getElementById("gamingTeamNameInputs");
+    const team1NameLabel = document.getElementById("team1NameLabel");
+    const gamingTeam1Name = document.getElementById("gaming_team1_name");
+    const team2NameWrapper = document.getElementById("team2NameWrapper");
+    const team2NameLabel = document.getElementById("team2NameLabel");
+    const gamingTeam2Name = document.getElementById("gaming_team2_name");
+
+    const manualButtonLabel = document.getElementById("manualButtonLabel");
+    const modalPdfTitle = document.getElementById("modalPdfTitle");
+    const pdfIframe = document.getElementById("pdfIframe");
+
+    const realmBannerLogo = document.getElementById("realmBannerLogo");
+    const rosterSubIcon = document.getElementById("rosterSubIcon");
+    const tabFavicon = document.getElementById("tabFavicon");
+    const appleFavicon = document.getElementById("appleFavicon");
+
+    function updateRealmLogos(bannerLogoFile) {
+      if (realmBannerLogo) realmBannerLogo.src = bannerLogoFile;
+      if (rosterSubIcon) rosterSubIcon.src = "logo.png";
+      if (tabFavicon) tabFavicon.href = "logo.png";
+      if (appleFavicon) appleFavicon.href = "logo.png";
+    }
+
+    function setDynamicBackground(bgFile) {
+      if (!bgFile) {
+        portalBgContainer.style.backgroundImage = "url('bg.jpg')";
+      } else {
+        portalBgContainer.style.backgroundImage = `url('${bgFile}')`;
+      }
+    }
+
+    function switchSection(section) {
+      currentSection = section;
+      rulesCheckbox.checked = false;
+      setRosterLockState(false);
+      activeRulesNotice.classList.add("hidden");
+      gamingTeamNameInputs.classList.add("hidden");
+
+      if (section === "sports") {
+        updateRealmLogos("logotf.png");
+
+        switchSportsBtn.className = "w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-gradient-to-r from-amber-600/80 to-amber-700/90 text-white shadow-[0_0_20px_rgba(245,158,11,0.3)]";
+        switchGamingBtn.className = "w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-black/50 text-slate-400 hover:text-slate-200 hover:bg-stone-900/80";
+
+        eventSelectLabel.innerText = "The Sport / Event";
+        categoryContainer.classList.remove("hidden");
+        sportSelect.innerHTML = SPORTS_OPTIONS;
+        finalizeBtnText.innerText = "Finalize & Download Event Card (.docx)";
+        countdownTitle.innerText = "Submission Deadline: Nov 13, 11:59 PM";
+        countdownSub.innerText = "Track & Field roster closes promptly when time expires";
+        deadlineNoticeText.innerHTML = 'The official submission deadline for sports team cards was <strong class="text-slate-200">November 13th, 11:59 PM</strong>. Submission rosters are now sealed.';
+
+        generalRulesTitle.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> General Sports Rules & Regulations`;
+        generalRulesList.innerHTML = GENERAL_SPORTS_RULES.map(r => `<li>${r}</li>`).join("");
+
+        manualButtonLabel.innerText = "Citadel Manual";
+        modalPdfTitle.innerText = "Citadel Manual - Sports Scroll";
+        pdfIframe.src = "manual.pdf";
+
+        setDynamicBackground("bg.jpg");
+        adjustCategoriesForSport("");
+        updatePlayerSlots(0);
+      } else {
+        updateRealmLogos("logogn.png");
+
+        switchGamingBtn.className = "w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-gradient-to-r from-amber-600/80 to-amber-700/90 text-white shadow-[0_0_20px_rgba(245,158,11,0.3)]";
+        switchSportsBtn.className = "w-full sm:w-1/2 py-3 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest transition-all cursor-pointer bg-black/50 text-slate-400 hover:text-slate-200 hover:bg-stone-900/80";
+
+        eventSelectLabel.innerText = "Gaming Title";
+        categoryContainer.classList.add("hidden");
+        sportSelect.innerHTML = GAMING_OPTIONS;
+        finalizeBtnText.innerText = "Finalize & Download Gaming Card (.docx)";
+        countdownTitle.innerText = "Submission Deadline: Nov 14, 11:59 PM";
+        countdownSub.innerText = "Gaming night squad rosters close promptly on Nov 14";
+        deadlineNoticeText.innerHTML = 'The official submission deadline for gaming night was <strong class="text-slate-200">November 14th, 11:59 PM</strong>. Registrations are sealed.';
+
+        generalRulesTitle.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> General Gaming Night Regulations`;
+        generalRulesList.innerHTML = GENERAL_GAMING_RULES.map(r => `<li>${r}</li>`).join("");
+
+        manualButtonLabel.innerText = "Gaming Rules";
+        modalPdfTitle.innerText = "Gaming Night Regulations Scroll";
+        pdfIframe.src = "GamingNight.pdf";
+
+        setDynamicBackground("val.jpeg");
+        updateGamingSlots("");
+      }
+      enforceDeadlineStatus();
+    }
+
+    switchSportsBtn.addEventListener("click", () => switchSection("sports"));
+    switchGamingBtn.addEventListener("click", () => switchSection("gaming"));
+
+    function adjustCategoriesForSport(sport) {
+      if (currentSection !== "sports") return;
+      const currentVal = categorySelect.value;
+      categorySelect.innerHTML = "";
+
+      if (sport === "basketball" || sport === "football" || sport === "marathon") {
+        categorySelect.innerHTML = `<option value="MEN">MEN ONLY</option>`;
+      } else if (sport === "netball") {
+        categorySelect.innerHTML = `<option value="WOMEN">WOMEN ONLY</option>`;
+      } else if (sport === "elle") {
+        categorySelect.innerHTML = `<option value="MIX">MIX (Both in one team)</option>`;
+      } else {
+        categorySelect.innerHTML = `
+          <option value="MEN">MEN</option>
+          <option value="WOMEN">WOMEN</option>
+        `;
+        if (currentVal === "WOMEN") categorySelect.value = "WOMEN";
+        else categorySelect.value = "MEN";
+      }
+    }
+
+    /******************************************************************
+     * 4. UI BUILDERS (SPORTS & GAMING)
+     ******************************************************************/
+    function setRosterLockState(isUnlocked) {
+      if (enforceDeadlineStatus() && !isAdmin) return;
+
+      if (isUnlocked) {
+        rosterLockOverlay.classList.add("hidden");
+        lockStatusIndicator.innerText = "🔓 Unlocked: Rules Accepted";
+        lockStatusIndicator.className = "text-xs font-cinzel text-emerald-400 tracking-wider font-semibold";
+        syncBtn.removeAttribute("disabled");
+        finalizeBtn.removeAttribute("disabled");
+      } else {
+        rosterLockOverlay.classList.remove("hidden");
+        lockStatusIndicator.innerText = "🔒 Locked: Accept Rules Above";
+        lockStatusIndicator.className = "text-xs font-cinzel text-amber-400/90 tracking-wider";
+        syncBtn.setAttribute("disabled", "true");
+        finalizeBtn.setAttribute("disabled", "true");
+      }
+    }
+
+    rulesCheckbox.addEventListener("change", (e) => {
+      setRosterLockState(e.target.checked);
+    });
+
+    function updatePlayerSlots(limit) {
+      playersContainer.innerHTML = "";
+      roleHeaderCol.classList.add("hidden");
+      captainHeaderCol.classList.remove("hidden");
+
+      if (limit <= 0) {
+        rosterTitle.innerText = "Squad Roster, Roles & Captain Designation";
+        return;
+      }
+      rosterTitle.innerText = `Squad Roster, Roles & Captain Designation (Up to ${limit} Players)`;
+
+      for (let i = 1; i <= limit; i++) {
+        const row = document.createElement("div");
+        row.className = "player-row grid grid-cols-12 px-4 py-2.5 items-center hover:bg-stone-900/40 transition-colors gap-3";
+        row.dataset.index = i;
+
+        row.innerHTML = `
+          <div class="col-span-1 text-center font-cinzel font-bold text-slate-400 text-sm">${i}</div>
+          <div class="col-span-5 px-2">
+            <input type="text" id="player_${i}_name" placeholder="Full Name"
+              class="w-full bg-[#08070b]/90 border border-slate-800 focus:border-slate-400 rounded-xl px-3.5 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-slate-400 font-light" />
+          </div>
+          <div class="col-span-3 px-2">
+            <input type="text" id="player_${i}_enum" placeholder="Reg. No."
+              class="w-full bg-[#08070b]/90 border border-slate-800 focus:border-slate-400 rounded-xl px-3.5 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-slate-400 font-mono uppercase" />
+          </div>
+          <div class="role-col hidden col-span-3 px-2">
+            <select id="player_${i}_role" class="w-full bg-[#08070b]/90 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-2 text-xs font-cinzel focus:outline-none focus:border-slate-400">
+              <option value="General">Player</option>
+              <option value="Batsman">Batsman</option>
+              <option value="Bowler">Bowler</option>
+              <option value="All-Rounder">All-Rounder</option>
+              <option value="Wicket-Keeper">Wicket-Keeper (WK)</option>
+            </select>
+          </div>
+          <div class="col-span-3 px-2 text-center flex items-center justify-center space-x-2">
+            <input type="radio" name="teamCaptain" id="player_${i}_captain" value="${i}" class="accent-amber-500 cursor-pointer w-4 h-4" />
+            <label for="player_${i}_captain" class="text-[11px] font-cinzel text-amber-300 cursor-pointer">Captain</label>
+          </div>
+        `;
+        playersContainer.appendChild(row);
+      }
+
+      const sport = sportSelect.value;
+      const roleCols = document.querySelectorAll(".role-col");
+      if (sport === "cricket") {
+        roleHeaderCol.classList.remove("hidden");
+        roleCols.forEach(el => el.classList.remove("hidden"));
+      } else {
+        roleHeaderCol.classList.add("hidden");
+        roleCols.forEach(el => el.classList.add("hidden"));
+      }
+    }
+
+    function updateGamingSlots(gameKey) {
+      playersContainer.innerHTML = "";
+      roleHeaderCol.classList.remove("hidden");
+      captainHeaderCol.classList.add("hidden");
+
+      if (!gameKey || !GAMING_SCHEMAS[gameKey]) {
+        rosterTitle.innerText = "Squad Roster (Choose Game Title Above)";
+        gamingTeamNameInputs.classList.add("hidden");
+        return;
+      }
+
+      const schema = GAMING_SCHEMAS[gameKey];
+      rosterTitle.innerText = `${RULES_REGULATIONS_DATA[gameKey].title} Squad Enrollment (${schema.totalSlots} Slots)`;
+
+      if (schema.hasTeam1) {
+        gamingTeamNameInputs.classList.remove("hidden");
+        team1NameLabel.innerText = schema.team1Label;
+        gamingTeam1Name.value = "";
+        if (schema.hasTeam2) {
+          team2NameWrapper.classList.remove("hidden");
+          team2NameLabel.innerText = schema.team2Label;
+          gamingTeam2Name.value = "";
+        } else {
+          team2NameWrapper.classList.add("hidden");
+        }
+      } else {
+        gamingTeamNameInputs.classList.add("hidden");
+      }
+
+      schema.slots.forEach((slot) => {
+        const row = document.createElement("div");
+        row.className = "player-row grid grid-cols-12 px-4 py-2.5 items-center hover:bg-stone-900/40 transition-colors gap-3";
+        row.dataset.index = slot.rank;
+
+        row.innerHTML = `
+          <div class="col-span-1 text-center font-cinzel font-bold text-slate-400 text-sm">${String(slot.rank).padStart(2, "0")}</div>
+          <div class="col-span-5 px-2">
+            <input type="text" id="gaming_player_${slot.rank}_name" placeholder="${slot.label} Full Name"
+              class="w-full bg-[#08070b]/90 border border-slate-800 focus:border-amber-400 rounded-xl px-3.5 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-400 font-light" />
+          </div>
+          <div class="col-span-3 px-2">
+            <input type="text" id="gaming_player_${slot.rank}_enum" placeholder="e.g. 2023/E/..."
+              class="w-full bg-[#08070b]/90 border border-slate-800 focus:border-amber-400 rounded-xl px-3.5 py-2 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-400 font-mono uppercase" />
+          </div>
+          <div class="col-span-3 px-2 text-center">
+            <span class="inline-block px-3 py-1 bg-stone-900/90 border border-slate-800 rounded-lg text-xs font-cinzel ${slot.role === 'Substitute' ? 'text-amber-400 border-amber-600/40' : 'text-slate-300'}">
+              ${slot.role}
+            </span>
+          </div>
+        `;
+        playersContainer.appendChild(row);
+      });
+    }
+
+    function displaySelectedSportRules(key) {
+      let ruleKey = key;
+      if (currentSection === "sports") {
+        if (ATHLETICS_KEYS.includes(key)) {
+          ruleKey = "athletics";
+        } else if (key === "badminton") {
+          ruleKey = categorySelect.value === "WOMEN" ? "badminton_WOMEN" : "badminton_MEN";
+        } else if (key === "carrom") {
+          ruleKey = categorySelect.value === "WOMEN" ? "carrom_WOMEN" : "carrom_MEN";
+        }
+      }
+
+      if (!ruleKey || !RULES_REGULATIONS_DATA[ruleKey]) {
+        activeRulesNotice.classList.add("hidden");
+        return;
+      }
+
+      const item = RULES_REGULATIONS_DATA[ruleKey];
+      activeRulesSportName.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500"></span> ${item.title}`;
+      activeRulesBadge.innerText = item.badge;
+      activeRulesList.innerHTML = item.rules.map(r => `<li class="leading-relaxed">${r}</li>`).join("");
+      activeRulesNotice.classList.remove("hidden");
+
+      if (currentSection === "gaming" && item.bg) {
+        setDynamicBackground(item.bg);
+      }
+    }
+
+    /******************************************************************
+     * 5. DATA FETCH & APPS SCRIPT INTEGRATION
+     ******************************************************************/
+    const loadingOverlay = document.getElementById("loadingOverlay");
+
+    function triggerDataFetch() {
+      const selectedKey = sportSelect.value;
+      rulesCheckbox.checked = false;
+      setRosterLockState(false);
+      displaySelectedSportRules(selectedKey);
+
+      if (currentSection === "sports") {
+        const category = categorySelect.value;
+        const limit = getEffectiveLimit(selectedKey, category);
+        updatePlayerSlots(limit);
+
+        if (!selectedKey || !authenticatedBatch) return;
+        loadingOverlay.classList.remove("hidden");
+
+        const callbackName = "jsonp_sports_" + Math.round(100000 * Math.random());
+        window[callbackName] = function(data) {
+          delete window[callbackName];
+          if (script.parentNode) document.body.removeChild(script);
+          loadingOverlay.classList.add("hidden");
+
+          if (data && data.players) {
+            data.players.forEach(p => {
+              const idx = p.rank;
+              if (idx <= limit) {
+                const n = document.getElementById(`player_${idx}_name`);
+                const e = document.getElementById(`player_${idx}_enum`);
+                const r = document.getElementById(`player_${idx}_role`);
+                const c = document.getElementById(`player_${idx}_captain`);
+                if (n) n.value = p.name || "";
+                if (e) e.value = p.enum || "";
+                if (r) r.value = p.role || "General";
+                if (c && p.isCaptain) c.checked = true;
+              }
+            });
+          }
+        };
+
+        const script = document.createElement("script");
+        script.src = `${SPORTS_APPS_SCRIPT_URL}?sport=${encodeURIComponent(selectedKey)}&category=${encodeURIComponent(category)}&batch=${encodeURIComponent(authenticatedBatch)}&callback=${callbackName}`;
+        script.onerror = () => { loadingOverlay.classList.add("hidden"); };
+        document.body.appendChild(script);
+
+      } else {
+        updateGamingSlots(selectedKey);
+        if (!selectedKey || !authenticatedBatch) return;
+
+        loadingOverlay.classList.remove("hidden");
+        const callbackName = "jsonp_gaming_" + Math.round(100000 * Math.random());
+        window[callbackName] = function(data) {
+          delete window[callbackName];
+          if (script.parentNode) document.body.removeChild(script);
+          loadingOverlay.classList.add("hidden");
+
+          if (data) {
+            if (data.team1Name && gamingTeam1Name) gamingTeam1Name.value = data.team1Name;
+            if (data.team2Name && gamingTeam2Name) gamingTeam2Name.value = data.team2Name;
+
+            if (data.players && data.players.length > 0) {
+              data.players.forEach(p => {
+                const n = document.getElementById(`gaming_player_${p.rank}_name`);
+                const e = document.getElementById(`gaming_player_${p.rank}_enum`);
+                if (n) n.value = p.name || "";
+                if (e) e.value = p.enum || "";
+              });
+            }
+          }
+        };
+
+        const script = document.createElement("script");
+        script.src = `${GAMING_APPS_SCRIPT_URL}?game=${encodeURIComponent(selectedKey)}&batch=${encodeURIComponent(authenticatedBatch)}&callback=${callbackName}`;
+        script.onerror = () => { loadingOverlay.classList.add("hidden"); };
+        document.body.appendChild(script);
+      }
+    }
+
+    sportSelect.addEventListener("change", () => {
+      if (currentSection === "sports") {
+        adjustCategoriesForSport(sportSelect.value);
+      }
+      triggerDataFetch();
+    });
+
+    categorySelect.addEventListener("change", triggerDataFetch);
+
+    /******************************************************************
+     * 6. SYNC SHEET & DOWNLOAD WORD CARD (.DOCX)
+     ******************************************************************/
+    async function syncToGoogleSheets(selectedEvent, showSuccessAlert = true) {
+      if (currentSection === "sports") {
+        const category = categorySelect.value;
+        const limit = getEffectiveLimit(selectedEvent, category) || 20;
+        const playersList = [];
+
+        for (let i = 1; i <= limit; i++) {
+          const n = document.getElementById(`player_${i}_name`)?.value.trim() || "";
+          const e = document.getElementById(`player_${i}_enum`)?.value.trim() || "";
+          const r = document.getElementById(`player_${i}_role`)?.value || "General";
+          const c = document.getElementById(`player_${i}_captain`)?.checked || false;
+          if (n || e) playersList.push({ rank: i, name: n, enum: e, role: r, isCaptain: c });
+        }
+
+        if (playersList.length === 0) {
+          if (showSuccessAlert) alert("Please enter at least one player before syncing.");
+          return false;
+        }
+
+        await fetch(SPORTS_APPS_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            batch: authenticatedBatch,
+            category: category,
+            sport: selectedEvent,
+            players: playersList
+          })
+        });
+
+        if (showSuccessAlert) {
+          alert(`Successfully synced ${authenticatedBatch} (${category} - ${selectedEvent}) to Sports Sheet!`);
+        }
+        return true;
+
+      } else {
+        const schema = GAMING_SCHEMAS[selectedEvent];
+        const playersList = [];
+
+        schema.slots.forEach(slot => {
+          const n = document.getElementById(`gaming_player_${slot.rank}_name`)?.value.trim() || "";
+          const e = document.getElementById(`gaming_player_${slot.rank}_enum`)?.value.trim() || "";
+          if (n || e) playersList.push({ rank: slot.rank, name: n, enum: e, role: slot.role });
+        });
+
+        if (playersList.length === 0) {
+          if (showSuccessAlert) alert("Please enter at least one participant before syncing.");
+          return false;
+        }
+
+        await fetch(GAMING_APPS_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            batch: authenticatedBatch,
+            game: selectedEvent,
+            team1Name: gamingTeam1Name ? gamingTeam1Name.value.trim() : "",
+            team2Name: gamingTeam2Name ? gamingTeam2Name.value.trim() : "",
+            players: playersList
+          })
+        });
+
+        if (showSuccessAlert) {
+          alert(`Successfully synced Gaming Night roster for ${authenticatedBatch} (${selectedEvent})!`);
+        }
+        return true;
+      }
+    }
+
+    syncBtn.addEventListener("click", async () => {
+      if (enforceDeadlineStatus() && !isAdmin) {
+        alert("The submission deadline has expired. Portal is closed.");
+        return;
+      }
+      if (!rulesCheckbox.checked) {
+        alert("Please confirm the tournament rules agreement checkbox first.");
+        return;
+      }
+
+      const selectedEvent = sportSelect.value;
+      if (!selectedEvent) {
+        alert("Please select an event/game first.");
+        return;
+      }
+
+      loadingOverlay.classList.remove("hidden");
+      try {
+        await syncToGoogleSheets(selectedEvent, true);
+      } catch (err) {
+        alert("Sync Error: " + err.message);
+      } finally {
+        loadingOverlay.classList.add("hidden");
+      }
+    });
+
+    finalizeBtn.addEventListener("click", async () => {
+      if (enforceDeadlineStatus() && !isAdmin) {
+        alert("The submission deadline has expired. Portal is closed.");
+        return;
+      }
+      if (!rulesCheckbox.checked) {
+        alert("Please confirm the tournament rules agreement checkbox first.");
+        return;
+      }
+
+      const selectedEvent = sportSelect.value;
+      if (!selectedEvent) {
+        alert("Please select an event/game first.");
+        return;
+      }
+
+      loadingOverlay.classList.remove("hidden");
+
+      // 1. Auto-update Google Sheets silently before generating Word card
+      try {
+        await syncToGoogleSheets(selectedEvent, false);
+      } catch (syncErr) {
+        console.warn("Auto-sync to sheet encountered an issue:", syncErr);
+      }
+
+      // 2. Generate & Download Word Document (.docx) with blank fallbacks
+      if (currentSection === "sports") {
+        const category = categorySelect.value;
+        const limit = getEffectiveLimit(selectedEvent, category) || 20;
+        let captainName = "";
+
+        for (let i = 1; i <= limit; i++) {
+          const capRadio = document.getElementById(`player_${i}_captain`);
+          if (capRadio && capRadio.checked) {
+            captainName = document.getElementById(`player_${i}_name`).value.trim() || "";
+            break;
+          }
+        }
+
+        const payload = {
+          batch: authenticatedBatch || "",
+          gender: category || "",
+          event: selectedEvent || "",
+          captain: captainName,
+          date_submitted: new Date().toLocaleDateString("en-GB")
+        };
+
+        for (let i = 1; i <= limit; i++) {
+          payload[`player_${i}_name`] = document.getElementById(`player_${i}_name`)?.value.trim() || "";
+          payload[`player_${i}_enum`] = document.getElementById(`player_${i}_enum`)?.value.trim() || "";
+          payload[`player_${i}_role`] = document.getElementById(`player_${i}_role`)?.value || "";
+        }
+
+        try {
+          const res = await fetch(`Team_Cards/${selectedEvent}.docx`);
+          if (!res.ok) throw new Error(`Could not find 'Team_Cards/${selectedEvent}.docx'`);
+          const arrayBuffer = await res.arrayBuffer();
+          const zip = new PizZip(arrayBuffer);
+          const doc = new window.docxtemplater(zip, {
+            paragraphLoop: true,
+            linebreaks: true,
+            nullGetter: () => "" // Replaces missing/undefined tags with blank spaces
+          });
+          doc.render(payload);
+          const blob = doc.getZip().generate({
+            type: "blob",
+            mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          });
+          saveAs(blob, `${authenticatedBatch}_${category}_${selectedEvent}_TeamCard.docx`);
+        } catch (e) {
+          alert("Sports Template Error: " + e.message);
+        }
+
+      } else {
+        const schema = GAMING_SCHEMAS[selectedEvent];
+        const payload = {
+          BATCH: authenticatedBatch || "",
+          VAL_TEAM_NAME: gamingTeam1Name?.value.trim() || "",
+          COD_TEAM1_NAME: gamingTeam1Name?.value.trim() || "",
+          COD_TEAM2_NAME: gamingTeam2Name?.value.trim() || "",
+          AOE_TEAM1_NAME: gamingTeam1Name?.value.trim() || "",
+          AOE_TEAM2_NAME: gamingTeam2Name?.value.trim() || ""
+        };
+
+        schema.slots.forEach(slot => {
+          const nameVal = document.getElementById(`gaming_player_${slot.rank}_name`)?.value.trim() || "";
+          const enumVal = document.getElementById(`gaming_player_${slot.rank}_enum`)?.value.trim() || "";
+          payload[slot.nameKey] = nameVal;
+          payload[slot.enumKey] = enumVal;
+        });
+
+        try {
+          const res = await fetch(`EWEEK26_GN_TEAMCARDS.docx`);
+          if (!res.ok) throw new Error("Could not find 'EWEEK26_GN_TEAMCARDS.docx' in the project directory.");
+          const arrayBuffer = await res.arrayBuffer();
+          const zip = new PizZip(arrayBuffer);
+          const doc = new window.docxtemplater(zip, {
+            paragraphLoop: true,
+            linebreaks: true,
+            nullGetter: () => "" // Replaces missing/undefined tags with blank spaces
+          });
+          
+          doc.render(payload);
+          const blob = doc.getZip().generate({
+            type: "blob",
+            mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          });
+          saveAs(blob, `${authenticatedBatch}_GamingNight_${selectedEvent.toUpperCase()}_TeamCard.docx`);
+        } catch (e) {
+          console.error(e);
+          alert("Gaming Card Generation Error: " + e.message);
+        }
+      }
+
+      loadingOverlay.classList.add("hidden");
+    });
+
+    /******************************************************************
+     * 7. AUTHENTICATION & LOGIN LOGIC
+     ******************************************************************/
+    const BATCH_ACCOUNTS = {
+      "rep_e22": { pass: "K9#mQ2", batch: "E22" },
+      "rep_e23": { pass: "xR4$vL", batch: "E23" },
+      "rep_e24": { pass: "T7!wP8", batch: "E24" },
+      "rep_e25": { pass: "zN5&bK", batch: "E25" },
+      "admin":   { pass: "ewik26@admin", isAdmin: true }
+    };
+
+    let authenticatedBatch = null;
+    let isAdmin = false;
+
+    const loginScreen = document.getElementById("loginScreen");
+    const portalScreen = document.getElementById("portalScreen");
+    const loginForm = document.getElementById("loginForm");
+    const loginError = document.getElementById("loginError");
+    const batchInputWrapper = document.getElementById("batchInputWrapper");
+    const batchRealmStatus = document.getElementById("batchRealmStatus");
+    const repBadge = document.getElementById("repBadge");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const bgVideo = document.getElementById("bgVideo");
+    const loginBgContainer = document.getElementById("loginBgContainer");
+    const bgAudio = document.getElementById("bgAudio");
+    const audioBtn = document.getElementById("audioToggleBtn");
+    const audioStatusText = document.getElementById("audioStatusText");
+    const audioIndicatorDot = document.getElementById("audioIndicatorDot");
+
+    function playAudio() {
+      bgAudio.play().then(() => {
+        audioStatusText.innerText = "Soundtrack: On";
+        audioIndicatorDot.className = "inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse";
+        audioBtn.classList.add("border-slate-400", "text-slate-200", "shadow-[0_0_15px_rgba(148,163,184,0.3)]");
+      }).catch(err => console.warn(err));
+    }
+
+    function pauseAudio() {
+      bgAudio.pause();
+      audioStatusText.innerText = "Soundtrack: Off";
+      audioIndicatorDot.className = "inline-block w-2 h-2 rounded-full bg-rose-500";
+      audioBtn.classList.remove("border-slate-400", "text-slate-200", "shadow-[0_0_15px_rgba(148,163,184,0.3)]");
+    }
+
+    audioBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      bgAudio.paused ? playAudio() : pauseAudio();
+    });
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const user = document.getElementById("usernameInput").value.trim().toLowerCase();
+      const pass = document.getElementById("passwordInput").value.trim();
+
+      if (BATCH_ACCOUNTS[user] && BATCH_ACCOUNTS[user].pass === pass) {
+        loginError.classList.add("hidden");
+        loginScreen.classList.add("hidden");
+        portalScreen.classList.remove("hidden");
+
+        bgVideo.pause();
+        loginBgContainer.classList.add("hidden");
+        portalBgContainer.classList.remove("hidden");
+        playAudio();
+
+        if (BATCH_ACCOUNTS[user].isAdmin) {
+          isAdmin = true;
+          deadlineClosedModal.classList.add("hidden");
+          repBadge.innerText = "Authorized: Master Admin";
+          batchRealmStatus.innerText = "(admin mode - select batch)";
+
+          batchInputWrapper.innerHTML = `
+            <select id="batchSelect" class="w-full bg-[#0d0c11] border border-slate-800 text-slate-200 rounded-xl p-3 text-sm font-cinzel focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all cursor-pointer">
+              <option value="E22">E22</option>
+              <option value="E23" selected>E23</option>
+              <option value="E24">E24</option>
+              <option value="E25">E25</option>
+            </select>
+          `;
+          authenticatedBatch = "E23";
+
+          document.getElementById("batchSelect").addEventListener("change", (ev) => {
+            authenticatedBatch = ev.target.value;
+            triggerDataFetch();
+          });
+        } else {
+          isAdmin = false;
+          authenticatedBatch = BATCH_ACCOUNTS[user].batch;
+          repBadge.innerText = `Authorized: Representative ${authenticatedBatch}`;
+          batchRealmStatus.innerText = "(locked)";
+
+          batchInputWrapper.innerHTML = `
+            <input type="text" id="batchSelect" value="${authenticatedBatch}" readonly class="w-full bg-[#0d0c11] border border-slate-500/40 text-slate-200 font-bold rounded-xl p-3 text-sm font-cinzel cursor-not-allowed focus:outline-none" />
+          `;
+        }
+
+        switchSection("sports");
+      } else {
+        loginError.classList.remove("hidden");
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      authenticatedBatch = null;
+      isAdmin = false;
+      pauseAudio();
+      document.getElementById("loginForm").reset();
+      rulesCheckbox.checked = false;
+      setRosterLockState(false);
+      updatePlayerSlots(0);
+      portalScreen.classList.add("hidden");
+
+      portalBgContainer.classList.add("hidden");
+      loginBgContainer.classList.remove("hidden");
+      bgVideo.play().catch(e => console.warn(e));
+      loginScreen.classList.remove("hidden");
+    });
+
+    const pdfModal = document.getElementById("pdfModal");
+    const openLoginPdfBtn = document.getElementById("openLoginPdfBtn");
+    const openPortalPdfBtn = document.getElementById("openPortalPdfBtn");
+    const closePdfModal = document.getElementById("closePdfModal");
+
+    if (openLoginPdfBtn) openLoginPdfBtn.addEventListener("click", () => pdfModal.classList.remove("hidden"));
+    if (openPortalPdfBtn) openPortalPdfBtn.addEventListener("click", () => pdfModal.classList.remove("hidden"));
+    if (closePdfModal) closePdfModal.addEventListener("click", () => pdfModal.classList.add("hidden"));
+    pdfModal.addEventListener("click", (e) => { if (e.target === pdfModal) pdfModal.classList.add("hidden"); });
+
+    /******************************************************************
+     * 8. CANVAS PARTICLES
+     ******************************************************************/
+    const canvas = document.getElementById("emberCanvas");
+    const ctx = canvas.getContext("2d");
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = Array.from({ length: 55 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height + height,
+      size: Math.random() * 2.5 + 0.8,
+      speedY: Math.random() * 0.9 + 0.4,
+      speedX: (Math.random() - 0.5) * 0.4,
+      opacity: Math.random() * 0.75 + 0.25,
+      color: Math.random() > 0.3 ? "245, 130, 32" : (Math.random() > 0.5 ? "220, 38, 38" : "234, 179, 8")
+    }));
+
+    function animateEmbers() {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach((p) => {
+        p.y -= p.speedY;
+        p.x += p.speedX + Math.sin(p.y * 0.01) * 0.2;
+
+        if (p.y < -10) {
+          p.y = height + 10;
+          p.x = Math.random() * width;
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color}, ${p.opacity})`;
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = `rgba(${p.color}, 0.9)`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animateEmbers);
+    }
+    animateEmbers();
+  </script>
 </body>
 </html>
