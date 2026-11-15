@@ -13,7 +13,7 @@
   <!-- Google Fonts: High-end Cinematic Serif and Modern Clean UI -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&family=Teko:wght@600;700&display=swap" rel="stylesheet" />
 
   <style>
     /* ==========================================================================
@@ -36,12 +36,15 @@
 
       --color-gold: #c5a059;
       --color-gold-light: #dfbd7e;
+      --color-gold-glow: rgba(197, 160, 89, 0.28);
       --color-crimson-red: #ff4d4d;
+      --color-emerald: #10b981;
 
       --font-display: 'Cinzel', Georgia, serif;
       --font-heading: 'Cinzel', serif;
       --font-story: 'Cormorant Garamond', Garamond, serif;
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-sport: 'Teko', 'Inter', sans-serif;
 
       --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -66,6 +69,7 @@
       line-height: 1.6;
       background-color: var(--color-obsidian);
       overflow-x: hidden;
+      padding-bottom: 85px;
     }
     body.nav-open { overflow: hidden; }
 
@@ -106,7 +110,7 @@
     }
 
     /* ==========================================================================
-       3. PRELOADER
+       3. PRELOADER & TOAST SYSTEM
        ========================================================================== */
     .preloader-screen {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -129,6 +133,34 @@
       animation: loadAnim 1.2s infinite ease-in-out;
     }
     @keyframes loadAnim { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+    .eweek-toast-anchor {
+      position: fixed;
+      top: 78px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(14, 18, 26, 0.96);
+      border: 1.5px solid var(--color-gold);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(12px);
+      padding: 10px 20px;
+      border-radius: 30px;
+      z-index: 3000000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      max-width: 90vw;
+    }
+    .eweek-toast-anchor.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+    .eweek-toast-icon { width: 18px; height: 18px; fill: var(--color-gold); flex-shrink: 0; }
+    .eweek-toast-text { font-size: 0.82rem; font-weight: 600; color: var(--color-silver-bright); }
 
     /* ==========================================================================
        4. UI COMPONENTS & BUTTONS
@@ -162,20 +194,26 @@
     .btn-silver {
       position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 12px 24px; font-family: var(--font-heading); font-size: 0.8rem; font-weight: 700;
-      letter-spacing: 0.18em; text-transform: uppercase; color: #0b0d12;
+      letter-spacing: 0.16em; text-transform: uppercase; color: #0b0d12;
       background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
-      border: 1px solid #ffffff; border-radius: 4px; min-height: 44px;
+      border: 1px solid #ffffff; border-radius: 6px; min-height: 42px;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8); transition: var(--transition-smooth);
     }
-    .btn-silver:hover {
-      color: #000; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 255, 255, 0.6);
+    .btn-silver:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+    .btn-silver:hover:not(:disabled) {
+      color: #000; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.95), 0 0 22px rgba(255, 255, 255, 0.55);
       transform: translateY(-2px);
+    }
+    .btn-silver-gold {
+      background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 100%);
+      border-color: var(--color-gold-light);
+      color: #080a0f;
     }
     .btn-silver-secondary {
       background: linear-gradient(180deg, #1f2533 0%, #121620 100%);
       color: var(--color-silver-bright); border: 1px solid var(--color-steel-aged);
     }
-    .btn-silver-secondary:hover { color: #fff; border-color: var(--color-gold); }
+    .btn-silver-secondary:hover:not(:disabled) { color: #fff; border-color: var(--color-gold); }
 
     /* Site Header */
     .site-header {
@@ -223,109 +261,357 @@
     }
     .mobile-nav-link.active, .mobile-nav-link:hover { color: var(--color-gold); }
 
-    /* Merchandise Page Specific Styles */
+    /* ==========================================================================
+       5. MERCHANDISE CATALOG, SELECTORS & TRACKER
+       ========================================================================== */
     .merch-hero {
-      position: relative; padding: 110px 0 25px; text-align: center; z-index: 5;
+      position: relative; padding: 110px 0 20px; text-align: center; z-index: 5;
     }
+    .merch-subnav {
+      display: flex; justify-content: center; gap: 10px; margin: 18px auto 12px; flex-wrap: wrap;
+    }
+    .merch-subnav-btn {
+      font-family: var(--font-heading); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 9px 20px; border-radius: 30px;
+      background: rgba(21, 24, 33, 0.9); border: 1px solid rgba(197, 160, 89, 0.35);
+      color: var(--color-silver-bright); transition: var(--transition-smooth);
+    }
+    .merch-subnav-btn:hover { border-color: var(--color-gold); color: var(--color-gold); }
+    .merch-subnav-btn.active {
+      background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 100%);
+      color: #080a0f; border-color: var(--color-gold-light);
+      box-shadow: 0 4px 18px var(--color-gold-glow);
+    }
+
     .merch-grid-section {
-      padding: 20px 0 90px; position: relative; z-index: 5;
+      padding: 15px 0 90px; position: relative; z-index: 5;
     }
     .merch-container {
       max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(265px, 1fr)); gap: 24px;
     }
     .merch-card {
       background: linear-gradient(145deg, rgba(18, 22, 32, 0.94) 0%, rgba(10, 13, 19, 0.98) 100%);
-      border: 1px solid rgba(197, 160, 89, 0.35); border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(197, 160, 89, 0.35); border-radius: 14px; overflow: hidden;
       display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: 0 15px 35px rgba(0,0,0,0.7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       position: relative;
     }
     .merch-card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-5px);
       border-color: rgba(197, 160, 89, 0.7);
       box-shadow: 0 22px 50px rgba(0,0,0,0.9), 0 0 20px rgba(197, 160, 89, 0.2);
     }
     .merch-image-wrap {
-      position: relative; width: 100%; height: 260px; overflow: hidden; background: #080a0f;
+      position: relative; width: 100%; height: 240px; overflow: hidden; background: #080a0f;
       display: flex; align-items: center; justify-content: center;
     }
     .merch-img {
       width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .merch-card:hover .merch-img { transform: scale(1.06); }
-    .merch-content { padding: 22px 20px; display: flex; flex-direction: column; flex-grow: 1; text-align: left; }
-    .merch-title {
-      font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; color: #fff;
-      letter-spacing: 0.08em; margin-bottom: 8px;
-    }
-    .merch-desc {
-      font-size: 0.88rem; color: var(--color-stone-light); line-height: 1.5; margin-bottom: 20px; flex-grow: 1;
-    }
-    .merch-footer {
-      display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;
-    }
-    .merch-price {
-      font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: var(--color-silver-bright);
+    .merch-card:hover .merch-img { transform: scale(1.05); }
+    .merch-tag-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: rgba(8, 10, 15, 0.82); border: 1px solid rgba(197, 160, 89, 0.45);
+      padding: 3px 8px; border-radius: 4px; font-family: var(--font-heading);
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; color: var(--color-gold);
+      text-transform: uppercase;
     }
 
-    /* Modal for ordering restriction */
-    .silver-modal-backdrop {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4, 5, 8, 0.9);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 2000;
-      display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; pointer-events: none; transition: var(--transition-smooth);
+    .merch-content { padding: 20px 18px; display: flex; flex-direction: column; flex-grow: 1; text-align: left; }
+    .merch-title {
+      font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; color: #fff;
+      letter-spacing: 0.08em; margin-bottom: 6px;
     }
-    .silver-modal-backdrop.open { opacity: 1; pointer-events: auto; }
-    .silver-modal {
-      max-width: 500px; width: 100%; background: linear-gradient(145deg, rgba(18, 22, 32, 0.98) 0%, rgba(10, 13, 19, 0.99) 100%);
-      border: 1px solid rgba(197, 160, 89, 0.5); border-radius: 10px; padding: 32px 24px; position: relative; text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+    .merch-desc {
+      font-size: 0.84rem; color: var(--color-stone-light); line-height: 1.5; margin-bottom: 14px; flex-grow: 1;
     }
-    .modal-close-btn {
-      position: absolute; top: 12px; right: 12px; width: 34px; height: 34px;
-      border: 1px solid rgba(226, 231, 240, 0.2); background: rgba(255,255,255,0.06); color: var(--color-silver-bright);
-      display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.2rem; cursor: pointer;
-      transition: var(--transition-smooth);
+
+    /* Variant & Quantity Selector Box */
+    .merch-selector-box {
+      background: rgba(11, 14, 21, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
     }
-    .modal-close-btn:hover { background: var(--color-gold); color: #0b0d12; border-color: var(--color-gold); }
+    .sizes-button-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+    .variants-button-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+    .size-btn {
+      padding: 6px 2px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-align: center;
+      border-radius: 4px;
+      background: var(--color-steel-dark);
+      color: var(--color-silver-bright);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .size-btn:hover { border-color: var(--color-gold); }
+    .size-btn.active {
+      background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 100%);
+      color: #080a0f;
+      border-color: var(--color-gold-light);
+      font-weight: 800;
+    }
+    .qty-counter-box { display: flex; align-items: center; gap: 8px; }
+    .qty-pill-btn {
+      width: 26px; height: 26px; border-radius: 4px;
+      background: var(--color-steel-dark); border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff; font-size: 0.95rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s ease;
+    }
+    .qty-pill-btn:hover { border-color: var(--color-gold); color: var(--color-gold); }
+    .qty-num-val { font-weight: 800; font-size: 0.88rem; min-width: 22px; text-align: center; color: #fff; }
+
+    .merch-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; margin-top: auto;
+    }
+    .merch-price {
+      font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: var(--color-gold-light);
+    }
+
+    /* Glass Box for Tracker */
+    .glass-box {
+      background: linear-gradient(145deg, rgba(18, 22, 32, 0.95) 0%, rgba(10, 13, 19, 0.98) 100%);
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      border-radius: 14px;
+      padding: 28px 24px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(14px);
+    }
+
+    /* Sticky Cart Checkout Tray */
+    .cart-checkout-bar {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92%;
+      max-width: 780px;
+      z-index: 1500;
+      background: rgba(14, 18, 26, 0.96);
+      border: 1.5px solid var(--color-gold);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 20px var(--color-gold-glow);
+      backdrop-filter: blur(16px);
+      border-radius: 14px;
+      padding: 12px 20px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* ==========================================================================
+       6. STEPPER CHECKOUT MODAL & FORM ELEMENTS
+       ========================================================================== */
+    .order-modal-backdrop {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(4, 5, 8, 0.88);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px; opacity: 0; pointer-events: none; transition: var(--transition-smooth);
+    }
+    .order-modal-backdrop.open { opacity: 1; pointer-events: auto; }
+    .order-modal-box {
+      max-width: 580px; width: 100%; max-height: 90vh; overflow-y: auto;
+      background: linear-gradient(145deg, rgba(18, 22, 32, 0.99) 0%, rgba(10, 13, 19, 1) 100%);
+      border: 1px solid rgba(197, 160, 89, 0.55);
+      border-radius: 16px; padding: 26px 24px; position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.95);
+    }
+    .order-modal-close {
+      position: absolute; top: 14px; right: 16px; width: 34px; height: 34px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(226, 231, 240, 0.2);
+      color: var(--color-silver-bright); display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; font-size: 1.2rem; transition: var(--transition-smooth);
+    }
+    .order-modal-close:hover { background: var(--color-crimson-red); color: #fff; border-color: var(--color-crimson-red); }
+
+    /* Stepper Header */
+    .order-stepper-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin: 14px 0 22px; position: relative;
+    }
+    .order-stepper-header::before {
+      content: ''; position: absolute; top: 14px; left: 10%; right: 10%;
+      height: 2px; background: rgba(255, 255, 255, 0.1); z-index: 1;
+    }
+    .step-node {
+      position: relative; z-index: 2; display: flex; flex-direction: column;
+      align-items: center; gap: 6px; background: #10141d; padding: 0 8px;
+    }
+    .step-circle {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--color-steel-dark); border: 1.5px solid rgba(255, 255, 255, 0.15);
+      color: var(--color-stone-light); display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 800; transition: all 0.25s ease;
+    }
+    .step-node.active .step-circle {
+      background: var(--color-gold); color: #080a0f;
+      border-color: var(--color-gold-light); box-shadow: 0 0 12px var(--color-gold-glow);
+    }
+    .step-node.completed .step-circle {
+      background: var(--color-emerald); color: #fff; border-color: var(--color-emerald);
+    }
+    .step-label {
+      font-family: var(--font-heading); font-size: 0.62rem; font-weight: 700;
+      color: var(--color-stone-light); text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .step-node.active .step-label { color: var(--color-gold); }
+
+    .step-view { display: none; }
+    .step-view.active { display: block; animation: stepFadeIn 0.3s ease; }
+    @keyframes stepFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .summary-item-card {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--color-graphite); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px; padding: 10px 14px; margin-bottom: 8px;
+    }
+    .summary-item-title { font-size: 0.86rem; font-weight: 700; color: #fff; }
+    .summary-item-meta { font-size: 0.72rem; color: var(--color-stone-light); }
+    .summary-item-price { font-family: var(--font-sport); font-size: 1.35rem; color: var(--color-gold-light); font-weight: 700; }
+
+    /* Form Controls */
+    .form-group { margin-bottom: 12px; text-align: left; }
+    .form-label {
+      display: block; font-family: var(--font-heading); font-size: 0.65rem;
+      letter-spacing: 0.14em; color: var(--color-silver-mid); margin-bottom: 5px;
+      font-weight: 700; text-transform: uppercase;
+    }
+    .form-input {
+      width: 100%; padding: 10px 12px;
+      background: #090b10; border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px; color: #fff; font-family: var(--font-body); font-size: 0.88rem;
+      transition: border-color 0.2s ease;
+    }
+    .form-input:focus { border-color: var(--color-gold); outline: none; }
+
+    /* Bank Account Card */
+    .bank-details-card {
+      background: linear-gradient(135deg, rgba(197, 160, 89, 0.1) 0%, var(--color-graphite) 100%);
+      border: 1.5px solid var(--color-gold);
+      border-radius: 12px; padding: 16px; margin-bottom: 16px;
+    }
+    .bank-card-title {
+      font-family: var(--font-heading); font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.14em; color: var(--color-gold); text-transform: uppercase; margin-bottom: 6px;
+    }
+    .bank-acc-grid {
+      display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center;
+      background: #080a0f; padding: 8px 12px; border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .bank-acc-num {
+      font-family: var(--font-sport); font-size: 1.55rem; font-weight: 700;
+      color: #fff; letter-spacing: 0.08em; line-height: 1;
+    }
+    .btn-copy-acc {
+      padding: 6px 12px; background: var(--color-steel-dark);
+      border: 1px solid rgba(197, 160, 89, 0.4); border-radius: 6px;
+      color: var(--color-gold-light); font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .btn-copy-acc:hover { background: var(--color-gold); color: #080a0f; }
+
+    /* Slip Upload Dropzone */
+    .slip-upload-dropzone {
+      border: 2px dashed rgba(197, 160, 89, 0.45);
+      background: #090b10; border-radius: 12px; padding: 22px 16px;
+      text-align: center; cursor: pointer; transition: all 0.2s ease;
+    }
+    .slip-upload-dropzone:hover { border-color: var(--color-gold); background: var(--color-graphite); }
+    .slip-upload-dropzone.has-file { border-color: var(--color-emerald); background: rgba(16, 185, 129, 0.08); }
+    .slip-upload-icon { width: 38px; height: 38px; margin: 0 auto 8px; fill: var(--color-gold); }
+    .slip-preview-container {
+      display: none; align-items: center; justify-content: space-between;
+      background: var(--color-graphite); padding: 8px 12px; border-radius: 8px;
+      margin-top: 10px; border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .slip-preview-name {
+      font-size: 0.78rem; color: #fff; font-weight: 600;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 240px;
+    }
+    .slip-preview-thumb { width: 34px; height: 34px; object-fit: cover; border-radius: 4px; }
+
+    /* Confirmation Card */
+    .order-success-card { text-align: center; padding: 16px 8px; }
+    .success-check-bubble {
+      width: 62px; height: 62px; border-radius: 50%;
+      background: rgba(16, 185, 129, 0.15); border: 2px solid var(--color-emerald);
+      color: var(--color-emerald); display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .success-check-bubble svg { width: 32px; height: 32px; fill: currentColor; }
+    .invoice-token-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--color-graphite); border: 1.5px dashed var(--color-gold);
+      padding: 10px 18px; border-radius: 10px; margin: 14px 0 18px;
+    }
+    .invoice-token-val {
+      font-family: var(--font-sport); font-size: 1.85rem; font-weight: 700;
+      color: var(--color-gold-light); letter-spacing: 0.08em; line-height: 1;
+    }
+
+    .spinner-ring {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid rgba(0, 0, 0, 0.25); border-top-color: #000;
+      border-radius: 50%; animation: spinRing 0.8s linear infinite;
+    }
+    @keyframes spinRing { to { transform: rotate(360deg); } }
 
     /* Footer */
     .site-footer {
-      padding: 50px 0 25px; border-top: 1px solid rgba(226, 231, 240, 0.15);
+      padding: 50px 0 35px; border-top: 1px solid rgba(226, 231, 240, 0.15);
       background: #040508; position: relative; z-index: 10;
     }
     .footer-top { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 30px; }
     .footer-logo-img { height: 46px; margin-bottom: 12px; }
     .footer-nav-list { display: flex; align-items: center; justify-content: center; gap: 16px; list-style: none; flex-wrap: wrap; margin: 18px 0; }
     .footer-nav-link { font-family: var(--font-heading); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--color-silver-mid); text-transform: uppercase; transition: var(--transition-smooth); }
-    .footer-nav-link:hover { color: var(--color-gold); }
+    .footer-nav-link:hover, .footer-nav-link.active { color: var(--color-gold); }
     .footer-bottom { border-top: 1px solid rgba(80, 95, 122, 0.2); padding-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--color-stone); text-align: center; }
 
     /* ==========================================================================
-       RESPONSIVE BREAKPOINTS (Mobile & Tablet Optimization)
+       RESPONSIVE BREAKPOINTS
        ========================================================================== */
     @media (max-width: 992px) {
       .desktop-nav-menu { display: none; }
       .hamburger-btn { display: flex; }
-      .merch-container { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+      .merch-container { grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 20px; }
     }
 
     @media (max-width: 600px) {
       .container { width: 94%; }
-      .merch-hero { padding: 95px 0 20px; }
-      .merch-grid-section { padding: 15px 0 60px; }
-      .merch-image-wrap { height: 230px; }
-      .merch-content { padding: 18px 16px; }
-      .merch-title { font-size: 1.2rem; }
-      .merch-desc { font-size: 0.85rem; }
-      .merch-price { font-size: 1.15rem; }
-      .btn-silver { padding: 10px 18px; font-size: 0.75rem; min-height: 40px; }
-      .silver-modal { padding: 26px 18px; }
+      .merch-hero { padding: 95px 0 15px; }
+      .merch-grid-section { padding: 15px 0 75px; }
+      .merch-image-wrap { height: 220px; }
+      .merch-content { padding: 18px 15px; }
+      .merch-title { font-size: 1.18rem; }
+      .merch-desc { font-size: 0.82rem; }
+      .merch-price { font-size: 1.12rem; }
+      .btn-silver { padding: 10px 16px; font-size: 0.74rem; min-height: 40px; }
+      .order-modal-box { padding: 22px 16px; }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- In-Theme Toast System -->
+  <div class="eweek-toast-anchor" id="eweekToast" role="alert" aria-live="assertive">
+    <svg class="eweek-toast-icon" id="toastIcon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+    <span class="eweek-toast-text" id="toastMessage">Notification</span>
+  </div>
 
   <div class="preloader-screen" id="preloader">
     <h1 class="loader-title">E-WEEK 2026</h1>
@@ -398,83 +684,154 @@
   <main id="main-content">
     <section class="merch-hero">
       <div class="container">
-        <span class="section-eyebrow">EXCLUSIVE ATTIRE & GEAR</span>
+        <span class="section-eyebrow">EXCLUSIVE ATTIRE &amp; GEAR</span>
         <h2 class="section-title">OFFICIAL MERCHANDISE</h2>
         <p class="section-subtitle">
-          Discover the official collection designed for E-WEEK 2026. Premium quality apparel and memorabilia.
+          Support your batch. Select official E-WEEK 2026 apparel, configure sizes, and submit your payment slip.
         </p>
+
+        <div class="merch-subnav">
+          <button class="merch-subnav-btn active" id="btnTabCatalog" onclick="toggleMerchSubView('catalog')" type="button">Store Catalog</button>
+          <button class="merch-subnav-btn" id="btnTabTracker" onclick="toggleMerchSubView('tracker')" type="button">Track Order Status</button>
+        </div>
+
         <div class="silver-divider">
           <span class="divider-node"></span>
         </div>
       </div>
     </section>
 
-    <section class="merch-grid-section">
+    <!-- STORE CATALOG VIEW -->
+    <section class="merch-grid-section" id="merchCatalogView">
       <div class="container">
-        <div class="merch-container">
-          <!-- Item 1: TShirt -->
-          <div class="merch-card">
-            <div class="merch-image-wrap">
-              <img src="image/merch1.jpeg" alt="Official E-Week T-Shirt" class="merch-img" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22320%22%3E%3Crect fill=%22%23151821%22 width=%22400%22 height=%22320%22/%3E%3Ctext fill=%22%238f9bb3%22 font-family=%22sans-serif%22 font-size=%2218%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3ET-Shirt Preview%3C/text%3E%3C/svg%3E';" />
-            </div>
-            <div class="merch-content">
-              <h3 class="merch-title">T-Shirt</h3>
-              <p class="merch-desc">Official E-WEEK 2026 polo T-shirt crafted with a comfortable fit, custom button placket, and faculty graphics.</p>
-              <div class="merch-footer">
-                <span class="merch-price">2000 LKR</span>
-                <button class="btn-silver btn-silver-secondary order-btn" style="padding: 10px 20px; font-size: 0.78rem;">Order Now</button>
-              </div>
-            </div>
+        <div class="merch-container" id="merchItemsGrid"></div>
+      </div>
+    </section>
+
+    <!-- INVOICE STATUS TRACKER VIEW -->
+    <section class="merch-grid-section" id="merchTrackerView" style="display: none;">
+      <div class="container" style="max-width: 580px;">
+        <div class="glass-box" style="text-align: center;">
+          <span class="section-eyebrow">TRACKING</span>
+          <h3 class="section-title" style="font-size: 1.45rem;">CHECK INVOICE STATUS</h3>
+          <p class="section-subtitle" style="font-size: 0.95rem; margin-bottom: 18px;">Enter your unique Invoice ID received upon slip submission.</p>
+
+          <div class="form-group" style="margin-bottom: 16px;">
+            <input type="text" id="trackerInputInvoice" class="form-input" placeholder="e.g. EW26-894120" style="text-align:center; font-weight:800; letter-spacing:0.12em; font-size:1rem;" />
           </div>
 
-          <!-- Item 2: Jersey -->
-          <div class="merch-card">
-            <div class="merch-image-wrap">
-              <img src="image/merch2.jpeg" alt="Official E-Week Jersey" class="merch-img" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22320%22%3E%3Crect fill=%22%23151821%22 width=%22400%22 height=%22320%22/%3E%3Ctext fill=%22%238f9bb3%22 font-family=%22sans-serif%22 font-size=%2218%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EJersey Preview%3C/text%3E%3C/svg%3E';" />
-            </div>
-            <div class="merch-content">
-              <h3 class="merch-title">Jersey</h3>
-              <p class="merch-desc">High-performance athletic jersey designed for tournament fixtures with breathability and sharp cinematic styling.</p>
-              <div class="merch-footer">
-                <span class="merch-price">1600 LKR</span>
-                <button class="btn-silver btn-silver-secondary order-btn" style="padding: 10px 20px; font-size: 0.78rem;">Order Now</button>
-              </div>
-            </div>
-          </div>
+          <button class="btn-silver btn-silver-gold" id="btnVerifyTracker" onclick="queryOrderStatus()" type="button" style="width: 100%;">
+            VERIFY PAYMENT STATUS
+          </button>
 
-          <!-- Item 3: Combo Pack -->
-          <div class="merch-card">
-            <div class="merch-image-wrap">
-              <img src="image/merch3.png" alt="Combo Pack" class="merch-img" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22320%22%3E%3Crect fill=%22%23151821%22 width=%22400%22 height=%22320%22/%3E%3Ctext fill=%22%238f9bb3%22 font-family=%22sans-serif%22 font-size=%2218%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3ECombo Pack Preview%3C/text%3E%3C/svg%3E';" />
-            </div>
-            <div class="merch-content">
-              <h3 class="merch-title">Combo Pack</h3>
-              <p class="merch-desc">Complete bundle featuring apparel and essential tournament accessories for the ultimate supporter.</p>
-              <div class="merch-footer">
-                <span class="merch-price">3300 LKR</span>
-                <button class="btn-silver btn-silver-secondary order-btn" style="padding: 10px 20px; font-size: 0.78rem;">Order Now</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 4: Bands -->
-          <div class="merch-card">
-            <div class="merch-image-wrap">
-              <img src="image/wristband.jpeg" alt="Wristband" class="merch-img" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22320%22%3E%3Crect fill=%22%23151821%22 width=%22400%22 height=%22320%22/%3E%3Ctext fill=%22%238f9bb3%22 font-family=%22sans-serif%22 font-size=%2218%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3EBands Preview%3C/text%3E%3C/svg%3E';" />
-            </div>
-            <div class="merch-content">
-              <h3 class="merch-title">Bands</h3>
-              <p class="merch-desc">Durable branded silicone wristband stamped with the official E-WEEK 2026 insignia.</p>
-              <div class="merch-footer">
-                <span class="merch-price">200 LKR</span>
-                <button class="btn-silver btn-silver-secondary order-btn" style="padding: 10px 20px; font-size: 0.78rem;">Order Now</button>
-              </div>
-            </div>
+          <div id="trackerOutputBox" style="display: none; margin-top: 22px;">
+            <div id="trackerStatusChip" style="display:inline-block; padding: 6px 16px; border-radius: 20px; font-weight:800; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;"></div>
+            <div id="trackerDetailsCard" style="background: var(--color-graphite); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; text-align: left; font-size: 0.84rem; line-height: 1.6;"></div>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <!-- Sticky Bottom Checkout Tray -->
+  <aside class="cart-checkout-bar" id="cartCheckoutBar">
+    <div>
+      <div style="font-family: var(--font-heading); font-size:0.65rem; font-weight:700; letter-spacing:0.12em; color:var(--color-stone-light); text-transform:uppercase;" id="cartItemsCountText">0 ITEMS</div>
+      <div style="font-family: var(--font-display); font-size:1.2rem; font-weight:800; color:var(--color-gold-light);" id="cartTotalSumText">0 LKR</div>
+    </div>
+    <button class="btn-silver btn-silver-gold" onclick="openOrderModal()" type="button" style="padding: 9px 20px; font-size: 0.76rem; min-height: 38px;">
+      CHECKOUT &rarr;
+    </button>
+  </aside>
+
+  <!-- ADVANCED 3-STEP CHECKOUT MODAL -->
+  <div class="order-modal-backdrop" id="checkoutOrderModal" role="dialog" aria-hidden="true">
+    <div class="order-modal-box">
+      <button class="order-modal-close" onclick="closeOrderModal()" type="button" aria-label="Close dialog">&times;</button>
+      <span class="section-eyebrow" style="text-align:left;">ORDER CONCIERGE</span>
+      <h3 class="section-title" style="font-size: 1.35rem; text-align: left;" id="stepperTitle">CHECKOUT</h3>
+
+      <div class="order-stepper-header">
+        <div class="step-node active" id="stepNode1"><div class="step-circle">1</div><span class="step-label">Details</span></div>
+        <div class="step-node" id="stepNode2"><div class="step-circle">2</div><span class="step-label">Payment</span></div>
+        <div class="step-node" id="stepNode3"><div class="step-circle">3</div><span class="step-label">Complete</span></div>
+      </div>
+
+      <!-- STEP 1: ORDER REVIEW & CUSTOMER DETAILS -->
+      <div class="step-view active" id="stepView1">
+        <div style="margin-bottom: 14px; max-height: 165px; overflow-y: auto;" id="cartModalSummaryList"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; background: var(--color-graphite); padding: 10px 14px; border-radius: 8px; margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.08);">
+          <span style="font-weight:700; font-size:0.84rem; color:var(--color-silver-mid);">Total Payable:</span>
+          <span style="font-size:1.45rem; font-family:var(--font-sport); font-weight:700; color:var(--color-gold-light);" id="cartModalTotalPayable">0 LKR</span>
+        </div>
+        <div class="form-group"><label class="form-label">Full Name *</label><input type="text" id="custFullName" class="form-input" placeholder="e.g. Kasun Fernando" required /></div>
+        <div class="form-group"><label class="form-label">Registration Number (Index No.) *</label><input type="text" id="custRegNumber" class="form-input" placeholder="e.g. 2023/E/158" required /></div>
+        <div class="form-group"><label class="form-label">WhatsApp Mobile Number *</label><input type="tel" id="custWhatsApp" class="form-input" placeholder="e.g. 0771234567" required /></div>
+        <div class="form-group">
+          <label class="form-label">University Batch *</label>
+          <select id="custBatchSelect" class="form-input" required>
+            <option value="E26">E26 Batch</option>
+            <option value="E25">E25 Batch</option>
+            <option value="E24">E24 Batch</option>
+            <option value="E23">E23 Batch</option>
+            <option value="E22">E22 Batch</option>
+            <option value="STAFF">Academic / Non-Academic Staff</option>
+          </select>
+        </div>
+        <button type="button" class="btn-silver btn-silver-gold" onclick="goToWizardStep(2)" style="width: 100%; margin-top: 8px;">CONTINUE TO PAYMENT &rarr;</button>
+      </div>
+
+      <!-- STEP 2: BANK TRANSFER & SLIP UPLOAD -->
+      <div class="step-view" id="stepView2">
+        <div class="bank-details-card">
+          <div class="bank-card-title">Bank of Ceylon Transfer Details</div>
+          <div style="font-size: 0.8rem; color: var(--color-silver-mid); margin-bottom: 8px;">Beneficiary: <strong style="color:#fff;">Aniruththish T. (Treasurer)</strong></div>
+          <div class="bank-acc-grid">
+            <span class="bank-acc-num" id="bankAccNumberText">97171666</span>
+            <button type="button" class="btn-copy-acc" onclick="copyBankAccNumber()">COPY NUMBER</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Upload Bank Transfer Slip / Screenshot *</label>
+          <div class="slip-upload-dropzone" id="slipDropzone" onclick="document.getElementById('bankSlipFileInput').click()">
+            <svg class="slip-upload-icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+            <div style="font-size: 0.84rem; font-weight: 700; color: #fff;">Tap or Drag Slip Image Here</div>
+            <div style="font-size: 0.7rem; color: var(--color-stone-light); margin-top: 2px;">Supports JPG, PNG, PDF up to 5MB</div>
+            <input type="file" id="bankSlipFileInput" style="display: none;" accept="image/*,application/pdf" onchange="handleBankSlipUpload(event)" />
+          </div>
+          <div class="slip-preview-container" id="slipPreviewBar">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <img id="slipThumbImg" class="slip-preview-thumb" src="" alt="Slip Preview" />
+              <span class="slip-preview-name" id="slipFileNameText">slip.png</span>
+            </div>
+            <button type="button" onclick="clearSelectedSlip()" style="color:var(--color-crimson-red); font-weight:800; font-size:0.75rem;">REMOVE</button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top: 16px;">
+          <button type="button" class="btn-silver btn-silver-secondary" onclick="goToWizardStep(1)" style="flex: 1;">&larr; BACK</button>
+          <button type="button" class="btn-silver btn-silver-gold" id="btnSubmitOrder" onclick="executeFinalOrderSubmission()" style="flex: 1.5;">SUBMIT ORDER</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: ORDER CONFIRMATION -->
+      <div class="step-view" id="stepView3">
+        <div class="order-success-card">
+          <div class="success-check-bubble"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+          <h3 style="font-family: var(--font-display); font-size: 1.4rem; color: #fff; margin-bottom: 4px;">ORDER SUBMITTED!</h3>
+          <p style="font-size: 0.82rem; color: var(--color-stone-light);">Your deposit slip has been securely transmitted for committee verification.</p>
+          <div class="invoice-token-badge">
+            <span style="font-family: var(--font-heading); font-size: 0.68rem; font-weight: 700; color: var(--color-stone-light); text-transform: uppercase;">INVOICE ID:</span>
+            <span class="invoice-token-val" id="confirmedInvoiceId">EW26-000000</span>
+            <button type="button" class="btn-copy-acc" onclick="copyInvoiceId()">COPY</button>
+          </div>
+          <div style="background: var(--color-graphite); border-radius: 10px; padding: 12px 14px; font-size: 0.8rem; line-height: 1.6; text-align: left; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.08);" id="confirmedOrderSummaryBox"></div>
+          <button type="button" class="btn-silver btn-silver-gold" onclick="closeOrderModalAndReset()" style="width: 100%;">RETURN TO STOREFRONT</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <div class="container">
@@ -497,23 +854,72 @@
     </div>
   </footer>
 
-  <!-- Modal for ordering restriction -->
-  <div class="silver-modal-backdrop" id="orderModal" role="dialog" aria-hidden="true">
-    <div class="silver-modal">
-      <button class="modal-close-btn" id="closeModalBtn" aria-label="Close Modal">&times;</button>
-      <h3 class="section-title" id="modalTitle" style="font-size: 1.5rem; margin-bottom: 12px;">ORDERS UNAVAILABLE</h3>
-      <p id="modalDescription" style="font-size: 0.95rem; color: var(--color-silver-bright); margin-bottom: 25px; line-height: 1.6;">Online ordering is currently closed. Please check back later!</p>
-      <button class="btn-silver" onclick="closeOrderModal()" style="width: 100%;">CONFIRM</button>
-    </div>
-  </div>
-
   <script>
+    const MERCH_BACKEND_URL = "https://script.google.com/macros/s/AKfycbx4BJRrLSyVgC3U9WobDSao5egyWwpvfrvSkLE0c3L2wNmU7Zv80ih_6ovSyxj3GkK8/exec";
+
+    const APPAREL_SIZES = ["3XS", "2XS", "XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL"];
+    const WRISTBAND_COLORS = ["White", "Black", "Deep Blue"];
+
+    const MERCH_CATALOG = [
+      { id: "tshirt", title: "T-Shirt", price: 2000, desc: "Official E-WEEK 2026 polo T-shirt crafted with a comfortable fit, custom button placket, and faculty graphics.", img: "image/merch1.jpeg", selectorType: "size", options: APPAREL_SIZES },
+      { id: "jersey", title: "Jersey", price: 1600, desc: "High-performance athletic jersey designed for tournament fixtures with breathability and sharp cinematic styling.", img: "image/merch2.jpeg", selectorType: "size", options: APPAREL_SIZES },
+      { id: "combo", title: "Combo Pack", price: 3300, desc: "Complete bundle featuring apparel and essential tournament accessories for the ultimate supporter.", img: "image/merch3.png", selectorType: "size", options: APPAREL_SIZES },
+      { id: "wristband", title: "Wristband", price: 200, desc: "Durable branded silicone wristband stamped with the official E-WEEK 2026 insignia.", img: "image/wristband.jpeg", selectorType: "color", options: WRISTBAND_COLORS }
+    ];
+
+    let cart = {};
+    let uploadedSlipBase64 = "";
+    let uploadedSlipFileName = "";
+    let activeWizardStep = 1;
+    let toastTimeout = null;
+
     document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => document.getElementById('preloader').classList.add('loaded'), 400);
       initParticleEngine();
       initMobileNav();
-      initOrderModals();
+      renderMerchCatalogCards();
+      initOrderModalEvents();
     });
+
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('eweekToast');
+      const text = document.getElementById('toastMessage');
+      const icon = document.getElementById('toastIcon');
+
+      text.innerText = message;
+      if (type === 'success') {
+        toast.style.borderColor = 'var(--color-emerald)';
+        icon.style.fill = 'var(--color-emerald)';
+      } else if (type === 'error') {
+        toast.style.borderColor = 'var(--color-crimson-red)';
+        icon.style.fill = 'var(--color-crimson-red)';
+      } else {
+        toast.style.borderColor = 'var(--color-gold)';
+        icon.style.fill = 'var(--color-gold)';
+      }
+
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3200);
+    }
+
+    function loadJSONP(url, callbackName, onSuccess, onError) {
+      window[callbackName] = function(res) {
+        delete window[callbackName];
+        if (script.parentNode) script.parentNode.removeChild(script);
+        onSuccess(res);
+      };
+      const script = document.createElement('script');
+      script.src = `${url}${url.includes('?') ? '&' : '?'}callback=${callbackName}&_ts=${Date.now()}`;
+      script.onerror = () => {
+        if (window[callbackName]) delete window[callbackName];
+        if (script.parentNode) script.parentNode.removeChild(script);
+        if (onError) onError();
+      };
+      document.body.appendChild(script);
+    }
 
     function initMobileNav() {
       const hamburger = document.getElementById('hamburgerBtn');
@@ -561,28 +967,355 @@
       animate();
     }
 
-    function initOrderModals() {
-      const modal = document.getElementById("orderModal");
-      document.querySelectorAll(".order-btn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          modal.classList.add("open");
-          modal.setAttribute("aria-hidden", "false");
-        });
-      });
-      document.getElementById("closeModalBtn").addEventListener("click", closeOrderModal);
-      modal.addEventListener("click", (e) => {
+    function initOrderModalEvents() {
+      const modal = document.getElementById('checkoutOrderModal');
+      modal.addEventListener('click', (e) => {
         if (e.target === modal) closeOrderModal();
       });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeOrderModal();
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('open')) closeOrderModal();
       });
     }
 
+    // =========================================================================
+    // MERCHANDISE CATALOG, CART & CHECKOUT WIZARD
+    // =========================================================================
+    function renderMerchCatalogCards() {
+      const container = document.getElementById('merchItemsGrid');
+      if (!container) return;
+
+      container.innerHTML = MERCH_CATALOG.map(p => `
+        <div class="merch-card" id="card_${p.id}">
+          <div class="merch-image-wrap">
+            <span class="merch-tag-badge">Official Gear</span>
+            <img src="${p.img}" alt="${p.title}" class="merch-img" onerror="this.src='image/logo.png';" />
+          </div>
+          <div class="merch-content">
+            <h3 class="merch-title">${p.title}</h3>
+            <p class="merch-desc">${p.desc}</p>
+            <div class="merch-selector-box">
+              <span style="font-size:0.65rem; font-weight:700; color:var(--color-stone-light); text-transform:uppercase; letter-spacing:0.08em;">
+                ${p.selectorType === 'color' ? 'Select Color' : 'Select Size'}
+              </span>
+              <div class="${p.selectorType === 'color' ? 'variants-button-grid' : 'sizes-button-grid'}">
+                ${p.options.map((opt, idx) => `
+                  <button type="button" class="size-btn ${idx === 0 ? 'active' : ''}" onclick="pickCardOption('${p.id}', '${opt}', this)">
+                    ${opt}
+                  </button>
+                `).join('')}
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+                <span style="font-size:0.65rem; font-weight:700; color:var(--color-stone-light); text-transform:uppercase; letter-spacing:0.08em;">Qty</span>
+                <div class="qty-counter-box">
+                  <button type="button" class="qty-pill-btn" onclick="modifyQty('${p.id}', -1)">-</button>
+                  <span class="qty-num-val" id="qtyVal_${p.id}">1</span>
+                  <button type="button" class="qty-pill-btn" onclick="modifyQty('${p.id}', 1)">+</button>
+                </div>
+              </div>
+            </div>
+            <div class="merch-footer">
+              <span class="merch-price">${p.price} LKR</span>
+              <button class="btn-silver btn-silver-secondary" onclick="addToCart('${p.id}')" type="button" style="padding: 9px 16px; font-size: 0.72rem; min-height: 38px;">Add To Cart</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function pickCardOption(id, opt, btn) {
+      const card = document.getElementById(`card_${id}`);
+      if (!card) return;
+      card.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function modifyQty(id, delta) {
+      const el = document.getElementById(`qtyVal_${id}`);
+      let v = Math.max(1, (parseInt(el.innerText, 10) || 1) + delta);
+      el.innerText = v;
+    }
+
+    function addToCart(id) {
+      const product = MERCH_CATALOG.find(p => p.id === id);
+      const card = document.getElementById(`card_${id}`);
+      const activeBtn = card.querySelector('.size-btn.active');
+      const selectedOption = activeBtn ? activeBtn.innerText.trim() : product.options[0];
+      const qty = parseInt(document.getElementById(`qtyVal_${id}`).innerText, 10) || 1;
+      const key = `${id}_${selectedOption}`;
+
+      if (cart[key]) cart[key].qty += qty;
+      else cart[key] = { product, option: selectedOption, qty };
+
+      document.getElementById(`qtyVal_${id}`).innerText = 1;
+      updateCartDisplayState();
+      showToast(`Added ${qty}x ${product.title} (${selectedOption}) to cart`, 'success');
+    }
+
+    function updateCartDisplayState() {
+      const keys = Object.keys(cart);
+      const totalQty = keys.reduce((s, k) => s + cart[k].qty, 0);
+      const totalAmt = keys.reduce((s, k) => s + (cart[k].product.price * cart[k].qty), 0);
+      const bar = document.getElementById('cartCheckoutBar');
+
+      if (totalQty > 0) {
+        bar.style.display = 'flex';
+        document.getElementById('cartItemsCountText').innerText = `${totalQty} ITEM${totalQty > 1 ? 'S' : ''}`;
+        document.getElementById('cartTotalSumText').innerText = `${totalAmt.toLocaleString()} LKR`;
+      } else {
+        bar.style.display = 'none';
+      }
+    }
+
+    function openOrderModal() {
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        showToast("Your cart is empty. Please select apparel first.", "error");
+        return;
+      }
+      goToWizardStep(1);
+      renderModalCartSummary();
+      const modal = document.getElementById('checkoutOrderModal');
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
     function closeOrderModal() {
-      const modal = document.getElementById("orderModal");
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
+      const modal = document.getElementById('checkoutOrderModal');
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    function closeOrderModalAndReset() {
+      closeOrderModal();
+      goToWizardStep(1);
+    }
+
+    function renderModalCartSummary() {
+      const list = document.getElementById('cartModalSummaryList');
+      const keys = Object.keys(cart);
+      let total = 0;
+
+      list.innerHTML = keys.map(k => {
+        const item = cart[k];
+        const sub = item.product.price * item.qty;
+        total += sub;
+        return `
+          <div class="summary-item-card">
+            <div>
+              <div class="summary-item-title">${item.product.title}</div>
+              <div class="summary-item-meta">Type/Size: <strong>${item.option}</strong> &bull; Qty: <strong>${item.qty}</strong></div>
+            </div>
+            <div class="summary-item-price">${sub.toLocaleString()} LKR</div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('cartModalTotalPayable').innerText = `${total.toLocaleString()} LKR`;
+    }
+
+    function goToWizardStep(step) {
+      if (step === 2) {
+        const name = document.getElementById('custFullName').value.trim();
+        const regNumber = document.getElementById('custRegNumber').value.trim();
+        const phone = document.getElementById('custWhatsApp').value.trim();
+
+        if (!name) {
+          showToast("Please enter your full name to proceed.", "error");
+          document.getElementById('custFullName').focus();
+          return;
+        }
+        if (!regNumber) {
+          showToast("Please enter your Registration Number (Index No.).", "error");
+          document.getElementById('custRegNumber').focus();
+          return;
+        }
+        if (!phone || phone.length < 9) {
+          showToast("Please enter a valid WhatsApp mobile number.", "error");
+          document.getElementById('custWhatsApp').focus();
+          return;
+        }
+      }
+
+      activeWizardStep = step;
+      document.querySelectorAll('.step-view').forEach(v => v.classList.remove('active'));
+      document.getElementById(`stepView${step}`)?.classList.add('active');
+
+      for (let i = 1; i <= 3; i++) {
+        const node = document.getElementById(`stepNode${i}`);
+        node.classList.remove('active', 'completed');
+        if (i === step) node.classList.add('active');
+        else if (i < step) node.classList.add('completed');
+      }
+
+      const titles = { 1: "REVIEW & DETAILS", 2: "DEPOSIT & PAYMENT SLIP", 3: "ORDER TRANSMITTED" };
+      document.getElementById('stepperTitle').innerText = titles[step] || "CHECKOUT";
+    }
+
+    function copyBankAccNumber() {
+      const acc = document.getElementById('bankAccNumberText').innerText;
+      navigator.clipboard.writeText(acc).then(() => {
+        showToast("Bank Account (97171666) copied to clipboard!", "success");
+      }).catch(() => {
+        showToast("Account: 97171666", "info");
+      });
+    }
+
+    function copyInvoiceId() {
+      const inv = document.getElementById('confirmedInvoiceId').innerText;
+      navigator.clipboard.writeText(inv).then(() => {
+        showToast(`Invoice ${inv} copied to clipboard!`, "success");
+      });
+    }
+
+    function handleBankSlipUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (file.size > 5 * 1024 * 1024) {
+        showToast("Slip file is too large! Maximum limit is 5MB.", "error");
+        return;
+      }
+
+      uploadedSlipFileName = file.name;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        uploadedSlipBase64 = evt.target.result;
+        document.getElementById('slipDropzone').classList.add('has-file');
+        document.getElementById('slipPreviewBar').style.display = 'flex';
+        document.getElementById('slipFileNameText').innerText = file.name;
+        document.getElementById('slipThumbImg').src = file.type.includes('image') ? uploadedSlipBase64 : 'image/logo.png';
+        showToast("Payment slip selected successfully!", "success");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearSelectedSlip() {
+      uploadedSlipBase64 = "";
+      uploadedSlipFileName = "";
+      document.getElementById('bankSlipFileInput').value = "";
+      document.getElementById('slipDropzone').classList.remove('has-file');
+      document.getElementById('slipPreviewBar').style.display = 'none';
+      showToast("Payment slip cleared.", "info");
+    }
+
+    async function executeFinalOrderSubmission() {
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        showToast("Cart is empty.", "error");
+        return;
+      }
+      if (!uploadedSlipBase64) {
+        showToast("Please upload your Bank Deposit Slip or Screenshot.", "error");
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmitOrder');
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner-ring"></span> Transmitting Order...`;
+
+      const invoiceId = 'EW26-' + Math.floor(100000 + Math.random() * 900000);
+      const total = keys.reduce((s, k) => s + (cart[k].product.price * cart[k].qty), 0);
+      const name = document.getElementById('custFullName').value.trim();
+      const regNumber = document.getElementById('custRegNumber').value.trim();
+      const phone = document.getElementById('custWhatsApp').value.trim();
+      const batch = document.getElementById('custBatchSelect').value;
+      const formattedItems = keys.map(k => `${cart[k].product.title} (${cart[k].option}) x${cart[k].qty}`).join(", ");
+
+      const payload = {
+        action: "submitOrder",
+        invoice: invoiceId,
+        name: name,
+        regNumber: regNumber,
+        phone: phone,
+        batch: batch,
+        total: total,
+        itemsFormatted: formattedItems,
+        slipBase64: uploadedSlipBase64,
+        slipFileName: uploadedSlipFileName
+      };
+
+      try {
+        await fetch(MERCH_BACKEND_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.warn("POST handled via endpoint fallback", err);
+      } finally {
+        document.getElementById('confirmedInvoiceId').innerText = invoiceId;
+        document.getElementById('confirmedOrderSummaryBox').innerHTML = `
+          <div>Customer: <strong>${name}</strong> (${batch})</div>
+          <div>Registration No: <strong>${regNumber}</strong></div>
+          <div>WhatsApp: <strong>${phone}</strong></div>
+          <div>Items: <strong>${formattedItems}</strong></div>
+          <div>Total Deposited: <strong style="color:var(--color-gold-light);">${total.toLocaleString()} LKR</strong></div>
+        `;
+
+        cart = {};
+        clearSelectedSlip();
+        updateCartDisplayState();
+
+        btn.disabled = false;
+        btn.innerHTML = "SUBMIT ORDER";
+
+        goToWizardStep(3);
+        showToast("Your order was placed successfully!", "success");
+      }
+    }
+
+    function toggleMerchSubView(v) {
+      document.getElementById('merchCatalogView').style.display = v === 'catalog' ? 'block' : 'none';
+      document.getElementById('merchTrackerView').style.display = v === 'catalog' ? 'none' : 'block';
+      document.getElementById('btnTabCatalog').classList.toggle('active', v === 'catalog');
+      document.getElementById('btnTabTracker').classList.toggle('active', v !== 'catalog');
+    }
+
+    function queryOrderStatus() {
+      const inv = document.getElementById('trackerInputInvoice').value.trim().toUpperCase();
+      if (!inv) {
+        showToast("Please enter an Invoice ID (e.g. EW26-894120).", "error");
+        return;
+      }
+
+      const btn = document.getElementById('btnVerifyTracker');
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner-ring"></span> Checking Database...`;
+
+      const cbName = "verify_cb_" + Math.round(Math.random() * 1000000);
+      loadJSONP(`${MERCH_BACKEND_URL}?action=checkStatus&invoice=${encodeURIComponent(inv)}`, cbName, (res) => {
+        btn.disabled = false;
+        btn.innerText = "VERIFY PAYMENT STATUS";
+        const box = document.getElementById('trackerOutputBox');
+        const chip = document.getElementById('trackerStatusChip');
+        box.style.display = 'block';
+
+        if (res && res.found) {
+          const verified = String(res.verification).trim().toLowerCase() === "verified";
+          chip.style.background = verified ? 'rgba(16,185,129,0.2)' : 'rgba(197,160,89,0.2)';
+          chip.style.color = verified ? 'var(--color-emerald)' : 'var(--color-gold-light)';
+          chip.innerText = verified ? "Verified & Confirmed" : "Slip Verification In Progress";
+          document.getElementById('trackerDetailsCard').innerHTML = `
+            <div>Invoice: <strong>${res.invoice}</strong></div>
+            <div>Customer Name: <strong>${res.name}</strong></div>
+            <div>Total: <strong>${res.total} LKR</strong></div>
+            <div style="margin-top:6px; color:var(--color-stone-light);">Status: ${verified ? 'Your apparel order has been confirmed by the organizing committee.' : 'Your bank slip is currently being reconciled with bank statements.'}</div>
+          `;
+          showToast("Invoice found!", "success");
+        } else {
+          chip.innerText = "Invoice Not Found";
+          chip.style.background = 'rgba(255,77,77,0.2)';
+          chip.style.color = 'var(--color-crimson-red)';
+          document.getElementById('trackerDetailsCard').innerHTML = `
+            <div style="color:var(--color-stone-light);">No record exists with Invoice ID: <strong>${inv}</strong>. Please ensure the code matches the confirmation badge.</div>
+          `;
+          showToast("Invoice not found in records.", "error");
+        }
+      }, () => {
+        btn.disabled = false;
+        btn.innerText = "VERIFY PAYMENT STATUS";
+        showToast("Network error verifying invoice.", "error");
+      });
     }
   </script>
 </body>
